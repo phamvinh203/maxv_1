@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$JobImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$JobImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+	<field name="ma_vv" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+	<field name="ten_vv" column="B" allowNulls="false" maxLength="255"/>
+	<field name="ten_vv2" column="C" maxLength="255"/>
+	<field name="ngay_vv" column="D" type="DateTime"/>
+	<field name="so_vv" column="E" maxLength="16"/>
+	<field name="vv_sd_pslk" column="F" type="Decimal"/>
+	<field name="ma_nt" column="G" maxLength="3" upperCase="true"/>
+	<field name="tien_nt" column="H" type="Decimal"/>
+	<field name="tien" column="I" type="Decimal"/>
+	<field name="ngay_vv1" column="J" type="DateTime"/>
+	<field name="ngay_vv2" column="K" type="DateTime"/>
+	<field name="ma_kh" column="L" maxLength="16" upperCase="true"/>
+	<field name="ma_nvbh" column="M" maxLength="16" upperCase="true"/>
+	<field name="ma_bp" column="N" maxLength="16" upperCase="true"/>
+	<field name="nh_vv1" column="O" maxLength="16" upperCase="true"/>
+	<field name="nh_vv2" column="P" maxLength="16"/>
+	<field name="nh_vv3" column="Q" maxLength="16"/>
+	<field name="ma_vv_me" column="R" maxLength="16"/>
+
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin <> 1 and @type = 1 begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'Job', 'Edit') = 0 select @type = 0
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+select @irregularChars = '''`~!@#$%^&*(),;"<>?/\,_'
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có hoặc lồng nhau.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+
+select @fields = 'ma_vv, ten_vv, ten_vv2, ngay_vv, so_vv, vv_sd_pslk, ma_nt, tien_nt, tien, ngay_vv1, ngay_vv2, ma_kh, ma_nvbh, ma_bp, nh_vv1, nh_vv2, nh_vv3'
+
+-- Check
+alter table @@table alter column ma_vv char(32)
+create index i on @@table (ma_vv)
+
+if @type = '0' delete @@table where ma_vv in (select ma_vv from dmvv)
+
+select @field = 'ma_vv', @r = min(stt) from @@table where ma_vv like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+
+select @field = 'ma_nt', @r = min(stt) from @@table where ma_nt not in (select ma_nt from dmnt)]]>&Error;<![CDATA[
+select @field = 'ma_kh', @r = min(stt) from @@table where ma_kh <> '' and ma_kh not in (select ma_kh from dmkh)]]>&Error;<![CDATA[
+select @field = 'ma_nvbh', @r = min(stt) from @@table where ma_nvbh <> '' and ma_nvbh not in (select ma_nvbh from dmnvbh)]]>&Error;<![CDATA[
+select @field = 'ma_bp', @r = min(stt) from @@table where ma_bp <> '' and ma_bp not in (select ma_bp from dmbp)]]>&Error;<![CDATA[
+
+select @field = 'vv_sd_pslk', @r = min(stt) from @@table where vv_sd_pslk not in ('0', '1')]]>&Error;<![CDATA[
+
+select @field = 'nh_vv1', @r = min(stt) from @@table where nh_vv1 <> '' and nh_vv1 not in (select ma_nh from dmnhvv where loai_nh = 1)]]>&Error;<![CDATA[
+select @field = 'nh_vv2', @r = min(stt) from @@table where nh_vv2 <> '' and nh_vv2 not in (select ma_nh from dmnhvv where loai_nh = 2)]]>&Error;<![CDATA[
+select @field = 'nh_vv3', @r = min(stt) from @@table where nh_vv3 <> '' and nh_vv3 not in (select ma_nh from dmnhvv where loai_nh = 3)]]>&Error;<![CDATA[
+
+select a.* into #k from @@table a join dmvv b on a.ma_vv = b.ma_vv
+delete @@table where ma_vv in (select ma_vv from #k)
+
+-- 
+select @field = 'ma_vv'
+select @q = 'select top 1 @r = a.stt from @@table a, @@table b with (index(i)) where a.ma_vv <> b.ma_vv and a.ma_vv = rtrim(b.ma_vv) '
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+select top 1 @r = a.stt from @@table a, dmvv b with (index(PK_dmvv)) where a.ma_vv = rtrim(b.ma_vv) ]]>&Duplicate;<![CDATA[
+select @q = 'select top 1 @r = b.stt from dmvv a, @@table b with (index(i)) where a.ma_vv = rtrim(b.ma_vv) '
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+
+-- Insert
+select @q = 'insert into dmvv(' + @fields + ', ma_vv_me, bac_vv, loai_vv, tien_gt_nt, tien_gt, tinh_trang, kl_kh, kl_th, ct_kh, ghi_chu, status, datetime0, '
+select @q = @q + 'datetime2, user_id0, user_id2, ngay_th, ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6)'
+select @q = @q + ' select ' + @fields + ', ma_vv_me, 0, 0, 0, 0, 0, 0, 0, 0, '''', ''1'', getdate(), getdate(), rtrim(@@userID), rtrim(@@userID), '
+select @q = @q + 'null, '''', '''', '''', 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0 from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update dmvv set ten_vv = b.ten_vv, ten_vv2 = b.ten_vv2, 
+    ngay_vv = b.ngay_vv, so_vv = b.so_vv, vv_sd_pslk = b.vv_sd_pslk, ma_nt = b.ma_nt, tien_nt = b.tien_nt, 
+    tien = b.tien, ngay_vv1 = b.ngay_vv1, ngay_vv2 = b.ngay_vv2, ma_kh = b.ma_kh, ma_nvbh = b.ma_nvbh, ma_vv_me = b.ma_vv_me,
+    ma_bp = b.ma_bp, nh_vv1 = b.nh_vv1, nh_vv2 = b.nh_vv2, nh_vv3 = b.nh_vv3, datetime2 = getdate(), user_id2 = @@userID
+  from dmvv a, #k b where a.ma_vv = b.ma_vv
+end
+]]>
+    </text>
+  </processing>
+
+</import>

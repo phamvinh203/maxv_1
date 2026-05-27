@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<list table="sysfileinfo" code="line_nbr" key="syskey" filterField="" size="file_size" file="file_name" time="datetime0" fileEncode="file_enc" data="file_data" filter="1=1" order="stt" maxSize="10000000" extension="*" delay="500" timeout="30000" fileRecordTimeout="1440" xmlns="urn:schemas-maxv-com:data-list">
+  <fields>
+    <field name="line_nbr" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="file_name" width="300">
+      <header v="Tên tệp" e="Name"></header>
+    </field>
+    <field name="file_size" width="100" type="Decimal" align="right">
+      <header v="Kích thước" e="Size"></header>
+    </field>
+    <field name="datetime0" width="120" type="DateTime" align="center" dataFormatString="dd/MM/yyyy HH:mm">
+      <header v="Thời gian tạo" e="Date Created"></header>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select line_nbr, file_name, file_size, datetime0 from @@table where controller = @@controller and syskey = @@uploadKey order by line_nbr
+]]>
+      </text>
+    </query>
+  </queries>
+
+
+  <toolbar>
+    <button command="ListViewUpload" upload="true">
+      <title v="" e=""/>
+    </button>
+  </toolbar>
+
+</list>

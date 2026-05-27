@@ -1,0 +1,9 @@
+﻿<![CDATA[
+      if (f._loaded) {
+        f.request('Reading', 'Reading', [['voucherCode', 'String', f._voucherCode]]);
+      } 
+      else {
+        if (result && result.length > 0) f._voucherNumberBehavior.setVoucherNumber(0, f._voucherNumber, result[0].Value, result[1].Value, result[2].Value);
+          else f._voucherNumberBehavior.setVoucherNumber(0, f._voucherNumber, null, null, null);
+      }
+]]>

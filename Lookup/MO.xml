@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="phlsx" code="so_lsx" name="dien_giai" order="so_lsx" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Lệnh sản xuất" e="Manufacturing Order"></header>
+
+  <fields>
+    <field name="so_lsx" allowSorting="true" allowFilter="true" align="right">
+      <header v="Số lsx" e="MO Number"></header>
+    </field>
+
+    <field name="dien_giai" allowFilter="true">
+      <header v ="Diễn giải" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

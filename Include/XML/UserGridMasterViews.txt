@@ -1,0 +1,8 @@
+﻿<field name="status"/>
+<field name="statusname"/>
+<field name="user_id0"/>
+<field name="comment"/>
+<field name="user_id2"/>
+<field name="comment2"/>
+<field name="datetime0"/>
+<field name="datetime2"/>

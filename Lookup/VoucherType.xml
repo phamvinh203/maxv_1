@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmloaict" code="loai_ct" name="ten_loai%l" order="loai_ct" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục loại chứng từ" e="Voucher Type List"></header>
+
+  <fields>
+    <field name="loai_ct" allowSorting="true" allowFilter="true" >
+      <header v="Loại chứng từ" e="Voucher Type"></header>
+    </field>
+
+    <field name="ten_loai%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên loại" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

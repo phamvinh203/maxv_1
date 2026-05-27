@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+	exec pr_CActpc1PrintExport @$ngay_ct1, @$ngay_ct2, @$ma_dvcs, '1', @@language, @@userID, @@admin
+	Update dmprint set stt_rec_key='' where ma_ct like 'PC1%'
+	]]>
+    </text>
+  </query>
+
+  <forms>
+    <form id="110" reportFile="CActpc1Print_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Phiếu chi tiền mặt" e="Cash Disbursement"></header>
+      <download>
+        <header  v="Phiếu chi tiền mặt" e="Cash Disbursement"/>
+      </download>&b;
+    </form>
+    <form id="210" reportFile="CActpc1Print_110" templateFile="" commandArgument="Pdf">
+      <header v="Phiếu chi tiền mặt ngoại tệ" e="Cash Disbursement in Foreign Currency"/>
+      <download>
+        <header  v="Phiếu chi tiền mặt ngoại tệ" e="Cash Disbursement in Foreign Currency"/>
+      </download>&f;
+    </form>
+
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="PHIẾU CHI" e="CASH DISBURSEMENT"/>
+    </field>
+ 
+    <field name="h_quyen" type="String">
+      <header v="Quyển số:" e="Book No.:"/>
+    </field>
+    <field name="h_so_ct" type="String">
+      <header v="Số:" e="Voucher No.:"></header>
+    </field>
+    <field name="h_so_tien"  type="String">
+      <header  v="Số tiền:" e="Amount:"/>
+    </field>
+    <field name="h_nguoi_nhan" type="String">
+      <header v="Họ và tên người nhận tiền:" e="Customer:"></header>
+    </field>
+    <field name="h_dia_chi" type="String">
+      <header v="Địa chỉ:" e="Address:"></header>
+    </field>
+    <field name="h_dien_giai" type="String">
+      <header v="Lý do chi:" e="Description:"></header>
+    </field>
+    <field name="h_kem_theo" type="String">
+      <header v="Kèm theo:" e="Enclosed:"></header>
+    </field>
+    <field name="h_xac_nhan" type="String">
+      <header v="Đã nhận đủ số tiền (viết bằng chữ):" e="Received Full(in Words):"></header>
+    </field>
+    <field name="h_bang_chu" type="String">
+      <header v="Bằng chữ:" e="In Words:"></header>
+    </field>
+    <field name="h_ct_goc" type="String">
+      <header v=" Chứng từ gốc: " e=" Orginal voucher(s): "></header>
+    </field>
+    <field name="h_ty_gia" type="String">
+      <header v="Tỷ giá ngoại tệ:" e="Exchange Rate:"/>
+    </field>
+    <field name="h_tien_qd" type="String">
+      <header v="Số tiền qui đổi:" e="Equivalent Amount:"/>
+    </field>
+    <field name="h_nguoi_nhan_tien" type="String">
+      <header v="NGƯỜI NHẬN TIỀN" e="RECEIVER"></header>
+    </field>
+  </fields>
+</report>

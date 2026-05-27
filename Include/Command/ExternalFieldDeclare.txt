@@ -1,0 +1,1 @@
+﻿<![CDATA[declare @voucherBook varchar(32), @currentNumber varchar(32), @minNumber varchar(32), @maxNumber varchar(32), @defaultCurrency varchar(32), @defaultExchangeRate numeric(24, 12), @cookie varchar(32)]]>

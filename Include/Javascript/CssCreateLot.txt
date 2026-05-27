@@ -1,0 +1,7 @@
+﻿<css>
+<text>
+<![CDATA[
+div.Lot{background-image:url(../images/Highlight.png);background-repeat:no-repeat;background-position:0 0;}
+]]>
+</text>
+</css>

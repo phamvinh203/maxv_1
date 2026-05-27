@@ -1,0 +1,79 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="en-GB">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+		<xs:element name="d1">
+          <xs:complexType>
+            <xs:sequence>
+			  <xs:element name="ma_kh" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_kh" type="xs:string" minOccurs="0" />
+			  <xs:element name="dia_chi" type="xs:string" minOccurs="0" />
+			  <xs:element name="han_tt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ten_tt" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_dc" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_nvbh" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_htvc" type="xs:string" minOccurs="0" />
+			  <xs:element name="t_tt_in_word" type="xs:string" minOccurs="0" />
+			  <xs:element name="t_tt_nt_in_word" type="xs:string" minOccurs="0" />
+			  <xs:element name="day" type="xs:string" minOccurs="0" />
+			  <xs:element name="month" type="xs:string" minOccurs="0" />
+			  <xs:element name="year" type="xs:string" minOccurs="0" />
+			  <xs:element name="so_ct" type="xs:string" minOccurs="0" />
+			  <xs:element name="t_tien2" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_tien_nt2" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_ck" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_ck_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_thue" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_thue_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_tt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_tt_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_tien_ck" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_tien_ck_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="dia_diem_giao" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="d2">
+          <xs:complexType>
+            <xs:sequence>
+			  <xs:element name="line_nbr" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ma_vt" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_vt" type="xs:string" minOccurs="0" />
+			  <xs:element name="dvt" type="xs:string" minOccurs="0" />
+			  <xs:element name="so_luong" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="tien2" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="tien_nt2" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ck" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ck_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="tien_ck" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="tien_ck_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="thue" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="thue_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="gia2" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="gia_nt2" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="description" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="d3">
+          <xs:complexType>
+            <xs:sequence>
+			  <xs:element name="ma_vv" type="xs:string" minOccurs="0" />
+			  <xs:element name="ngay_giao" type="xs:dateTime" minOccurs="0" />
+			  <xs:element name="ngay_ct" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="d4">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="logo" type="xs:base64Binary" minOccurs="0"/>
+              <xs:element name="file_name" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

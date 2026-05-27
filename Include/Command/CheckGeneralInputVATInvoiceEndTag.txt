@@ -1,0 +1,8 @@
+﻿<![CDATA[
+if exists(select 1 from options where name = 'm_kthd_tdv' and val = '1')]]>&CheckGeneralInputVATCondition;<![CDATA[ begin
+  select @verifyIDNumber = case when @@action = 'New' then '' else @stt_rec end, @$verifyMessage = case when @@language = 'v' then N'Số hóa đơn <span class="Highlight">%s</span> đã được cập nhật trong phần thuế đầu vào.' else N'The invoice number <span class="Highlight">%s</span> already exists in Input VAT data.' end
+  if exists(select 1 from ctgt30 with (index(c)) where ma_so_thue = @verify$InputVAT$Code and ngay_ct0 = @verify$InputVAT$Date and so_seri0 = @verify$InputVAT$Serial and so_ct0 = @verify$InputVAT$Invoice and stt_rec <> @verifyIDNumber) begin
+    select @verify$InputVAT$Field as field, replace(@$verifyMessage, '%s', rtrim(@verify$InputVAT$Invoice)) as message
+    return
+  end
+end]]>

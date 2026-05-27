@@ -1,0 +1,7 @@
+﻿<command event="Showing">
+  <text>
+    <![CDATA[
+select 'this._filter$Pattern = ''' + rtrim(parameter) + ''';' from @@sysDatabaseName..wcommand where sysid = ']]>&Identity;<![CDATA['
+]]>
+  </text>
+</command>

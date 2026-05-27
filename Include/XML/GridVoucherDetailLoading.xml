@@ -1,0 +1,7 @@
+﻿<query event="Loading">
+  <text>
+    <![CDATA[
+exec MaxvOnline$App$VoucherDetailRowCount @stt_rec
+]]>
+  </text>
+</query>

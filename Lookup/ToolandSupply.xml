@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmcc" code="so_the_ts" name="ten_ts%l" order="so_the_ts" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục công cụ" e="Tool and Supply List"></header>
+
+  <fields>
+    <field name="so_the_ts" allowSorting="true" allowFilter="true">
+      <header v="Mã công cụ" e="Tool and Supply"></header>
+    </field>
+
+    <field name="ten_ts%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên công cụ" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

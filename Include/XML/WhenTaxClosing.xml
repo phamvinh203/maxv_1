@@ -1,0 +1,6 @@
+﻿<command event="Closing">
+  <text>
+    <![CDATA[select 'dispose$GridVoucherTax$(this);' as message
+return]]>
+  </text>
+</command>

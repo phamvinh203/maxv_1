@@ -1,0 +1,152 @@
+﻿<commands>
+  <command event="Loading">
+    <text>
+      <![CDATA[
+declare @userRef varchar(128), @defaultCountryCode varchar(8), @defaultCountryName nvarchar(128)
+select @userRef = user_ref from @@sysDatabaseName..userinfo2 where id = @@userID
+
+if (@@action = 'New') begin
+	select @defaultCountryName = ''
+	select @defaultCountryCode = rtrim(val) from options where rtrim(name) = 'm_ma_qg0'
+	if exists(select 1 from crdmqg where ma_qg = @defaultCountryCode) select @defaultCountryName = case when @@language = 'v' then ten_qg else ten_qg2 end from crdmqg where ma_qg = @defaultCountryCode
+	else select @defaultCountryCode = ''	
+end
+
+]]>&CheckRightBeforeInit;<![CDATA[
+
+select 'this._defaultCountryCode = ''' + isnull(@defaultCountryCode, '') + ''';this._defaultCountryName = ''' + replace(replace(isnull(@defaultCountryName, ''), '\', '\\'), '''', '\''') + ''';this._userRef = ''' + @userRef + ''';load$]]>&FormID;<![CDATA[(this);' as message
+return
+]]>
+    </text>
+  </command>
+
+  <command event="Scattering">
+    <text>
+      <![CDATA[
+declare @userRef varchar(128), @defaultCountryCode varchar(8), @defaultCountryName nvarchar(128)
+select @userRef = user_ref from @@sysDatabaseName..userinfo2 where id = @@userID
+
+if (@@action = 'New') begin
+	select @defaultCountryName = ''
+	select @defaultCountryCode = rtrim(val) from options where rtrim(name) = 'm_ma_qg0'
+	if exists(select 1 from crdmqg where ma_qg = @defaultCountryCode) select @defaultCountryName = case when @@language = 'v' then ten_qg else ten_qg2 end from crdmqg where ma_qg = @defaultCountryCode
+	else select @defaultCountryCode = ''	
+end
+
+]]>&CheckRightBeforeInit;<![CDATA[
+
+select 'this._defaultCountryCode = ''' + isnull(@defaultCountryCode, '') + ''';this._defaultCountryName = ''' + replace(replace(isnull(@defaultCountryName, ''), '\', '\\'), '''', '\''') + ''';this._userRef = ''' + @userRef + ''';load$]]>&FormID;<![CDATA[(this);' as message
+return
+]]>
+    </text>
+  </command>
+
+  <command event="Closing">
+    <text>
+      <![CDATA[
+select 'close$]]>&FormID;<![CDATA[(this);' as message
+return
+]]>
+    </text>
+  </command>
+
+  <command event="InitExternalFields">
+    <text>
+      <![CDATA[
+if @@action = 'Edit' begin
+declare @campaignID char(8), @campaignName nvarchar(128), @denyField varchar(4000)
+select @denyField = ds_truong from crctlimitfield where user_id = @@userID and ten_bang = '@@table'
+select @denyField = replace(replace(isnull(@denyField, ''), ',,', ','), ' ', '')
+select @campaignID = a.ma_cd, @campaignName = a.ten_cd from crcd a join (select stt_rec_cd from @@table where stt_rec_dm = @stt_rec_dm) b on a.stt_rec_cd = b.stt_rec_cd
+select rtrim(@campaignID) as ma_cd, rtrim(@campaignName) as ten_cd, @denyField as deny_field
+return
+end
+]]>
+    </text>
+  </command>
+
+  <command event="Inserting">
+    <text>
+      <![CDATA[
+exec dbo.MaxvOnline$CRM$GetInputSourceID ']]>&ControllerID;<![CDATA[', ']]>&ControllerID;<![CDATA[', @input_src output
+
+declare @wsID varchar(8)
+select @wsID = rtrim(val) from options where rtrim(name) = 'm_ws_id'
+select @stt_rec_dm = max(stt_rec_dm) from @@table
+select @stt_rec_dm = @wsID + case when @stt_rec_dm is null then '000000001' else replace(str(cast(substring(@stt_rec_dm, 2, 9) as bigint) + 1, 9), ' ', '0') end
+
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID, @user_ref = user_ref from @@sysDatabaseName..userinfo2 where id = @@userID
+]]>
+    </text>
+  </command>
+
+  <command event="Inserted">
+    <text>
+	&UpdateSearchKey;
+      <![CDATA[
+declare @invoke nvarchar(2000)
+select @invoke = 'Message.Message.Send(' + ']]>&ControllerID;<![CDATA[' + ',' + @@action + ',' + @stt_rec_dm + ',' + @@language + ',)'
+select '' as message, '' as field, @invoke as invoke, @stt_rec_dm as stt_rec_dm, 'set$LeadGrid$ViewIcon(this.grid);' as script
+return
+]]>
+    </text>
+  </command>
+
+  <command event="Updating">
+    <text>
+      &MasterBeforeUpdate;
+    </text>
+  </command>
+
+  <command event="Updated">
+    <text>
+      <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where stt_rec_dm = @stt_rec_dm
+]]>&MasterAfterUpdate;
+	&UpdateSearchKey;<![CDATA[
+
+declare @script nvarchar(4000)
+select @script = 'show$ViewPageForm(this);'
+
+declare @invoke nvarchar(2000), @email1 nvarchar(255), @email2 nvarchar(255), @lan2 nvarchar(255)
+select @email1 = isnull(e_mail, '') from vsysuserinfo where id = @@userID
+select @email2 = isnull(a.e_mail, ''), @lan2 = d_language from vsysuserinfo a join @@table b on a.id = b.user_id0 and b.stt_rec_dm = @stt_rec_dm
+
+select @invoke = 'Message.Message.Send(' + ']]>&ControllerID;<![CDATA[' + ',' + @@action + ',' + @stt_rec_dm + ',' + @@language + ',' + @email1 + ')'
+if(@email1 <> @email2) select @invoke = @invoke + '&' + char(255) + ';' + 'Message.Message.Send(' + ']]>&ControllerID;<![CDATA[' + ',' + @@action + ',' + @stt_rec_dm + ',' + @lan2 + ',' + @email2 + ')'
+
+select '' as message, '' as field, @invoke as invoke, @script as script
+return
+]]>
+    </text>
+  </command>
+
+  <command event="Deleting">
+    <text>
+      <![CDATA[
+if (@@admin = 0) begin
+declare @r bit, @view_type varchar(8)
+select @view_type = view_type from @@sysDatabaseName..crpageinfo where sysid = ]]>'&ControllerID;'<![CDATA[
+exec dbo.MaxvOnline$CRM$CheckRecordRight @stt_rec_dm, @view_type, @@action, @@sysDatabaseName, @@admin, @@userID, @r output
+if @r = 0 begin
+  select '$NotAuthorized' as message
+  return
+end
+end
+]]>&MasterAfterDelete;
+    </text>
+  </command>
+
+	<command event="Checking">
+		<text>
+			<![CDATA[
+var f = this;
+if (f._checked) {
+	var b1 = f.getItem('dia_chi').value, b2 = f.getItem('ten_quan_huyen%l').value, b3 = f.getItem('ten_tinh_thanh%l').value;
+	var d1 = b2 + ((b2 != '') && (b3 != '') ? ', ' : '') + b3;
+	f.getItem('dia_chi_lh').value = b1 + (b1 != '' ? ', ' : '') + d1;
+}
+]]>
+		</text>
+	</command>
+</commands>

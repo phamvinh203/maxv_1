@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmxlct" code="action_id" name="action_name%l" order="action_id" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục xử lý" e="Action List"></header>
+
+  <fields>
+    <field name="action_id" allowSorting="true" allowFilter="true" >
+      <header v="Xử lý" e="Action"></header>
+    </field>
+
+    <field name="action_name%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên xử lý" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

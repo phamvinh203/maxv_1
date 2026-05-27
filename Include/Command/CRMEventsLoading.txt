@@ -1,0 +1,12 @@
+﻿<![CDATA[
+declare @owner nvarchar(128)
+select @owner = comment from vsysuserinfo where id = @@userID
+
+declare @script nvarchar(4000), @start varchar(5), @end varchar(5)
+select top 1 @start = right('0' + rtrim(first_hour), 2) + ':00', @end = right('0' + rtrim(first_hour + event_duration / 60), 2) + ':' + right('0' + rtrim(event_duration % 60), 2)
+	from syseventsoptions where user_id = @@userID or user_id = 0 order by user_id desc
+  
+select @script = 'this._startdate = ''' + convert(varchar(12), getdate(), 113) + '''; this._starttime = ''' + @start + '''; this._endtime = ''' + @end + ''';'
+select @script + 'this._recordID = ''' + rtrim(isnull(@recordID, '')) + ''';this._owner = ''' + replace(replace(isnull(rtrim(@owner), ''), '\', '\\'), '''', '\''') + ''';set$EventsForm$DefaultValue(this);' as message
+return
+]]>

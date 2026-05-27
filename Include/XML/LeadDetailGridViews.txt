@@ -1,0 +1,11 @@
+﻿<views>
+  <view id="Grid">
+    <field name="stt_rec_dm"/>
+    <field name="converted"/>
+    <field name="ho_ten_dm"/>
+    <field name="cong_ty"/>
+    <field name="chuc_vu"/>
+    <field name="dien_thoai"/>
+    <field name="ten_tt%l"/>
+  </view>
+</views>

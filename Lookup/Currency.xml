@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmnt" code="ma_nt" name="ten_nt%l" order="ma_nt" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục ngoại tệ" e="Currency List"></header>
+
+  <fields>
+    <field name="ma_nt" allowSorting="true" allowFilter="true" >
+      <header v="Mã ngoại tệ" e="Currency Code"></header>
+    </field>
+
+    <field name="ten_nt%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên ngoại tệ" e = "Currency Name"></header>
+    </field>
+
+  </fields>
+
+</lookup>

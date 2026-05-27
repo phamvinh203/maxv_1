@@ -1,0 +1,1 @@
+﻿<![CDATA[ left join dmttct x on a.status = x.status and a.ma_ct = x.ma_ct left join @@sysDatabaseName..userinfo y on a.user_id0 = y.id left join @@sysDatabaseName..userinfo z on a.user_id2 = z.id ]]>

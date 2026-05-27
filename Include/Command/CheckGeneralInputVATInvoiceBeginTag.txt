@@ -1,0 +1,2 @@
+﻿<![CDATA[
+declare @verify$InputVAT$Field varchar(32), @verify$InputVAT$Invoice varchar(32), @verify$InputVAT$Date smalldatetime, @verify$InputVAT$Code varchar(32), @verify$InputVAT$Serial varchar(32), @$verifyMessage nvarchar(512), @verifyIDNumber varchar(32)]]>

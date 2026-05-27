@@ -1,0 +1,570 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<upload xmlns="urn:schemas-maxv-com:file-upload">
+  <data id="ReportLogo" type="Image">
+    <setting>
+      <maxFileSize value="5" />
+      <allowLogFile value="false" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="20" />
+      <defaultFileName value="Logo.png" />
+      <savedFilePath value="Images\Report" />
+      <allowFileExtension value="^(.GIF|.PNG|.JPE?G)$" />
+      <invokeMethod value="SetImageDefault($t,$k,$d)" />
+    </setting>
+    <log>
+      <file id="2" name="a6cd4388d31e527.png" />
+    </log>
+  </data>
+ <data id="VoucherBook" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="GLTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="CRTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="JRTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="JPTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="IRTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="ISTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="CBTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="CDTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="CPTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="FATran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="TSTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="SVTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="BMTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="ARTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+   <data id="SRTran" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Customer" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="LoanContract" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Item" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="UOM" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Department" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Expense" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+   <data id="ExpenseGroup" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Project" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+   <data id="Job" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Account" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Contract" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Lot" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="SalesPrice" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="AccountBalance" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Sosdkh" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Insdkho" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="LotStockBalance" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="FIFOBalance" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="cdkthn" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Codasd" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="ContractBalance" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Sosdinv" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="APInvoiceOpeningBalance" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+<data id="CAsdku" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+ <data id="Whsdkho" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+  <data id="Cogtsldddk" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+   <data id="Cogtgtdddk" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+    <data id="COgthspb" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+ <data id="Insdkhontxt" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data>
+ <data id="EiRRthue" type="Excel">
+    <setting>
+      <maxFileSize value="100" />
+      <uploadTimeOut value="60" />
+      <processDelayTime value="100" />
+      <savedFilePath value="App_Data\Controllers\Templates\Excel" />
+      <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dowloadContentType value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+      <dataRecordTimeOut value="1740" />
+      <allowFileExtension value="^(.XLSX)$" />
+    </setting>
+  </data> 
+</upload>

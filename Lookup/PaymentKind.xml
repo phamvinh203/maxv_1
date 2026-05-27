@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmhttt" code="ma_ht_tt" name="ten_ht_tt%l" order="ma_ht_tt" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục hình thức thanh toán" e="Payment List"></header>
+
+  <fields>
+    <field name="ma_ht_tt" allowSorting="true" allowFilter="true" >
+      <header v="Mã hình thức thanh toán" e="Payment Code"></header>
+    </field>
+
+    <field name="ten_ht_tt%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên hình thức thanh toán" e = "Payment Name"></header>
+    </field>
+  </fields>
+
+</lookup>

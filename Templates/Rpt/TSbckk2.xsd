@@ -1,0 +1,39 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="en-GB">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+		<xs:element name="d1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tinh_den" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="d2">
+          <xs:complexType>
+            <xs:sequence>
+			  <xs:element name="stt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ten_ts" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_ts2" type="xs:string" minOccurs="0" />
+			  <xs:element name="so_the_ts" type="xs:string" minOccurs="0" />
+			  <xs:element name="ma_bp" type="xs:string" minOccurs="0" />
+			  <xs:element name="gt_da_kh" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="gt_da_kh_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="nguyen_gia" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="nguyen_gia_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="so_ky_kh" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ngay_kh0" type="xs:dateTime" minOccurs="0" />
+			  <xs:element name="ngay_mua" type="xs:dateTime" minOccurs="0" />		 
+			  <xs:element name="ngay_kh_kt" type="xs:dateTime" minOccurs="0" />
+			   <xs:element name="ngay_kt_kh" type="xs:dateTime" minOccurs="0" />
+			  <xs:element name="sysorder" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="sysprint" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="systotal" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

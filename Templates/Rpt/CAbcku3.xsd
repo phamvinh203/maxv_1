@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsReport" targetNamespace="http://tempuri.org/dsReport.xsd" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/dsReport.xsd" xmlns:mstns="http://tempuri.org/dsReport.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsReport" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">				
+				<xs:element name="d1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="sysorder" type="xs:decimal"/>
+							<xs:element name="sysprint" type="xs:decimal"/>
+							<xs:element name="systotal" type="xs:decimal"/>
+							<xs:element name="stt" type="xs:decimal"/>
+							<xs:element name="ma_ku" type="xs:string"/>
+							<xs:element name="ten_ku" type="xs:string"/>
+							<xs:element name="ten_ku2" type="xs:string"/>
+							<xs:element name="no_dk" type="xs:decimal"/>
+							<xs:element name="co_dk" type="xs:decimal"/>
+							<xs:element name="no_dk_nt" type="xs:decimal"/>
+							<xs:element name="co_dk_nt" type="xs:decimal"/>
+							<xs:element name="ps_no" type="xs:decimal"/>
+							<xs:element name="ps_co" type="xs:decimal"/>
+							<xs:element name="ps_no_nt" type="xs:decimal"/>
+							<xs:element name="ps_co_nt" type="xs:decimal"/>
+							<xs:element name="no_ck" type="xs:decimal"/>
+							<xs:element name="co_ck" type="xs:decimal"/>
+							<xs:element name="no_ck_nt" type="xs:decimal"/>
+							<xs:element name="co_ck_nt" type="xs:decimal"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="d2">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="tu_ngay" type="xs:dateTime" minOccurs="0"/>
+							<xs:element name="den_ngay" type="xs:dateTime" minOccurs="0"/>
+							<xs:element name="tk" type="xs:string" minOccurs="0"/>
+							<xs:element name="ten_tk" type="xs:string" minOccurs="0"/>
+							<xs:element name="ten_tk2" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

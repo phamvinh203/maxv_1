@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmdvcs" code="ma_dvcs" name="ten_dvcs%l" order="ma_dvcs" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục công ty" e="Unit List"></header>
+
+  <fields>
+    <field name="ma_dvcs" allowSorting="true" allowFilter="true">
+      <header v="Mã đơn vị" e="Company Code"></header>
+    </field>
+
+    <field name="ten_dvcs%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên đơn vị" e = "Company Name"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

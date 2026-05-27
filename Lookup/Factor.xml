@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="xdmyt" code="ma_yt" name="ten_yt%l" order="ma_yt" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục yếu tố" e="Factor List"></header>
+
+  <fields>
+    <field name="ma_yt" allowSorting="true" allowFilter="true">
+      <header v="Yếu tố" e="Factor"></header>
+    </field>
+
+    <field name="ten_yt%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên yếu tố" e = "Description"></header>
+    </field>
+  </fields>
+
+</lookup>

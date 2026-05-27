@@ -1,0 +1,4 @@
+﻿declare @q nvarchar(4000)
+select top 0 ma_kho, ma_vi_tri, ma_vt, ma_lo, sl_nhap, sl_xuat into #currentStock from wrkin
+set @q = dbo.MaxvOnline$Function$Voucher$GetSQLUpdateCurrentStock('r70$$partition$previous', 'r90$$partition$previous', @stt_rec, @@id, @@action, @Stock)
+exec sp_executesql @q

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmvitri" code="ma_vi_tri" name="ten_vi_tri%l" order="ma_vi_tri" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục vị trí" e="Location List"></header>
+
+  <fields>
+    <field name="ma_vi_tri" allowSorting="true" allowFilter="true" >
+      <header v="Mã vị trí" e="Location"></header>
+    </field>
+
+    <field name="ten_vi_tri%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên vị trí" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

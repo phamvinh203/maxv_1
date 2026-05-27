@@ -1,0 +1,1 @@
+﻿exec MaxvOnline$Voucher$AfterUpdate$CurrentCustomerBalance 'r00$$partition$current', @stt_rec, @@id, @@action

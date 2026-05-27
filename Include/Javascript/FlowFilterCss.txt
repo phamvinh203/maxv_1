@@ -1,0 +1,7 @@
+﻿<css>
+  <text>
+    <![CDATA[
+.Column_stt_rec{visibility:hidden;display:none;}
+]]>
+  </text>
+</css>

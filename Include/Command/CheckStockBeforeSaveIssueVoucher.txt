@@ -1,0 +1,33 @@
+﻿<![CDATA[
+if (@@id = 'DYA' and @ma_gd='1' ) goto _NoCheckStock -- xuat tra
+if exists(select 1 from options where name = 'm_instock1' and rtrim(val) = '0') goto _NoCheckStock
+
+declare @rs as table(check_type char(1), mess_type char(1), mess_text nvarchar(4000))
+
+select ma_vt, ma_kho, ma_lo, sl_xuat as so_luong, sl_xuat as so_luong2, sl_xuat as ton,status into #check from wrkin
+insert into #check select a.ma_vt, a.ma_kho, a.ma_lo, (a.so_luong*a.he_so), 0, 0,@status from ]]>&DetailVariable;<![CDATA[ a inner join dmvt b ON a.ma_vt = b.ma_vt Where b.vt_ton_kho = 1 
+
+declare @prevTable varchar(33), @$zItemCheck nvarchar(4000)
+set @prevTable = case when @@action = 'New' then '' else replace(']]>&DetailVariable;<![CDATA[$$partition$previous', '@', '') end
+
+insert into @rs exec rs_CheckInventory @stt_rec, @@id, null, @ngay_ct, @prevTable, @@userID, @@admin, @@language
+
+declare @type varchar(1), @dt varchar(33)
+set @dt = replace(']]>&DetailVariable;<![CDATA[', '@', '')
+select @type = mess_type, @$zItemCheck = mess_text from @rs where check_type = '1'
+
+if @type = '1' and @@action = 'Edit' 
+begin
+  select top 1 @dt as field, '' as message, 'objectBehavior$Voucher$Number.warning(this, ''' + @$zItemCheck + ''');' as script
+ -- return
+end
+
+if @type = '2' begin
+	drop table #check
+	select top 1 @dt as field, @$zItemCheck as message
+	return
+end
+drop table #check
+
+_NoCheckStock:
+]]>

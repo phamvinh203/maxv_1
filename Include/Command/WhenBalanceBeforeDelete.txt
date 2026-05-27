@@ -1,0 +1,8 @@
+﻿<![CDATA[
+if @@admin <> 1 begin
+  if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @ma_dvcs and r_del = 1) begin
+    select '$NotAuthorized' as message
+    return
+  end
+end
+]]>

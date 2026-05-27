@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$ContractImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$ContractImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+		<field name="ma_hd" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+		<field name="ten_hd" column="B" allowNulls="false" maxLength="256"/>
+		<field name="ten_hd2" column="C" maxLength="256"/>
+		<field name="ngay_hd" column="D" type="DateTime" allowNulls="false"/>
+		<field name="so_hd" column="E" maxLength="50"/>
+		<field name="ma_nt" column="F" maxLength="50" allowNulls="false"/>
+		<field name="tien_nt" column="G" type="Decimal"/>
+		<field name="tien" column="H" type="Decimal"/>
+		<field name="ma_kh" column="I" maxLength="16" allowNulls="false"/>
+		<field name="ma_nvbh" column="K" maxLength="16"/>
+		<field name="ma_bp" column="M" maxLength="16"/>
+		<field name="ngay_hd1" column="N" type="DateTime"/>
+		<field name="ngay_hd2" column="O" type="DateTime"/>
+		
+		<field name="nh_hd1" column="P" maxLength="16"/>
+		<field name="nh_hd2" column="Q" maxLength="16"/>
+		<field name="nh_hd3" column="R" maxLength="16"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin = 0 and @type = '1' begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'Contract', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+select @irregularChars = ]]>&IrregularValue;<![CDATA[
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+
+-- Check
+alter table @@table alter column ma_hd char(32)
+create index i on @@table (ma_hd)
+
+if @type = '0' delete @@table where ma_hd in (select ma_hd from dmhd)
+
+select @field = 'ma_hd', @r = min(stt) from @@table where ma_hd like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+select @field = 'ma_nt', @r = min(stt) from @@table where ma_nt <> '' and ma_nt not in (select ma_nt from dmnt)]]>&Error;<![CDATA[
+
+select @field = 'ma_kh', @r = min(stt) from @@table where ma_kh <> '' and ma_kh not in (select ma_kh from dmkh)]]>&Error;<![CDATA[
+select @field = 'ma_nvbh', @r = min(stt) from @@table where ma_nvbh <> '' and ma_nvbh not in (select ma_nvbh from dmnvbh)]]>&Error;<![CDATA[
+select @field = 'ma_bp', @r = min(stt) from @@table where ma_bp <> '' and ma_bp not in (select ma_bp from dmbp)]]>&Error;<![CDATA[
+
+select @field = 'nh_hd1', @r = min(stt) from @@table where nh_hd1 <> '' and nh_hd1 not in (select ma_nh from dmnhhd where loai_nh=1)]]>&Error;<![CDATA[
+select @field = 'nh_hd2', @r = min(stt) from @@table where nh_hd2 <> '' and nh_hd2 not in (select ma_nh from dmnhhd where loai_nh=2)]]>&Error;<![CDATA[
+select @field = 'nh_hd3', @r = min(stt) from @@table where nh_hd3 <> '' and nh_hd3 not in (select ma_nh from dmnhhd where loai_nh=3)]]>&Error;<![CDATA[
+
+
+select a.* into #k from @@table a join dmhd b on a.ma_hd = b.ma_hd
+delete @@table where ma_hd in (select ma_hd from #k)
+-- 
+select @q = 'select top 1 @r = a.stt from @@table a, @@table b with (index(i)) where a.ma_hd <> b.ma_hd and a.ma_hd = rtrim(b.ma_hd)'
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+select top 1 @r = a.stt from @@table a, dmhd b with (index(PK_dmhd)) where a.ma_hd = rtrim(b.ma_hd)]]>&Duplicate;<![CDATA[
+select @q = 'select top 1 @r = b.stt from dmhd a, @@table b with (index(i)) where a.ma_hd = rtrim(b.ma_hd)'
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+
+
+-- Insert
+select @q = 'insert into dmhd(ma_hd, ten_hd, ten_hd2, ngay_hd,so_hd, ma_nt, tien_nt, tien,ma_kh, ma_nvbh, ma_bp, ngay_hd1, ngay_hd2, hd_sd_pslk, nh_hd1, nh_hd2, nh_hd3, status, datetime0, datetime2, user_id0, user_id2, '
+select @q = @q + 'ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6)'
+select @q = @q + 'select ma_hd, ten_hd, ten_hd2, ngay_hd,so_hd, ma_nt, tien_nt, tien,ma_kh, ma_nvbh, ma_bp, ngay_hd1, ngay_hd2,1, nh_hd1, nh_hd2, nh_hd3, ''1'', getdate(), getdate(), rtrim(@@userID), rtrim(@@userID), '''', '''', '''', '
+select @q = @q + ' 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0 from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update dmhd set ten_hd = b.ten_hd, ten_hd2 = b.ten_hd2, ngay_hd = b.ngay_hd, so_hd = b.so_hd, ma_nt=b.ma_nt, tien_nt = b.tien_nt, tien = b.tien, ma_kh = b.ma_kh, ma_nvbh=b.ma_nvbh, ngay_hd1 = b.ngay_hd1, ngay_hd2 = b.ngay_hd2, hd_sd_pslk = 1,
+	nh_hd1 = b.nh_hd1, nh_hd2 = b.nh_hd2, nh_hd3 = b.nh_hd3, datetime2 = getdate(), user_id2 = @@userID
+  from dmhd a, #k b where a.ma_hd = b.ma_hd
+end
+
+]]>
+    </text>
+  </processing>
+
+</import>

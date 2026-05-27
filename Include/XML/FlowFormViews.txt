@@ -1,0 +1,13 @@
+﻿<view id="Dir" height="268" anchor="6" split="10">
+  <item value="100, 30, 70, 35, 65, 0, 0, 37, 100, 100, 8, 58, 50, 100"/>
+  <item value="11010000001101: [ma_kh].Label, [ma_kh], [ten_kh%l], [stt_rec], [so_ct].Label, [so_ct]"/>
+  <item value="-----------101: [ngay_ct].Label, [ngay_ct]"/>
+
+  <item value="1: [&DetailTable;]"/>
+
+  <categories>
+	<category index="1" columns="769" anchor="1">
+	  <header v="Chi tiết" e="Detail"/>
+	</category>
+  </categories>
+</view>

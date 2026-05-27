@@ -1,0 +1,27 @@
+﻿<![CDATA[
+function show$AutoLot$Form(id) {
+  var g = $find(id);
+  $func.hideWait(g.get_element().parentForm.get_id());
+  var c = String.fromCharCode(255), index = 0, l1 = g._getColumnOrder('ma_vt'), l2 = g._getColumnOrder('ma_lo'), l3 = g._getColumnOrder('tao_lo'), l4 = g._getColumnOrder('lo_yn'), l5 = g._getColumnOrder('ten_vt%l'), l6 = g._getColumnOrder('ten_lo%l');
+  for (var i = 1; i <= g._rowCount; i++) {
+    var o1 = g._getItem(i, l1), o2 = g._getItem(i, l2), validItem = check$AutoLot$Field(g, i, l1, l5);
+    if (g._getItemValue(i, l4) == 1 && validItem && ((g._getItemValue(i, l3) && o2.value == '') || (o2.value != '' && !check$AutoLot$Field(g, i, l2, l6)))) {
+      var s1 = g._getItemValue(i, l1), s2 = $func.trim(g._getItemValue(i, l2));
+      var groupValue = g._groupIdx[s1 + s2];
+      if (!groupValue) {
+        index += 1;
+        g._lots += (g._items == '' ? '' : c) + s2;
+        g._items += (g._items == '' ? '' : c) + s1;              
+        g._groupIdx[s1 + s2] = index;
+        Array.add(g._rowIdx, [index, i]);
+      } else Array.add(g._rowIdx, [groupValue, i]);
+    }
+  }
+  g.showForm(']]>&AutoLotForm;<![CDATA[');
+}
+function check$AutoLot$Field(g, r, l1, l2) {
+  var v1 = g._getItem(r, l1), v2 = g._getItem(r, l2));
+  if ((v1.addControl || v1.label) && !v2.checked) return false;
+  return true;
+}
+]]>

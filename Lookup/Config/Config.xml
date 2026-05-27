@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<config xmlns="urn:schemas-maxv-com:data-filter">
+  <controllers>
+    <controller name="Account" pattern="{0}%, (({1} like @) or ({2} like '%' + @))"/>
+  </controllers>
+</config>

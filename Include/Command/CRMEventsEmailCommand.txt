@@ -1,0 +1,10 @@
+﻿<![CDATA[
+declare @invoke nvarchar(2000), @email nvarchar(255)
+select @email = isnull(e_mail, '') from vsysuserinfo where id = @@userID
+select @invoke = 'Message.Message.Send(''Event'',' + @@action + ',' + rtrim(@id) + ',' + @@language + ',' + @email + ')'
+
+select a.d_language, a.e_mail into #t from vsysuserinfo a join sysevents b on 1=1 and b.id = @id left join crgroupshare c on b.share_group = c.id
+	where (dbo.ff_ExactInlist(a.name, b.assigned_name) = 1 or dbo.ff_ExactInlist(a.name, b.share_user) = 1 or a.id = b.user_id0 or a.id = b.user_id2 or dbo.ff_ExactInlist(a.name, c.user_lst) = 1) and a.id <> @@userID
+
+select @invoke = @invoke + '&' + char(255) + ';' + 'Message.Message.Send(''Event'',' + @@action + ',' + rtrim(@id) + ',' + d_language + ',' +  e_mail + ')' from #t
+]]>

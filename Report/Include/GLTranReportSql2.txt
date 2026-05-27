@@ -1,0 +1,3 @@
+﻿if @@form = '810' or @@form = '820' or @@form = '830' or @@form = '840' begin
+  exec pr_GLTranReport2 @stt_rec, @@id, 'r00$$partition$current', r30$$partition$current', @@language
+end

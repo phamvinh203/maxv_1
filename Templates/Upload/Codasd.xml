@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$CodasdImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$CodasdImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_dvcs" column="A" isPrimaryKey="true" allowNulls="false" maxLength="8" upperCase="true"/>
+    <field name="tk" column="B" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+    <field name="ma_vv" column="C" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+    <field name="ma_kh" column="D" isPrimaryKey="true" maxLength="16" upperCase="true"/>
+    <field name="du_no00" column="E" type="Decimal"/>
+    <field name="du_co00" column="F" type="Decimal"/>
+    <field name="du_no_nt00" column="G" type="Decimal"/>
+    <field name="du_co_nt00" column="H" type="Decimal"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[			
+declare @message nvarchar(4000), @q nvarchar(4000), @field varchar(32), @r int, @user int, @admin bit, @unit varchar(32), @year int
+
+select @admin = @@admin, @user = @@userID, @unit = @@unit, @year = nam_bd from dmstt
+select @field = 'ma_dvcs'
+select @r = min(stt) from @@table where ma_dvcs not in (select ma_dvcs from dmdvcs where status = '1')]]>&Error;<![CDATA[
+select @r = min(stt) from @@table where ma_dvcs in (select distinct ma_dvcs from dmdvcsks where year(ngay_ks) >= @year)]]>&Error;<![CDATA[
+
+if @admin <> 1 begin
+  if @type = '1' begin
+		if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'JobBalance', 'Edit') = 0 select @type = 0
+  end
+
+  select @r = min(a.stt) from @@table a where not exists(select 1 from cdvv b where a.ma_dvcs = b.ma_dvcs and a.tk = b.tk and a.ma_vv = b.ma_vv and b.nam = @year)
+    and a.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_new = 1)]]>&Error;<![CDATA[
+
+  if @type = '1' begin
+    select @r = min(stt) from @@table a where exists(select 1 from cdvv b where a.ma_dvcs = b.ma_dvcs and a.tk = b.tk and a.ma_vv = b.ma_vv and b.nam = @year)
+      and a.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_edit = 1)]]>&Error;<![CDATA[
+  end
+end
+
+-- Check
+select @field = 'tk', @r = min(stt) from @@table where tk not in (select tk from dmtk where loai_tk = 1)]]>&Error;<![CDATA[
+select @field = 'ma_vv', @r = min(stt) from @@table where ma_vv not in (select ma_vv from dmvv where vv_sd_pslk = '1')]]>&Error;<![CDATA[
+select @field = 'ma_kh', @r = min(stt) from @@table where ma_kh <> '' and ma_kh not in (select ma_kh from dmkh)]]>&Error;<![CDATA[
+select @field = 'ma_kh', @r = min(stt) from @@table where ma_kh = '' and tk in (select tk from dmtk where tk_cn = 1)]]>&Error;<![CDATA[
+
+update @@table set du_co_nt00 = 0 where du_no_nt00 <> 0
+update @@table set du_co00 = 0 where du_no00 <> 0
+update @@table set ma_kh = '' where tk in (select tk from dmtk where tk_cn = 0)
+
+if @type = '0' delete @@table from @@table a where exists(select 1 from cdvv b where a.ma_dvcs = b.ma_dvcs and a.tk = b.tk and a.ma_vv = b.ma_vv and a.ma_kh = b.ma_kh and b.nam = @year)
+
+select a.* into #k from @@table a join cdvv b on a.ma_dvcs = b.ma_dvcs and a.tk = b.tk and a.ma_vv = b.ma_vv and a.ma_kh = b.ma_kh where b.nam = @year
+delete @@table from @@table a where exists(select 1 from #k b where a.ma_dvcs = b.ma_dvcs and a.tk = b.tk and a.ma_vv = b.ma_vv and a.ma_kh = b.ma_kh)
+
+insert into cdvv(nam, ma_dvcs, tk, ma_vv, ma_kh, du_no00, du_co00, du_no_nt00, du_co_nt00, dien_giai, 
+    ma_nt, ty_gia, status, datetime0, datetime2, user_id0, user_id2, ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, s1, s2, s3, s4, s5, s6)
+  select @year, ma_dvcs, tk, ma_vv, ma_kh, du_no00, du_co00, du_no_nt00, du_co_nt00, 
+      '', '', 0, '1', getdate(), getdate(), @@userID, @@userID, '', '', '', 0, 0, 0, '', '', '', 0, 0, 0
+    from @@table
+
+if @type = '1' begin
+  update cdvv set tk = b.tk, ma_vv = b.ma_vv, ma_kh = b.ma_kh, du_no00 = b.du_no00, du_co00 = b.du_co00, du_no_nt00 = b.du_no_nt00, du_co_nt00 = b.du_co_nt00, datetime2 = getdate(), user_id2 = @@userID
+    from cdvv a join #k b on a.ma_dvcs = b.ma_dvcs and a.tk = b.tk and a.ma_vv = b.ma_vv and a.ma_kh = b.ma_kh
+    where a.nam = @year
+end
+]]>
+    </text>
+  </processing>
+
+</import>

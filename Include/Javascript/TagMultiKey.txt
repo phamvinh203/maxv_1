@@ -1,0 +1,82 @@
+﻿<![CDATA[
+function isCheck$Grid(g) {
+  var msg = (g._language == 'v' ? 'Chưa có bản ghi nào được chọn, phải đánh dấu trước khi thực hiện chức năng này.' : 'No record selected, Please select at least one record to process.');
+  if (g._$k.length == 0) {
+    $message.show(msg, String.format('$find(\'{0}\')._focusWhenTabChanged();', g.get_id()));
+    return false;
+  }
+  return true;
+}
+function fill$Grid(g, f) {
+  if (f && g._$k.length == 0) return;
+  for (var r = 1; r <= g._rowCount; r++) {
+    var k = row$Key(g, r), i = Array.indexOf(g._$k, k);
+    g._setItemValue(r, g._$t, (i > -1));
+  }
+}
+function init$ExportKey(g){    
+  var multiName = g._$f.split(',');  
+  for (var i = 0; i < multiName.length; i++){    
+    var ki = [];
+    for (var j = 0; j < g._$k.length; j++){            
+      var s = g._$k[j];
+      s = s.replace(" ", "");
+      s = s.substring(1, s.length - 1);
+      Array.add(ki,s.split("|")[i]);      
+    }        
+    var keys = ki.join(',');               
+    var name = multiName[i], memvarIndex = $func.findMemvarIndex(name, g._filterMemvars);
+    var memvar = {Name: name, OldValue: null, NewValue: keys, Modified: true, Items: []};
+    g._filterMemvars[memvarIndex] = memvar;
+  }   
+}
+function toggle$Grid(o) {
+  var c = o.parentNode.parentNode.parentNode.id, g = $find($func.left(c, c.length - 11));
+  for (var r = 1; r <= g._rowCount; r++) {		
+    if (!g._getItem(r, g._$t).disabled){
+      var k = row$Key(g, r), i = Array.indexOf(g._$k, k);
+      if (i == -1) Array.add(g._$k, k);
+        else Array.removeAt(g._$k, i);
+      g._setItemValue(r, g._$t, (i == -1));
+    }
+  }  
+  init$ExportKey(g);
+  g._activeRow = g._rowCount;
+  g._activeColumn = g._$t;
+  g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+  g._focusWhenTabChanged();
+}
+function onChange$SelectedValue(o) { 
+  var a = o.id.split('_inputCell_'), g = o.grid;
+  if (!g) g = $find(a[0]);  
+  var r = $func.getLocationCell(o)[0];
+  var k = row$Key(g, r);
+
+  var i = Array.indexOf(g._$k, k);    
+  if (i == -1) Array.add(g._$k, k);
+    else Array.removeAt(g._$k, i); 
+  init$ExportKey(g);
+  
+  g._activeRow = a[1].split('.')[0];
+  g._activeColumn = a[1].split('.')[1];
+  g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+}
+function row$Key(g, r) {  
+  var m = g._$i.split(",");    
+  var k = "";
+  for (var i = 0; i < m.length; i ++){
+    if (g._getColumnFormat(m[i]) == "dd/MM/yyyy"){  
+      var y = g._getItemValue(r, m[i]).getFullYear().toString() 
+      var M = "00" + (g._getItemValue(r, m[i]).getMonth() + 1).toString();      
+      M = M.substring(M.length-2, M.length);    
+      var d = "00" + g._getItemValue(r, m[i]).getDate().toString();      
+      d = d.substring(d.length-2, d.length);   
+      k += "|" + y + M + d;
+    }else {
+      k += "|" + g._getItem(r, m[i]).value;
+    }
+  }  
+  k += "|";
+  return k;
+}
+]]>

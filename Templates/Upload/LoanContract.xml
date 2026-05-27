@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$LoanContractImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$LoanContractImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+		<field name="ma_ku" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+		<field name="ten_ku" column="B" allowNulls="false" maxLength="256"/>
+		<field name="ten_ku2" column="C" maxLength="256"/>
+		<field name="so_ku" column="D" maxLength="16" allowNulls="false"/>
+		<field name="loai_ku" column="E" type="Decimal" allowNulls="false"/>
+		
+		<field name="ma_nt" column="F" maxLength="16" allowNulls="false"/>
+		<field name="tien_nt" column="G" type="Decimal"/>
+		<field name="tien" column="H" type="Decimal"/>
+		<field name="ngay_ku1" column="I" type="DateTime"/>
+		<field name="ngay_ku2" column="J" type="DateTime"/>
+		<field name="ls_td" column="K" type="Decimal"/>
+		<field name="ck_tt" column="L" type="Decimal"/>
+		<field name="sl_tt" column="M" type="Decimal"/>
+		<field name="tk" column="N" maxLength="16" allowNulls="false"/>
+		<field name="ma_kh" column="O" maxLength="16" allowNulls="false"/>
+		<field name="ma_bp" column="P" maxLength="16"/>
+		<field name="ma_hd" column="Q" maxLength="16"/>
+		<field name="ma_vv" column="R" maxLength="16"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin = 0 and @type = '1' begin
+  if @@sysDatabaseName.dbo.MokaOnline$System$GetAuthorize(@@admin, @@userID, 'LoanContract', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+select @irregularChars = ]]>&IrregularValue;<![CDATA[
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+
+
+-- Check
+alter table @@table alter column ma_ku char(32)
+create index i on @@table (ma_ku)
+
+if @type = '0' delete @@table where ma_ku in (select ma_ku from dmku)
+
+select @field = 'ma_ku', @r = min(stt) from @@table where ma_ku like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+
+select @field = 'ma_nt', @r = min(stt) from @@table where ma_nt not in (select ma_nt from dmnt)]]>&Error;<![CDATA[
+select @field = 'tk', @r = min(stt) from @@table where tk not in (select tk from dmtk where loai_tk=1)]]>&Error;<![CDATA[
+select @field = 'ma_kh', @r = min(stt) from @@table where ma_kh not in (select ma_kh from dmkh)]]>&Error;<![CDATA[
+
+select @field = 'ma_bp', @r = min(stt) from @@table where ma_bp <> '' and ma_bp not in (select ma_bp from dmbp)]]>&Error;<![CDATA[
+select @field = 'ma_hd', @r = min(stt) from @@table where ma_hd <> '' and ma_hd not in (select ma_hd from dmhd)]]>&Error;<![CDATA[
+select @field = 'ma_vv', @r = min(stt) from @@table where ma_vv <> '' and ma_vv not in (select ma_vv from dmvv)]]>&Error;<![CDATA[
+
+select a.* into #k from @@table a join dmku b on a.ma_ku = b.ma_ku
+delete @@table where ma_ku in (select ma_ku from #k)
+-- 
+select @q = 'select top 1 @r = a.stt from @@table a, @@table b with (index(i)) where a.ma_ku <> b.ma_ku and a.ma_ku = rtrim(b.ma_ku)'
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+select top 1 @r = a.stt from @@table a, dmku b with (index(PK_dmku)) where a.ma_ku = rtrim(b.ma_ku)]]>&Duplicate;<![CDATA[
+select @q = 'select top 1 @r = b.stt from dmku a, @@table b with (index(i)) where a.ma_ku = rtrim(b.ma_ku) '
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+
+
+-- Insert
+select @q = 'insert into dmku(ma_ku, ten_ku, ten_ku2, ngay_ku, loai_ku,so_ku,ku_sd_pslk, ma_nt, ls_td, tien_nt, tien,ngay_ku1, ngay_ku2,ck_tt,sl_tt,tk,ma_kh,ma_bp,ma_hd,ma_vv, tinh_trang, status, datetime0, datetime2, user_id0, user_id2, '
+select @q = @q + 'ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6)'
+select @q = @q + 'select ma_ku, ten_ku, ten_ku2, ngay_ku1, loai_ku,so_ku,1, ma_nt, ls_td, tien_nt, tien,ngay_ku1, ngay_ku2,ck_tt,sl_tt,tk,ma_kh,ma_bp,ma_hd,ma_vv,1, ''1'', getdate(), getdate(), rtrim(@@userID), rtrim(@@userID), '''', '''', '''', '
+select @q = @q + ' 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0 from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update dmku set ten_ku = b.ten_ku, ten_ku2 = b.ten_ku2, ngay_ku = b.ngay_ku1, loai_ku=b.loai_ku, so_ku = b.so_ku, ma_nt = b.ma_nt, ls_td=b.ls_td, tien_nt=b.tien_nt, tien=b.tien, ngay_ku1 = b.ngay_ku1, ngay_ku2 = b.ngay_ku2, ck_tt = b.ck_tt, sl_tt = b.sl_tt, tk = b.tk, ma_kh = b.ma_kh, ma_bp = b.ma_bp, ma_hd = b.ma_hd, ma_vv = b.ma_vv, datetime2 = getdate(), user_id2 = @@userID
+  from dmku a, #k b where a.ma_ku = b.ma_ku
+end
+
+]]>
+    </text>
+  </processing>
+
+</import>

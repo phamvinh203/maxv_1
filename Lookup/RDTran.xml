@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="cttt50" code="so_ct" name="stt_rec, dien_giai" order="so_ct" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Chọn phiếu thu" e="Select Voucher"></header>
+  <fields>
+    <field name="so_ct" allowSorting="true" allowFilter="true">
+      <header v="Số phiếu thu" e="Voucher No."></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy" allowSorting="true">
+      <header v="Ngày thu" e="Date"></header>
+    </field>
+
+    <field name="dien_giai" allowSorting="true" allowFilter="true">
+      <header v ="Diễn giải" e = "Description"></header>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="t_tt_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right" allowSorting="true">
+      <header v ="Tiền thu nt" e = "FC Voucher Amount"></header>
+    </field>
+    <field name="ma_nt" allowSorting="true" allowFilter="true">
+      <header v ="Mã nt" e = "Currency Code"></header>
+    </field>
+    <field name="t_tt" type="Decimal" dataFormatString="### ### ### ### ### ###" align="right" allowSorting="true">
+      <header v ="Tiền thu" e = "Voucher Amount"></header>
+    </field>
+  </fields>
+</lookup>

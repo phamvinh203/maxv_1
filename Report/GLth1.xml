@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="110" reportFile="GLth1_110, GLth1_111" commandArgument="Pdf" urlImage="&p;">
+      <header v="Tổng hợp phát sinh" e="Account Summary"></header>
+      <download>
+        <header v="Tổng hợp phát sinh" e="Account Summary"></header>
+      </download>&b;
+    </form>
+    <form id="210" reportFile="GLth1_110, GLth1_111" commandArgument="Pdf">
+      <header v="Tổng hợp phát sinh ngoại tệ" e="Account Summary in Foreign Currency"></header>
+      <download>
+        <header v="Tổng hợp phát sinh ngoại tệ" e="Account Summary in Foreign Currency"></header>
+      </download>&f;
+    </form>
+
+    &s;
+
+    <form id="510" templateFile="GLth1_110" commandArgument="Excel" urlImage="&e;" rowFilter="[2$sysprint = 1]">
+      <header v="Tổng hợp phát sinh" e="Account Summary "></header>
+      <download>
+        <header v="Tổng hợp phát sinh" e="Account Summary"></header>
+      </download>
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="False" e="False"/>
+        </field>
+        <field name="cLan" type="String">
+          <header v="v" e="e"/>
+        </field>
+      </fields>
+    </form>
+    <form id="610" templateFile="GLth1_110" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+      <header v="Tổng hợp phát sinh ngoại tệ" e="Account Summary"></header>
+      <download>
+        <header v="Tổng hợp phát sinh" e="Account Summary"></header>
+      </download>
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="True" e="True"/>
+        </field>
+        <field name="cLan" type="String">
+          <header v="v" e="e"/>
+        </field>
+      </fields>
+    </form>
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO KHÁCH HÀNG" e="ACCOUNT SUMMARY BY CUSTOMER"/>
+    </field>
+    <field name="tit1" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO DỰ ÁN" e="ACCOUNT SUMMARY BY JOBS"/>
+    </field>
+    <field name="tit2" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO KHOẢN MỤC PHÍ" e="ACCOUNT SUMMARY BY EXPENSE"/>
+    </field>
+    <field name="tit3" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO PHÒNG BAN" e="ACCOUNT SUMMARY BY DEPARTMENT"/>
+    </field>
+    <field name="tit4" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO HỢP ĐỒNG" e="ACCOUNT SUMMARY BY CONTRACT"/>
+    </field>
+    <field name="tit5" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO KHẾ ƯỚC" e="ACCOUNT SUMMARY BY LOAN"/>
+    </field>
+    <field name="tit6" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO LỆNH SẢN XUẤT" e="ACCOUNT SUMMARY BY MO"/>
+    </field>
+	
+	<field name="tit7" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO SẢN PHẨM" e="ACCOUNT SUMMARY BY PRODUCT"/>
+    </field>
+
+	<field name="tit8" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO TÀI KHOẢN" e="ACCOUNT SUMMARY BY ACCOUNT"/>
+    </field>
+	<field name="tit9" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO TÀI KHOẢN ĐỐI ỨNG" e="ACCOUNT SUMMARY BY REFERENCE ACCOUNT"/>
+    </field>
+	<field name="tit10" type="String">
+      <header v="TỔNG HỢP PHÁT SINH THEO ĐƠN VỊ" e="ACCOUNT SUMMARY BY UNIT"/>
+    </field>
+	
+	<field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+	
+    <field name="h_tk_du" type="String">
+      <header v="Tk đối ứng" e="Reference Account"/>
+    </field>
+    <field name="h_ten_tk_du" type="String">
+      <header v="Tên tài khoản đối ứng" e="Reference Account Name"/>
+    </field>
+    <field name="h_tk" type="String">
+      <header v="Tài khoản" e="Account"/>
+    </field>
+    <field name="h_ten_tk" type="String">
+      <header v="Tên tài khoản" e="Account Name"/>
+    </field>
+    <field name="h_kh" type="String">
+      <header v="Khách hàng" e="Customer"/>
+    </field>
+    <field name="h_ten_kh" type="String">
+      <header v="Tên khách hàng" e="Customer Name"/>
+    </field>
+    <field name="h_vv" type="String">
+      <header v="Vụ việc" e="Job"/>
+    </field>
+    <field name="h_ten_vv" type="String">
+      <header v="Tên vụ việc" e="Job Name"/>
+    </field>
+	
+	<field name="h_phi" type="String">
+      <header v="Phí" e="Expense"/>
+    </field>
+    <field name="h_ten_phi" type="String">
+      <header v="Tên Phí" e="Expense Name"/>
+    </field>
+	
+	<field name="h_hd" type="String">
+      <header v="Hợp đồng" e="Expense"/>
+    </field>
+    <field name="h_ten_hd" type="String">
+      <header v="Tên hợp đồng" e="Expense Name"/>
+    </field>
+	
+	<field name="h_ku" type="String">
+      <header v="Khế ước" e="Loan"/>
+    </field>
+    <field name="h_ten_ku" type="String">
+      <header v="Tên khế ước" e="Loan Name"/>
+    </field>
+	
+	<field name="h_lsx" type="String">
+      <header v="Lệnh sản xuất" e="MO"/>
+    </field>
+    <field name="h_ten_lsx" type="String">
+      <header v="Tên lệnh sản xuất" e="MO Name"/>
+    </field>
+	
+	
+	
+    <field name="h_sp" type="String">
+      <header v="Sản phẩm" e="Product"/>
+    </field>
+    <field name="h_ten_sp" type="String">
+      <header v="Tên sản phẩm" e="Product Name"/>
+    </field>
+    <field name="h_bp" type="String">
+      <header v="Bộ phận" e="Department"/>
+    </field>
+    <field name="h_ten_bp" type="String">
+      <header v="Tên bộ phận" e="Department Name"/>
+    </field>
+    <field name="h_dvcs" type="String">
+      <header v="Đơn vị" e="Unit"/>
+    </field>
+    <field name="h_ten_dvcs" type="String">
+      <header v="Tên đơn vị" e="Unit Name"/>
+    </field>
+
+    <field name="h_ps_co" type="String">
+      <header v="Có" e="Credit"/>
+    </field>
+    <field name="h_ps_no" type="String">
+      <header v="Nợ" e="Debit"/>
+    </field>
+	<field name="h_so_ps" type="String">
+      <header v="Số phát sinh" e="Arising"/>
+    </field>
+	<field name="h_so_ps_nt" type="String">
+      <header v="Số phát sinh nt" e="FC Arising"/>
+    </field>
+
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_nt" type="String">
+      <header v="nt" e="FC"/>
+    </field>
+    <field name="h_tien" type="String">
+      <header v="" e="Amount"/>
+    </field>
+  </fields>
+</report>

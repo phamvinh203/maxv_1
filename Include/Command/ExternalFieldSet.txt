@@ -1,0 +1,5 @@
+﻿<![CDATA[
+if @voucherBook = '' select @currentNumber = '', @minNumber = '', @maxNumber = ''
+  else select @currentNumber = rtrim(ltrim(so_ct0)), @minNumber = rtrim(ltrim(so_ct1)), @maxNumber = rtrim(ltrim(so_ct2)) from v20dmnk where ma_nk = @voucherBook
+if @@action = 'New' select @defaultExchangeRate = ty_gia from (select top 1 ty_gia from dmtgnt where ma_nt = @defaultCurrency and ngay_ct <= getdate() order by ngay_ct desc) a  
+]]>

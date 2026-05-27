@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="110" reportFile="GLtc5_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Báo cáo lưu chuyển tiền tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Year under the Indirect Method"></header>
+      <download>
+        <header  v="Báo cáo lưu chuyển tiền tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Year under the Indirect Method"/>
+      </download>&b;
+    </form>
+    <form id="120" reportFile="GLtc5_120" templateFile="" commandArgument="Pdf">
+      <header v="Báo cáo lưu chuyển tiền tệ giữa niên độ - Phương pháp gián tiếp" e="Cash Flow Statement - Mid-Year under the Indirect Method"/>
+      <download>
+        <header  v="Báo cáo lưu chuyển tiền tệ giữa niên độ - Phương pháp gián tiếp" e="Cash Flow Statement - Year under the Indirect Method"/>
+      </download>&b;
+    </form>
+
+    <form id="210" reportFile="GLtc5_110" templateFile="" commandArgument="Pdf">
+      <header v="Báo cáo lưu chuyển tiền tệ ngoại tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Year in Foreign Currency under the Indirect Method"/>
+      <download>
+        <header  v="Báo cáo lưu chuyển tiền tệ ngoại tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Year in Foreign Currency under the Indirect Method"/>
+      </download>&f;
+    </form>
+    <form id="220" reportFile="GLtc5_120" templateFile="" commandArgument="Pdf">
+      <header v="Báo cáo lưu chuyển tiền tệ giữa niên độ ngoại tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Mid-Year in Foreign Currency under the Indirect Method"/>
+      <download>
+        <header  v="Báo cáo lưu chuyển tiền tệ giữa niên độ ngoại tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Mid-Year in Foreign Currency under the Indirect Method"/>
+      </download>&f;
+    </form>
+
+    &s;
+
+    <form id="510" reportFile="" templateFile="GLtc5_110" commandArgument="Excel" urlImage="&e;" rowFilter="[2$in_ck = 1]">
+      <header v="Báo cáo lưu chuyển tiền tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Year under the Indirect Method"></header>
+      <download>
+        <header v="Báo cáo lưu chuyển tiền tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Year under the Indirect Method"></header>
+      </download>
+    </form>
+    <form id="520" reportFile="" templateFile="GLtc5_120" commandArgument="Excel" rowFilter="[2$in_ck = 1]">
+      <header v="Báo cáo lưu chuyển tiền tệ giữa niên độ - Phương pháp gián tiếp" e="Cash Flow Statement - Mid-Year under the Indirect Method"/>
+      <download>
+        <header v="Báo cáo lưu chuyển tiền tệ giữa niên độ - Phương pháp gián tiếp" e="Cash Flow Statement - Mid-Year under the Indirect Method"/>
+      </download>
+    </form>
+	
+    <form id="610" reportFile="" templateFile="GLtc5_210" commandArgument="Excel" rowFilter="[2$in_ck = 1]">
+      <header  v="Báo cáo lưu chuyển tiền tệ ngoại tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Year in Foreign Currency under the Indirect Method"/>
+      <download>
+        <header  v="Báo cáo lưu chuyển tiền tệ ngoại tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Year in Foreign Currency under the Indirect Method"/>
+      </download>
+    </form>
+    <form id="620" reportFile="" templateFile="GLtc5_220" commandArgument="Excel" rowFilter="[2$in_ck = 1]">
+      <header v="Báo cáo lưu chuyển tiền tệ giữa niên độ ngoại tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Mid-Year in Foreign Currency under the Indirect Method"/>
+      <download>
+        <header v="Báo cáo lưu chuyển tiền tệ giữa niên độ ngoại tệ - Phương pháp gián tiếp" e="Cash Flow Statement - Mid-Year in Foreign Currency under the Indirect Method"/>
+      </download>
+    </form>
+  </forms>
+
+  <fields>
+    <field name="Title" type="String">
+      <header v="BÁO CÁO LƯU CHUYỂN TIỀN TỆ" e ="CASH FLOW STATEMENT"/>
+    </field>
+    <field name="Title2" type="String">
+      <header v="(Theo phương pháp gián tiếp)" e ="(Indirect Method)"/>
+    </field>
+    <field name="h_chi_tieu" type="String">
+      <header v="Chỉ tiêu" e="Article"/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="Đơn vị tính:" e="Currency:"/>
+    </field>
+    <field name="h_ky_nay" type="String">
+      <header v="Năm nay" e="Current"/>
+    </field>
+    <field name="h_ky_nay_nt" type="String">
+      <header v="Năm nay ngoại tệ" e="FC Current"/>
+    </field>
+    <field name="h_ky_nay_nt0" type="String">
+      <header v="Kỳ này ngoại tệ" e="FC Current"/>
+    </field>
+    <field name="h_ky_nay0" type="String">
+      <header v="Kỳ này" e="Current"/>
+    </field>
+    <field name="h_ky_truoc" type="String">
+      <header v="Năm trước" e="Previous"/>
+    </field>
+    <field name="h_ky_truoc_nt" type="String">
+      <header v="Năm trước ngoại tệ" e="FC Previous"/>
+    </field>
+    <field name="h_ky_truoc_nt0" type="String">
+      <header v="Kỳ trước ngoại tệ" e="FC Previous"/>
+    </field>
+    <field name="h_ky_truoc0" type="String">
+      <header v="Kỳ trước" e="Previous"/>
+    </field>
+    <field name="h_lk" type="String">
+      <header v="Lũy kế đầu năm đến cuối kỳ" e="Accumulated from Beginning of Year"/>
+    </field>
+    <field name="h_lk2" type="String">
+      <header v="Lũy kế đầu năm đến cuối quý này" e="Accumulated from Beginning of Year"/>
+    </field>
+    <field name="h_ma_so" type="String">
+      <header v="Mã số" e="Code"/>
+    </field>
+    <field name="h_nam_nay" type="String">
+      <header v="Năm nay" e="Current Year"/>
+    </field>
+    <field name="h_nam_truoc" type="String">
+      <header v="Năm trước" e="Previous Year"/>
+    </field>
+    <field name="h_thuyet_minh" type="String">
+      <header v="Thuyết minh" e="Interpretation"/>
+    </field>
+    <field name="r_ngay_lap" type="String">
+      <header v="Lập, ngày ........ tháng ....... năm ............." e="Date Created ......../........./....................."/>
+    </field>
+    <field name="t_dvt" type="String">
+      <header v="N'Đơn vị tính:'" e="N'Currency Unit:'"/>
+    </field>
+    <field name="t_dvt2" type="String">
+      <header v="Đơn vị tính:" e="Currency Unit:"/>
+    </field>
+    <field name="h_line1" type="String">
+      <header v="Mẫu số B03 – DN" e="Form B03 - DN" />
+    </field>
+    <field name="h_line2" type="String">
+      <header v="(Ban hành theo QĐ số" e="(According to Decision"/>
+    </field>
+    <field name="h_line3" type="String">
+      <header v="15/2006/QĐ-BTC ngày 20/03/2006" e="No. 15/2006/QĐ-BT Dated 20/03/2006" />
+    </field>
+    <field name="h_line4" type="String">
+      <header v="của Bộ trưởng BTC)" e="of the Ministry of Finance" />
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from" />
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to" />
+    </field>
+    <field name="h_nam" type="String">
+      <header v="Năm" e="Year" />
+    </field>
+    <field name="h_nam1" type="String">
+      <header v="năm" e="Year" />
+    </field>
+    <field name="h_quy" type="String">
+      <header v="Quý " e="Quarter" />
+    </field>
+    <field name="h_space" type="String">
+      <header v=" " e=" "/>
+    </field>
+  </fields>
+</report>

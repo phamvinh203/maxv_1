@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmphi" code="ma_phi" name="ten_phi%l" order="ma_phi" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục phí" e="Expense List"></header>
+
+  <fields>
+    <field name="ma_phi" allowSorting="true" allowFilter="true">
+      <header v="Mã phí" e="Expense"></header>
+    </field>
+
+    <field name="ten_phi%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên phí" e = "Description"></header>
+    </field>
+  </fields>
+
+</lookup>

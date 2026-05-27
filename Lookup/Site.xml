@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmkho" code="ma_kho" name="ten_kho%l" order="ma_kho" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục kho hàng" e="Site List"></header>
+
+  <fields>
+    <field name="ma_kho" allowSorting="true" allowFilter="true" >
+      <header v="Mã kho" e="Site"></header>
+    </field>
+
+    <field name="ten_kho%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên kho" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

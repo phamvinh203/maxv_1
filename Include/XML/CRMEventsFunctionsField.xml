@@ -1,0 +1,15 @@
+﻿<field name="stt_rec" hidden="true" inactivate="true" readOnly="true" disabled="true">
+  <header v="" e=""></header>
+</field>
+<field name="type" hidden="true" inactivate="true" readOnly="true" disabled="true">
+  <header v="" e=""></header>
+</field>
+<field name="user_ref" hidden="true" readOnly="true" inactivate="true" disabled="true">
+  <header v="" e=""></header>
+</field>
+<field name="ten_loai%l" external="true" hidden="true" defaultValue="''" readOnly="true" inactivate="true" disabled="true">
+  <header v="" e=""></header>
+</field>
+<field name="ten_tt%l" external="true" defaultValue="''" hidden="true" readOnly="true" inactivate="true" disabled="true">
+  <header v="" e=""></header>
+</field>

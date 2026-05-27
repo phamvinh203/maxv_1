@@ -1,0 +1,109 @@
+﻿<script>
+    <text>
+      <![CDATA[
+function load$]]>&GridID;<![CDATA[(g) {
+	g.add_onRender(on$]]>&GridID;<![CDATA[$Render);
+	g.add_onResponseComplete(on$]]>&GridID;<![CDATA[$ResponseComplete);
+  g.add_commandEvent(on$]]>&GridID;<![CDATA[$ExecuteCommand);  
+	init$]]>&GridID;<![CDATA[(g);
+}
+function scatter$]]>&GridID;<![CDATA[(g) {
+  set$]]>&GridID;<![CDATA[$ViewIcon(g);  
+}
+function dispose$]]>&GridID;<![CDATA[(g) {  
+  try {g.remove_commandEvent(on$]]>&GridID;<![CDATA[$ExecuteCommand);} catch (ex) {}
+	try {g.remove_onResponseComplete(on$]]>&GridID;<![CDATA[$ResponseComplete);} catch (ex) {}
+	try {g.remove_onRender(on$]]>&GridID;<![CDATA[$Render);} catch (ex) {}
+}
+function on$]]>&GridID;<![CDATA[$Render(sender, eventArgs) {
+  var g = eventArgs.grid, viewPage = g._viewPage;
+  if (g._viewPageMode) viewPage.setDetailGridHeader(g);
+	else init$]]>&GridID;<![CDATA[$GeneralSearch(g);
+}
+function init$]]>&GridID;<![CDATA[(g) {
+  set$]]>&GridID;<![CDATA[$DefaultFilterValue(g);
+}
+function on$]]>&GridID;<![CDATA[$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'ConvertLead':
+      show$]]>&GridID;<![CDATA[$ConvertForm(g);
+			break;
+    case 'ViewHeader':
+      if (!g._activeCell) break;
+      var r = (g._activeCell ? g._activeRow : 1);
+      var recordID = g._getItemValue(r, g._getColumnOrder('stt_rec_dm'));
+      show$]]>&GridID;<![CDATA[$ViewHeader(recordID, g);
+      break;
+    case 'ImportData':
+      show$Form(g, 'crLeadImport');
+      break;
+    case 'Download':
+      request$Download(g, action);
+      break;
+    default:
+      break;
+  }
+}
+function on$]]>&GridID;<![CDATA[$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object;
+  switch (context) {
+    case 'Download':
+      g._key = result[0].Value;
+      break;
+    default:
+      break;
+  }
+}
+function set$]]>&GridID;<![CDATA[$ViewIcon(g) {
+  if (g._rowCount == 0) return;
+  for (var i = 1; i <= g._rowCount; i++) {
+    var p = $get(String.format('{0}_gridCell_{1}.0', g.get_id(), i.toString()));
+    if ((p) && (p.childNodes[0])) set$]]>&GridID;<![CDATA[$ViewItem(g, p.childNodes[0]);
+  }
+}
+function set$]]>&GridID;<![CDATA[$ViewItem(g, c) {
+	c.grid = g;
+	Sys.UI.DomElement.addCssClass(c, 'ViewPage'); 	
+  c.setAttribute('onclick', 'onclick$]]>&GridID;<![CDATA[$ViewHeader(this);');
+}
+function onclick$]]>&GridID;<![CDATA[$ViewHeader(o) {
+  var g = o.grid, r = o.parentNode.id.split('_gridCell_')[1].split('.')[0];
+  if (g._rowCount == 0) return;
+  var recordID = g._getItemValue(r, g._getColumnOrder('stt_rec_dm'));
+  show$]]>&GridID;<![CDATA[$ViewHeader(recordID, g);
+}
+function show$]]>&GridID;<![CDATA[$ViewHeader(recordID, g) {
+  var formID = g._controller + '_ViewHeader', form = $get(formID);
+  if (!form) {
+    var input = document.createElement('input');
+    input.id = input.name = 'query';
+    input.type = 'hidden';
+
+    form = document.createElement('form');
+    form.id = form.name = formID; form.method = 'post';
+    form.enctype = 'multipart/form-data'; form.target = '_blank';
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+  }
+  var query = {RecordID: recordID, Controller: g._controller, PageURL: ']]>&ViewPageURL;<![CDATA[', Time:new Date().getTime().toString()};
+  $get('query', form).value = Sys.Serialization.JavaScriptSerializer.serialize(query);
+  form.action = $func.resolveClientUrl('~/AppHandler/ViewHeader.ashx', g._baseUrl);
+  form.submit();
+}
+function show$]]>&GridID;<![CDATA[$ConvertForm(g) {
+  if (!g._activeCell) return;
+  var converted = g._getItemValue(g._activeRow, g._getColumnOrder('converted'));
+  if (converted == 1) {
+    $message.show(g._language == 'v' ? 'Tiềm năng này đã được chuyển đổi' : 'This lead was converted'); 
+    return;
+  }
+  else g.showForm('crLeadConvert');
+}
+function show$Form(g, c) {(g._authorize == 1) ? g.showForm(c) : $message.show($df.getResources(g._language, "Message.NotAccess"));}
+]]>
+			&GeneralSearchScript;
+      &DowloadScript;
+    </text>
+</script>

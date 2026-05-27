@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="v20dmtcthue" code="ma_tc" name="ten_tc%l" order="ma_tc" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Danh mục tính chất thuế" e="Tax Property List"></header>
+  <fields>
+    <field name="ma_tc" allowSorting="true" allowFilter="true" >
+      <header v="Mã tính chất" e="Tax Type"></header>
+    </field>
+
+    <field name="ten_tc%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên tính chất" e = "Description"></header>
+    </field>
+  </fields>
+
+</lookup>

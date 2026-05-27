@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$TSTranImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$TSTranImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_dvcs" column="A" allowNulls="false" maxLength="8" upperCase="true"/>
+    <field name="ngay_ct" column="B" allowNulls="false" type="DateTime"/>
+    <field name="so_ct" column="C" allowNulls="false" maxLength="12" upperCase="true"/>
+    <field name="so_the_ts" column="D" allowNulls="false" maxLength="8" upperCase="true"/>
+    <field name="ten_ts" column="E" allowNulls="false" maxLength="128"/>
+    <field name="ten_ts2" column="F" maxLength="128"/>
+    <field name="loai_ts" column="G" allowNulls="false" maxLength="8" upperCase="true"/>
+    <field name="ma_tg_ts" column="H" allowNulls="false" maxLength="8" upperCase="true"/>
+    <field name="ngay_mua" column="I" allowNulls="false" type="DateTime"/>
+    <field name="ngay_kh0" column="J" allowNulls="false" type="DateTime"/>
+    <field name="kieu_kh" column="K" type="Decimal" defaultValue="0"/>
+    <field name="so_ky_kh" column="L" type="Decimal"/>
+    <field name="ngay_kh_kt" column="M" type="DateTime"/>
+    <field name="so_luong" column="N" type="Decimal"/>
+    <field name="ma_nv" column="O" allowNulls="false" maxLength="8" upperCase="true"/>
+    <field name="nguyen_gia_nt" column="Q" type="Decimal"/>
+    <field name="gt_da_kh_nt" column="R" type="Decimal"/>
+    <field name="gt_cl_nt" column="S" type="Decimal"/>
+    <field name="gt_kh_ky_nt" column="T" type="Decimal"/>
+    <field name="ma_nt" column="U" allowNulls="false" maxLength="3" upperCase="true"/>
+    <field name="ty_gia" column="V" type="Decimal" defaultValue="1"/>
+    <field name="ma_bp" column="W" allowNulls="false" maxLength="8" upperCase="true"/>
+    <field name="tk_ts" column="X" allowNulls="false" maxLength="16" upperCase="true"/>
+    <field name="tk_kh" column="Y" allowNulls="false" maxLength="16" upperCase="true"/>
+    <field name="tk_cp" column="Z" allowNulls="false" maxLength="16" upperCase="true"/>
+    <field name="ma_phi" column="AA" maxLength="16" upperCase="true"/>
+    <field name="dien_giai" column="AB" maxLength="256"/>
+    <field name="nh_ts1" column="AC" maxLength="8" upperCase="true"/>
+    <field name="nh_ts2" column="AD" maxLength="8" upperCase="true"/>
+    <field name="nh_ts3" column="AE" maxLength="8" upperCase="true"/>
+    <field name="so_hieu_ts" column="AF" maxLength="8" upperCase="true"/>
+    <field name="ngay_dvsd" column="AG" type="DateTime"/>
+    <field name="ngay_dc" column="AH" type="DateTime"/>
+    <field name="nuoc_sx" column="AI" maxLength="32"/>
+    <field name="nam_sx" column="AJ" type="Decimal"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @q nvarchar(4000), @message nvarchar(4000), @irregular nvarchar(4000), @irregularChars varchar(128), @field varchar(32), @wsID varchar(1)
+declare @user int, @admin bit, @m int, @r int, @i int, @c1 int, @c2 int, @currentID int, @count int, @round int, @voucherID varchar(8), @id char(13), @s varchar(8000)
+
+select @i = 1, @wsID = rtrim(val) from options where rtrim(name) = 'm_ws_id'
+select @round = cast(rtrim(val) as int) from options where rtrim(name) = 'm_round_tien'
+select @m = character_maximum_length from information_schema.columns where table_name = 'dmcc' and column_name = 'so_ct'
+select @admin = @@admin, @user = @@userID, @voucherID = 'CC1', @irregularChars = ]]>&IrregularValue;<![CDATA[
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+
+update @@table set so_ct = space(@m - len(rtrim(so_ct))) + ltrim(so_ct)
+
+-- Check
+select @field = 'so_the_ts', @r = min(stt) from @@table where so_the_ts like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+
+select @field = 'ma_dvcs', @r = min(stt) from @@table where ma_dvcs not in (select ma_dvcs from dmdvcs)]]>&Error;<![CDATA[
+select @field = 'loai_ts', @r = min(stt) from @@table where loai_ts not in (select ma_loai from dmplcc)]]>&Error;<![CDATA[
+select @field = 'ma_tg_ts', @r = min(stt) from @@table where ma_tg_ts not in (select ma_tg_ts from dmtgcc where loai_tg_ts = 1)]]>&Error;<![CDATA[
+select @field = 'kieu_kh', @r = min(stt) from @@table where kieu_kh not in ('0', '1')]]>&Error;<![CDATA[
+select @field = 'so_ky_kh', @r = min(stt) from @@table where kieu_kh = 1 and so_ky_kh <> 2]]>&Error;<![CDATA[
+
+select @field = 'ma_nt', @r = min(stt) from @@table where ma_nt not in (select ma_nt from dmnt)]]>&Error;<![CDATA[
+select @field = 'ma_bp', @r = min(stt) from @@table where ma_bp not in (select ma_bp from dmbpcc)]]>&Error;<![CDATA[
+select @field = 'tk_ts', @r = min(stt) from @@table where tk_ts not in (select tk from dmtk where loai_tk = 1)]]>&Error;<![CDATA[
+select @field = 'tk_kh', @r = min(stt) from @@table where tk_kh not in (select tk from dmtk where loai_tk = 1)]]>&Error;<![CDATA[
+select @field = 'tk_cp', @r = min(stt) from @@table where tk_cp not in (select tk from dmtk where loai_tk = 1)]]>&Error;<![CDATA[
+select @field = 'ma_phi', @r = min(stt) from @@table where ma_phi <> '' and ma_phi not in (select ma_phi from dmphi)]]>&Error;<![CDATA[
+
+select @field = 'ma_nv', @r = min(stt) from @@table where ma_nv not in (select ma_nv from dmnv)]]>&Error;<![CDATA[
+select @field = 'ma_nv', @r = min(stt) from @@table group by so_the_ts, ma_nv having count(*) > 1]]>&Error;<![CDATA[
+
+select @field = 'nh_ts1', @r = min(stt) from @@table where nh_ts1 <> '' and nh_ts1 not in (select ma_nh from dmnhcc where loai_nh = 1)]]>&Error;<![CDATA[
+select @field = 'nh_ts2', @r = min(stt) from @@table where nh_ts2 <> '' and nh_ts2 not in (select ma_nh from dmnhcc where loai_nh = 2)]]>&Error;<![CDATA[
+select @field = 'nh_ts3', @r = min(stt) from @@table where nh_ts3 <> '' and nh_ts3 not in (select ma_nh from dmnhcc where loai_nh = 3)]]>&Error;<![CDATA[
+select @field = 'ma_dvcs'
+
+if @admin = 0 begin
+  if @type = '1' begin
+    if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@admin, @user, 'TSTran', 'Edit') = 0 select @type = '0'
+  end
+
+  select @r = min(a.stt) from @@table a where not exists(select 1 from dmcc b where a.so_the_ts = b.so_the_ts)
+    and a.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_new = 1)]]>&Error;<![CDATA[
+
+  if @type = '1' begin
+    select @r = min(stt) from @@table a where exists(select 1 from dmcc b where a.so_the_ts = b.so_the_ts)
+      and a.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_edit = 1)]]>&Error;<![CDATA[
+  end
+end
+
+if @type = '0' delete @@table from @@table a where exists(select 1 from dmcc b where a.so_the_ts = b.so_the_ts)
+select a.* into #k from @@table a join dmcc b on a.so_the_ts = b.so_the_ts
+delete @@table from @@table a where exists(select 1 from #k b where a.so_the_ts = b.so_the_ts)
+
+select @count = count(*) from @@table
+if @count > 0 begin
+  create table #id1(stt_rec char(13), so_the_ts varchar(32), stt int, id int identity(1, 1))
+  insert into #id1(so_the_ts, stt) select so_the_ts, min(stt) from @@table group by so_the_ts
+  
+  select @c1 = count(*) from #id1  
+  select @c2 = 1, @id = '', @s = '', @currentID = stt_rec from dmstt  
+
+  update dmstt set stt_rec = stt_rec + @count
+  update #id1 set stt_rec = @wsID + replace(str(id + rtrim(@currentID) , 9), ' ', '0') + @voucherID
+
+  create table #d1(stt_rec char(13), stt_rec0 char(3), line_nbr int, so_the_ts varchar(32), ngay_ct smalldatetime, so_ct char(12), ky int, nam int,
+    ma_nv varchar(32), ma_tg_ts varchar(32), ty_gia numeric(24, 12), 
+    nguyen_gia numeric(18, 2), nguyen_gia_nt numeric(18, 2), gt_da_kh numeric(18, 2), gt_da_kh_nt numeric(18, 2), gt_cl numeric(18, 2), gt_cl_nt numeric(18, 2), 
+    gt_kh_ky numeric(18, 2), gt_kh_ky_nt numeric(18, 2),
+    dien_giai nvarchar(256))
+
+  insert into #d1 select b.stt_rec, replace(str((a.stt - b.stt) + 1, 3), ' ', '0'), (a.stt - b.stt) + 1, a.so_the_ts, a.ngay_ct, a.so_ct, month(a.ngay_kh0), year(a.ngay_kh0), 
+      a.ma_nv, a.ma_tg_ts, a.ty_gia, 
+      round(a.nguyen_gia_nt * a.ty_gia, @round), a.nguyen_gia_nt, round(a.gt_da_kh_nt * a.ty_gia, @round), a.gt_da_kh_nt, round(a.gt_cl_nt * a.ty_gia, @round), a.gt_cl_nt, 
+      round(a.gt_kh_ky_nt * a.ty_gia, @round), a.gt_kh_ky_nt, a.dien_giai
+    from @@table a join #id1 b on a.so_the_ts = b.so_the_ts order by a.so_the_ts
+
+  create table #i1(stt_rec char(13), ngay_ct smalldatetime, so_ct char(12), ma_dvcs varchar(32), c$ varchar(8000), m$ varchar(8000), d$ varchar(8000), stt int, id int identity(1, 1))
+  insert into #i1 select a.stt_rec, b.ngay_ct, b.so_ct, b.ma_dvcs, convert(varchar(12), b.ngay_ct, 112) + b.so_ct + a.stt_rec,
+	  '#10$' + b.so_the_ts + '#20$' + b.loai_ts + '#30$' + b.ma_bp, '', a.stt from #id1 a join @@table b on a.stt = b.stt
+
+  while @c1 >= @c2 begin
+    select @id = stt_rec from #i1 where id = @c2
+    select @s = @s + '#10$' + rtrim(isnull(ma_nv, '')) from #d1 where stt_rec = @id
+    update #i1 set d$ = @s where stt_rec = @id
+    select @s = '', @c2 = @c2 + 1
+  end
+
+  -- Insert
+  insert into dmcc select distinct a.so_the_ts, b.ten_ts, b.so_hieu_ts, b.ten_ts2, b.ma_dvcs, '', b.nuoc_sx, b.nam_sx, b.nh_ts1, b.nh_ts2, b.nh_ts3, 0,
+	    b.ngay_mua, b.ngay_kh0, b.so_ky_kh, b.ngay_kh_kt, null, 0, 0, null, b.kieu_kh, 0, 0, b.ma_bp, b.ma_phi, b.tk_ts, b.tk_kh,
+	    b.tk_cp, b.ma_tg_ts, '', b.loai_ts, b.ngay_dc, '', null, '', '', '', b.so_luong, 0, '', '', b.ngay_dvsd, c.t_nguyen_gia, c.t_nguyen_gia_nt,
+	    c.t_gt_da_kh, c.t_gt_da_kh_nt, c.t_gt_cl, c.t_gt_cl_nt, c.t_gt_kh_ky, c.t_gt_kh_ky_nt, a.stt_rec, '', @voucherID, b.ngay_ct, b.ngay_ct,	    
+	    b.so_ct, '', '', b.ma_nt, b.ty_gia, 0, 0, '1', getdate(), getdate(), @user, @user, '', '', '', 0, 0, 0, null, null, null, '', '', '', '', '', '', 0, 0, 0, null, null, null
+    from #id1 a join @@table b on a.stt = b.stt
+	    join (select so_the_ts, sum(nguyen_gia) as t_nguyen_gia, sum(nguyen_gia_nt) as t_nguyen_gia_nt,
+			    sum(gt_da_kh) as t_gt_da_kh, sum(gt_da_kh_nt) as t_gt_da_kh_nt, sum(gt_cl) as t_gt_cl, sum(gt_cl_nt) as t_gt_cl_nt,
+			    sum(gt_kh_ky) as t_gt_kh_ky, sum(gt_kh_ky_nt) as t_gt_kh_ky_nt from #d1 group by so_the_ts) c
+	    on a.so_the_ts = c.so_the_ts
+
+  insert into ctdmcc select so_the_ts, ngay_ct, so_ct, ngay_ct, ma_nv, ky, nam, ma_tg_ts, nguyen_gia, nguyen_gia_nt, gt_da_kh, gt_da_kh_nt,
+	    0, 0, 0, 0, gt_cl, gt_cl_nt, gt_kh_ky, gt_kh_ky_nt, dien_giai, getdate(), getdate(), @user, @user,
+	    stt_rec, stt_rec0, @voucherID, line_nbr, '', '', '', 0, 0, 0, null, null, null, '', '', '', '', '', '', 0, 0, 0, null, null, null
+    from #d1
+
+  insert into icc select stt_rec, ngay_ct, so_ct, ma_dvcs, '1', @user, c$, m$, d$ from #i1
+end
+
+if @type = '1' begin
+  select @id = '', @s = '', @c2 = 1, @c1 = count(*) from #k 
+  
+  if @c1 > 0 begin
+    create table #id2(stt_rec char(13), so_the_ts varchar(32), stt int, id int identity(1, 1))
+    insert into #id2 select b.stt_rec, a.so_the_ts, min(stt) from #k a join dmcc b on a.so_the_ts = b.so_the_ts group by a.so_the_ts, b.stt_rec
+    
+    create table #d2(stt_rec char(13), stt_rec0 char(3), line_nbr int, so_the_ts char(32), ngay_ct smalldatetime, so_ct char(12), ky int, nam int,
+	    ma_nv varchar(32), ma_tg_ts varchar(32), ty_gia numeric(24, 12), 
+      nguyen_gia numeric(18, 2), nguyen_gia_nt numeric(18, 2), gt_da_kh numeric(18, 2), gt_da_kh_nt numeric(18, 2), gt_cl numeric(18, 2), gt_cl_nt numeric(18, 2),
+      gt_kh_ky numeric(18, 2), gt_kh_ky_nt numeric(18, 2),
+      dien_giai nvarchar(256)
+    )
+
+    insert into #d2 select b.stt_rec, replace(str((a.stt - b.stt) + 1, 3), ' ', '0'), (a.stt - b.stt) + 1, a.so_the_ts, a.ngay_ct, a.so_ct, month(a.ngay_kh0), year(a.ngay_kh0), 
+        a.ma_nv, a.ma_tg_ts, a.ty_gia, 
+        round(a.nguyen_gia_nt * a.ty_gia, @round), a.nguyen_gia_nt, round(a.gt_da_kh_nt * a.ty_gia, @round), a.gt_da_kh_nt, round(a.gt_cl_nt * a.ty_gia, @round), a.gt_cl_nt, 
+        round(a.gt_kh_ky_nt * a.ty_gia, @round), a.gt_kh_ky_nt, a.dien_giai        
+      from #k a join #id2 b on a.so_the_ts = b.so_the_ts order by a.so_the_ts
+    
+    create table #i2(stt_rec char(13), ngay_ct smalldatetime, so_ct char(12), ma_dvcs varchar(32), c$ varchar(8000), m$ varchar(8000), d$ varchar(8000), stt int, id int identity(1, 1))
+    insert into #i2 select b.stt_rec, a.ngay_ct, a.so_ct, a.ma_dvcs, convert(varchar(12), a.ngay_ct, 112) + a.so_ct + b.stt_rec,
+      '#10$' + b.so_the_ts + '#20$' + a.loai_ts + '#30$' + a.ma_bp, '', b.stt from #k a join #id2 b on a.stt = b.stt
+
+    while @c1 >= @c2 begin
+      select @id = stt_rec from #i2 where id = @c2
+      select @s = @s + '#10$' + rtrim(isnull(ma_nv, '')) from #d2 where stt_rec = @id
+      update #i2 set d$ = @s where stt_rec = @id
+      select @s = '', @c2 = @c2 + 1
+    end
+
+    -- Update
+    update dmcc set ma_dvcs = b.ma_dvcs, ngay_ct = b.ngay_ct, so_ct = b.so_ct, ten_ts = b.ten_ts, ten_ts2 = b.ten_ts2, loai_ts = b.loai_ts, ma_tg_ts = b.ma_tg_ts,
+        ngay_mua = b.ngay_mua, ngay_kh0 = b.ngay_kh0, kieu_kh = b.kieu_kh, so_ky_kh = b.so_ky_kh, ngay_kh_kt = b.ngay_kh_kt, so_luong = b.so_luong,
+        t_nguyen_gia = c.t_nguyen_gia, t_nguyen_gia_nt = c.t_nguyen_gia_nt, t_gt_da_kh = c.t_gt_da_kh, t_gt_da_kh_nt = c.t_gt_da_kh_nt, 
+	      t_gt_cl = c.t_gt_cl, t_gt_cl_nt = c.t_gt_cl_nt, t_gt_kh_ky = c.t_gt_kh_ky, t_gt_kh_ky_nt = c.t_gt_kh_ky_nt, ma_nt = b.ma_nt, ty_gia = b.ty_gia, ma_bp = b.ma_bp,
+        tk_ts = b.tk_ts, tk_kh = b.tk_kh, tk_cp = b.tk_cp, ma_phi = b.ma_phi, nh_ts1 = b.nh_ts1, nh_ts2 = b.nh_ts2, nh_ts3 = b.nh_ts3,
+        so_hieu_ts = b.so_hieu_ts, ngay_dvsd = b.ngay_dvsd, ngay_dc = b.ngay_dc, nuoc_sx = b.nuoc_sx, nam_sx = b.nam_sx
+      from dmcc a join #k b on a.so_the_ts = b.so_the_ts join #id2 d on b.stt = d.stt
+	      join (select so_the_ts, sum(nguyen_gia) as t_nguyen_gia, sum(nguyen_gia_nt) as t_nguyen_gia_nt,
+			    sum(gt_da_kh) as t_gt_da_kh, sum(gt_da_kh_nt) as t_gt_da_kh_nt, sum(gt_cl) as t_gt_cl, sum(gt_cl_nt) as t_gt_cl_nt,
+			    sum(gt_kh_ky) as t_gt_kh_ky, sum(gt_kh_ky_nt) as t_gt_kh_ky_nt from #d2 group by so_the_ts) c
+	      on a.so_the_ts = c.so_the_ts    
+
+    delete ctdmcc where stt_rec in (select distinct stt_rec from #id2)
+    insert into ctdmcc select so_the_ts, ngay_ct, so_ct, ngay_ct, ma_nv, ky, nam, ma_tg_ts, nguyen_gia, nguyen_gia_nt, gt_da_kh, gt_da_kh_nt,
+	      0, 0, 0, 0, gt_cl, gt_cl_nt, gt_kh_ky, gt_kh_ky_nt, dien_giai, getdate(), getdate(), @user, @user,
+	      stt_rec, stt_rec0, @voucherID, line_nbr, '', '', '', 0, 0, 0, null, null, null, '', '', '', '', '', '', 0, 0, 0, null, null, null
+      from #d2
+    
+    update icc set ngay_ct = b.ngay_ct, so_ct = b.so_ct, ma_dvcs = b.ma_dvcs, user_id0 = @user, c$ = b.c$, m$ = b.m$, d$ = b.d$
+      from icc a join #i2 b on a.stt_rec = b.stt_rec
+  end
+end
+]]>
+    </text>
+  </processing>
+
+</import>

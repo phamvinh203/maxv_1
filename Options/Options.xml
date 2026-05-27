@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<options xmlns="urn:schemas-maxv-com:data-options">
+  <variants>
+    <var name="upperCaseFormat" type="String" value="X" />
+    <var name="lowercaseFormat" type="String" value="x" />
+    <var name="datetimeFormat" type="String" value="dd/MM/yyyy" />
+    <var name="datetimeFormatMaster" type="String" value="dd/MM/yyyy H:mm:ss" />
+    <var name="exchangeRateInputFormat" type="String" value="### ### ### ##0.00" />
+    <var name="exchangeRateViewFormat" type="String" value="### ### ### ###.00" />
+    <var name="quantityInputFormat" type="String" value="# ### ### ##0.0000" />
+    <var name="quantityViewFormat" type="String" value="# ### ### ###.00" />
+    <var name="baseCurrencyAmountInputFormat" type="String" value="### ### ### ### ##0" />
+    <var name="baseCurrencyAmountViewFormat" type="String" value="### ### ### ### ###" />
+    <var name="baseCurrencyPriceInputFormat" type="String" value="### ### ### ##0.00" />
+    <var name="baseCurrencyPriceViewFormat" type="String" value="### ### ### ###.00" />
+    <var name="foreignCurrencyAmountInputFormat" type="String" value="# ### ### ### ##0.00" />
+    <var name="foreignCurrencyAmountViewFormat" type="String" value="# ### ### ### ###.00" />
+    <var name="foreignCurrencyPriceInputFormat" type="String" value="### ### ### ##0.00" />
+    <var name="foreignCurrencyPriceViewFormat" type="String" value="### ### ### ###.00" />
+    <var name="analysisInputFormat" type="String" value="## ### ### ### ##0.00" />
+    <var name="analysisViewFormat" type="String" value="## ### ### ### ###.00" />
+    <var name="100" type="Numeric" value="012" description="The maximum length of the voucher number field" />
+    <var name="101" type="Numeric" value="016" description="The maximum length of the account number field" />
+    <var name="102" type="Numeric" value="008" description="The maximum length of the customer identification field" />
+    <var name="103" type="Numeric" value="016" description="The maximum length of the item number field" />
+    <var name="104" type="Numeric" value="008" description="The maximum length of the site code field" />
+    <var name="105" type="Numeric" value="016" description="The maximum length of the customer group field" />
+    <var name="106" type="Numeric" value="128" description="The maximum length of the customer name field" />
+    <var name="107" type="Numeric" value="064" description="The maximum length of the address field" />
+    <var name="108" type="Numeric" value="018" description="The maximum length of the tax code field" />
+    <var name="109" type="Numeric" value="016" description="The maximum length of the MO number field" />
+  </variants>
+</options>

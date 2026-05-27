@@ -1,0 +1,42 @@
+<![CDATA[
+function init$]]>&Identity;<![CDATA[Filter$(f) {f.getItem('so_ct')._idle = true;}
+function active$]]>&Identity;<![CDATA[Filter$(f) {
+  f._looking = f.getItem('so_ct')._controlBehavior;
+  f._looking.add_loading(on$]]>&Identity;<![CDATA[Filter$Before$Loading);
+  
+  var g = f.grid, w = g.get_element().parentForm, d2 = w.getItemValue('ngay_lct'), u = w.getItemValue('ma_dvcs');
+  g._custID = w.getItemValue('ma_kh');
+  g._custName = w.getItemValue('ten_kh%l');
+  f.setItemValues('ngay_ct2, ma_kh, ma_dvcs', [d2, g._custID, u]);
+}
+function close$]]>&Identity;<![CDATA[Filter$(f) {try {f._looking.remove_loading(on$]]>&Identity;<![CDATA[Filter$Before$Loading);} catch (ex) {}}
+function on$]]>&Identity;<![CDATA[Filter$Before$Loading(sender, e) {
+  var f = sender._element.parentForm;
+  if (!f.validFields('ngay_ct1')) e.type.cancelEvent = true;
+  else {
+    var g = f.grid, w = g.get_element().parentForm;
+    var d1 = f.getItemValue('ngay_ct1'), d2 = w.getItemValue('ngay_lct'), u = w.getItemValue('ma_dvcs');    
+
+    a = [
+      {Name: 'ngay_ct1', Type: 'DateTime', Value: d1}, 
+      {Name: 'ngay_ct2', Type: 'DateTime', Value: d2},
+      {Name: 'ma_kh', Type: 'String', Value: g._custID},
+      {Name: 'ma_dvcs', Type: 'String', Value: u}
+    ];
+    sender.set_memvars(a);
+  }
+}
+function on$]]>&Identity;<![CDATA[Filter$Retrieve$QueryComplete(f, c, d, k, e) {
+  var g = f.grid;
+  g._voucher$Retrieve$ID = d;
+  g._voucher$Retrieve$Number = c;
+  g._voucher$Retrieve$Fields = k;
+  g._voucher$Retrieve$Date = $func.formatStringToDate(e);
+  set$]]>&Identity;<![CDATA[Filter$FormScript(g);
+}
+function set$]]>&Identity;<![CDATA[Filter$FormScript(g) {g._formScript = 'show$]]>&Identity;<![CDATA[Filter$QueryComplete(this)';}
+function show$]]>&Identity;<![CDATA[Filter$QueryComplete(g) {  
+  g.showForm(']]>&Identity;<![CDATA[Form');
+  g._memvars = [];
+}
+]]>

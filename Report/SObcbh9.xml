@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+
+  <forms>
+    <form id="110" reportFile="SObcbh9_110" commandArgument="pdf" urlImage="&p;">
+      <header v="Phân tích bán hàng theo thời gian" e="Sales Analysis by Time"></header>
+      <download>
+        <header  v="Phân tích bán hàng theo thời gian" e="Sales Analysis by Time"/>
+      </download>&b;
+    </form>
+
+    <form id="210" reportFile="SObcbh9_110" commandArgument="pdf">
+      <header v="Phân tích bán hàng theo thời gian ngoại tệ" e="Sales Analysis by Time in Foreign Currency"></header>
+      <download>
+        <header  v="Phân tích bán hàng theo thời gian ngoại tệ" e="Sales Analysis by Time in Foreign Currency"/>
+      </download>&f;
+    </form>
+	&s; 
+	<form id="510" templateFile ="SObcbh9_110" commandArgument="Excel" rowFilter="[2$sysprint = 1]" urlImage="&e;">
+		<header v="Phân tích bán hàng theo thời gian" e="Sales Analysis by Time"></header>
+		<download>
+			<header v="Phân tích bán hàng theo thời gian" e="Sales Analysis by Time"/>
+		</download>
+	</form>	
+	<form id="610" templateFile ="SObcbh9_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Phân tích bán hàng theo thời gian ngoại tệ" e="Sales Analysis by Time in Foreign Currency"></header>
+		<download>
+			<header v="Phân tích bán hàng theo thời gian ngoại tệ" e="Sales Analysis by Time in Foreign Currency"/>
+		</download>
+	</form>	
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="PHÂN TÍCH BÁN HÀNG THEO THỜI GIAN" e="SALES ANALYSIS BY TIME"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_ma_vt" type="String">
+      <header v="Mã hàng" e="Item Code"/>
+    </field>
+    <field name="h_ten_vt" type="String">
+      <header v="Tên mặt hàng" e="Item Name"/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="Đvt" e="UOM"/>
+    </field>
+    <field name="h_so_luong" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_doanh_thu_kn" type="String">
+      <header v="Doanh thu kỳ này" e="Current Period"/>
+    </field>
+    <field name="h_doanh_thu_kt" type="String">
+      <header v="Doanh thu kỳ trước" e="Previous Period"/>
+    </field>
+    <field name="h_lk_dau_nam" type="String">
+      <header v="Lũy kế từ đầu năm" e="Year - to - Period Accumulated"/>
+    </field>
+    <field name="h_gia_tri" type="">
+      <header v="Giá trị" e="Amount"/>
+    </field>
+    <field name="h_gia_tri_nt" type="String">
+      <header v="Giá trị nt" e="FC Amount"/>
+    </field>
+    <field name="h_kt_gs" type="String">
+      <header v="Kế toán ghi sổ" e="Book Keeper"/>
+    </field>
+  </fields>
+</report>

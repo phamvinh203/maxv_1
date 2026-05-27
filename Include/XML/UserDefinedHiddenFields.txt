@@ -1,0 +1,21 @@
+﻿<field name="ma_vv" width="0" hidden="true">
+  <header v="" e=""></header>
+</field>
+<field name="ma_bp" width="0" hidden="true">  
+  <header v="" e=""></header>
+</field>
+<field name="so_lsx" align="right" width="0" hidden="true">  
+  <header v="" e=""></header>
+</field>
+<field name="ma_sp" width="0" hidden="true">  
+  <header v="" e=""></header>
+</field>
+<field name="ma_hd" width="0" hidden="true">  
+  <header v="" e=""></header>
+</field>
+<field name="ma_phi" width="0" hidden="true"> 
+  <header v="" e=""></header>
+</field>
+<field name="ma_ku" width="0" hidden="true">  
+  <header v="" e=""></header>
+</field>

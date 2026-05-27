@@ -1,0 +1,46 @@
+﻿<![CDATA[
+function set$Voucher$Customer$EmptyInvoice(g, c, a) {
+  set$Voucher$Customer$KeyFilter(g, c);
+  var l = g._getColumnOrder(c);
+  for (var i = 0; i < g._rowCount; i++) {
+    var o = g._getItem(i + 1, l);
+    if (!o.row) o.value = '';
+      else {
+        o.row = i + 1;
+        g.setItemGridBehavior(o, [['so_hd', '', ''], [a, '', '']]);
+      }
+  }
+}
+function set$Voucher$Customer$KeyFilter(g, c) {
+  var o = g._activeCell, l = g._getColumnOrder(c);
+  if (l == g._activeColumn) {
+    if (o._controlBehavior) {
+      var fields = g._fields, field = g._fields[l - 1], r = o.row, id = g.get_id();
+      if (field.ItemKeyFilter) o._controlBehavior.set_completionKeyFilter($func.completionFilter(o, fields, field.ItemKeyFilter, r, id));
+      if (field.ItemCheckFilter) o._controlBehavior.set_completionCheckFilter($func.completionFilter(o, fields, field.ItemCheckFilter, r, id));
+    }
+  }
+}
+function set$Voucher$EmptyControlField(f, g, c, t) {
+  if (f.getItemValue('loai_ct') == t) return;
+  for (var i = 0; i < g._rowCount; i++) {
+    var o = g._getItem(i + 1, g._getColumnOrder(c));
+    if (!o.row) o.value = '';
+      else {
+        o.row = i + 1;
+        g.setItemGridBehavior(o, [[c, '', '']]);
+      }
+  }
+}
+
+Type.registerNamespace('MaxvOnline.AjaxControlLib');
+MaxvOnline.AjaxControlLib.ExchangeRate = function(element) {MaxvOnline.AjaxControlLib.ExchangeRate.initializeBase(this, [element]);}
+MaxvOnline.AjaxControlLib.ExchangeRate.prototype = {
+  onGridChangeExchangeRate: function(grid) {
+    if (!visible$Voucher$ExchangeRateColumn(this._form)) MaxvOnline.AjaxControlLib.ExchangeRate.callBaseMethod(this, 'onGridChangeExchangeRate', [grid]);
+  }
+}
+MaxvOnline.AjaxControlLib.ExchangeRate.inheritsFrom(MaxvOnline.AjaxControlLib.Currency);
+MaxvOnline.AjaxControlLib.ExchangeRate.registerClass('MaxvOnline.AjaxControlLib.ExchangeRate', MaxvOnline.AjaxControlLib.Currency);
+if (typeof(Sys) !== 'undefined') Sys.Application.notifyScriptLoaded();
+]]>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmloaivt" code="ma_loai_vt" name="ten_loai_vt%l" order="ma_loai_vt" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục loại vật tư" e="Item Type List"></header>
+
+  <fields>
+    <field name="ma_loai_vt" allowSorting="true" allowFilter="true" >
+      <header v="Mã loại" e="Type Code"></header>
+    </field>
+
+    <field name="ten_loai_vt%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên loại vật tư" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

@@ -1,0 +1,40 @@
+﻿<views>
+  <view id="Dir" height="231">
+    <item value="120, 30, 70, 100, 100, 130"/>
+    <item value="1101--1: [ten_dm].Description, [ho_dm], [ten_dm], [stt_rec_dm]"/>
+    <item value="1100001: [cong_ty].Label, [cong_ty], [user_ref]"/>
+    <item value="1100001: [chuc_vu].Label, [chuc_vu], [ho_ten_dm]"/>
+    <item value="110100: [nguon_dm].Label, [nguon_dm], [ten_nguon_dm%l]"/>
+    <item value="1101001: [ma_cd].Label, [ma_cd], [ten_cd], [stt_rec_cd]"/>
+
+    <item value="111000: [gioi_tinh].Label, [gioi_tinh], [gioi_tinh].Description"/>
+    <item value="1100: [dien_thoai].Label, [dien_thoai]"/>
+    <item value="1100: [dien_thoai_dd].Label, [dien_thoai_dd]"/>
+    <item value="1100: [fax].Label, [fax]"/>
+    <item value="1100: [email].Label, [email]"/>
+    <item value="1100: [website].Label, [website]"/>
+    <item value="110100: [ma_lvkd].Label, [ma_lvkd], [ten_lvkd%l]"/>
+    <item value="110: [qm_ns].Label, [qm_ns]"/>
+    <item value="110100: [ma_tt].Label, [ma_tt], [ten_tt%l]"/>
+
+    <item value="1100001: [dia_chi].Label, [dia_chi], [dia_chi_lh]"/>
+    <item value="110100: [tinh_thanh].Label, [tinh_thanh], [ten_tinh_thanh%l]"/>
+    <item value="110100: [quan_huyen].Label, [quan_huyen], [ten_quan_huyen%l]"/>
+    <item value="110100: [quoc_gia].Label, [quoc_gia], [ten_quoc_gia%l]"/>
+
+    <item value="11000011: [ghi_chu].Label, [ghi_chu], [deny_field], [converted]"/>
+    <item value="11100011: [status].Label, [status], [status].Description, [controller], [userRef]"/>
+
+    <categories>
+      <category index="1" columns="120, 30, 70, 100, 100, 130">
+        <header v="Thông tin chính" e="General Information"/>
+      </category>
+      <category index="2" columns="120, 30, 70, 100, 100, 130">
+        <header v="Thông tin liên hệ" e="Contact Information"/>
+      </category>
+      <category index="9" columns="120, 30, 70, 100, 100, 130">
+        <header v="Khác" e="Other"/>
+      </category>
+    </categories>
+  </view>
+</views>

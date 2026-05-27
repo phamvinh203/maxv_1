@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY LotFields SYSTEM "Include\LotFields.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$LotImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$LotImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+  <fields identity="true" name="stt">
+    <field name="ma_vt" column="A" isPrimaryKey="true" allowNulls="false" maxLength="30" upperCase="true"/>
+	<field name="ma_lo" column="B" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+	<field name="ngay_nhap" column="C" type="DateTime"/>
+	<field name="ten_lo" column="D" maxLength="128" allowNulls="false"/>
+	<field name="ten_lo2" column="E" maxLength="128"/>
+	<field name="ngay_sx" column="F" type="DateTime"/>
+	<field name="ngay_hhsd" column="G" type="DateTime"/>
+	<field name="ngay_hhbh" column="H" type="DateTime"/>
+
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin <> 1 and @type = 1 begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'Lot', 'Edit') = 0 select @type = 0
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+select @field = 'ma_lo', @irregularChars = '''`~!@#$%^&*(),;"<>?/\,_'
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có hoặc lồng nhau.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+
+select @fields = 'ma_vt, ma_lo, ngay_nhap, ten_lo, ten_lo2, ngay_sx, ngay_hhsd, ngay_hhbh'
+
+alter table @@table alter column ma_vt char(32)
+alter table @@table alter column ma_lo char(32)
+create index i on @@table (ma_vt, ma_lo)
+
+if @type = '0' delete @@table from @@table a join dmlo b on a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo
+
+select @field = 'ma_lo', @r = min(stt) from @@table where ma_lo like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+select @field = 'ma_vt', @r = min(stt) from @@table where ma_vt <> '' and ma_vt not in (select ma_vt from dmvt where lo_yn = 1)]]>&Error;<![CDATA[
+
+select a.* into #k from @@table a join dmlo b on a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo
+delete @@table from @@table a join #k b on a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo
+
+select @field = 'ma_lo'
+select @q = 'select top 1 @r = a.stt from @@table a, @@table b with (index(i)) where a.ma_vt = b.ma_vt and a.ma_lo <> b.ma_lo and a.ma_lo like rtrim(b.ma_lo)'
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+select top 1 @r = a.stt from @@table a, dmlo b with (index(PK_dmlo)) where a.ma_vt = b.ma_vt and a.ma_lo like rtrim(b.ma_lo) ]]>&Duplicate;<![CDATA[
+select @q = 'select top 1 @r = b.stt from dmlo a, @@table b with (index(i)) where a.ma_vt = b.ma_vt and a.ma_lo like rtrim(b.ma_lo) '
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+
+set @q = 'insert into dmlo(' + @fields + ', status, datetime0, datetime2, user_id0, user_id2, sl_nhap, sl_xuat, ghi_chu, '
+set @q = @q + 'ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6)'
+set @q = @q + 'select ' + @fields + ', ''1'', getdate(), getdate(), rtrim(@@userID), rtrim(@@userID), 0, 0, '''', '
+set @q = @q + ''''', '''', '''', 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0 from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update dmlo set ten_lo = b.ten_lo, ten_lo2 = b.ten_lo2, ngay_nhap = b.ngay_nhap, ngay_sx = b.ngay_sx, ngay_hhsd = b.ngay_hhsd, 
+      ngay_hhbh = b.ngay_hhbh, datetime2 = getdate(), user_id2 = @@userID
+    from dmlo a, #k b where a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo
+end
+]]>
+    </text>
+  </processing>
+</import>

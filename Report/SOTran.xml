@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY d SYSTEM ".\Include\Download\SVTran.xml">
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+if dbo.MaxvOnline$Function$CheckSQLInjection(@stt_rec) = 0 return
+declare @m_ma_nt0 varchar(10), @key varchar(128)
+select @m_ma_nt0 = val from options where name = N'm_ma_nt0'
+select a.ma_kh, case when upper(@@language) = 'V' then b.ten_kh else b.ten_kh2 end as ten_kh, b.dia_chi, c.han_tt
+  , case when upper(@@language) = 'V' then c.ten_tt else c.ten_tt2 end as ten_tt
+  , case when upper(@@language) = 'V' then e.ten_nvbh else e.ten_nvbh2 end as ten_nvbh
+	, a.so_ct, a.ma_nt, a.t_tien2, a.t_tien_nt2, a.t_ck, a.t_ck_nt, a.t_thue, a.t_thue_nt, a.t_tt, a.t_tt_nt, a.dien_giai, (a.t_tien2 - a.t_ck) as t_tien_ck, (a.t_tien_nt2 - a.t_ck_nt) as t_tien_ck_nt
+  , dbo.MaxvOnline$Function$System$ReadCurrency(@m_ma_nt0, a.t_tien2, @@language) as t_tt_in_word
+  ,	dbo.MaxvOnline$Function$System$ReadCurrency(a.ma_nt, a.t_tien_nt2, @@language) as t_tt_nt_in_word
+  , replace(str(day(a.ngay_ct),2),' ','0') day, replace(str(month(a.ngay_ct),2),' ','0') month, cast(year(a.ngay_ct) as char(4)) year
+  , a.dia_diem_giao, a.t_so_luong
+from @@prime$partition$current a with(nolock)
+  left join dmkh b with(nolock) on a.ma_kh = b.ma_kh 
+  left join dmtt c with(nolock) on a.ma_tt = c.ma_tt
+  left join dmnvbh e with(nolock) on a.ma_nvbh = e.ma_nvbh
+where a.stt_rec = @stt_rec
+
+select @key = 'a.stt_rec = ''' + @stt_rec + ''''
+exec pr_PrintSOTran @@language, @key, 'd64$$partition$current', @@id
+select cast(null as image) as logo, 'Logo.png' as file_name
+		]]>
+    </text>
+  </query>
+
+  <forms>
+    <form id="110" reportFile="SOTran_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Đơn hàng bán" e="Sales Order"></header>
+      <download>
+        <header v="Đơn hàng" e="Sales Order"/>
+      </download>&b;
+    </form>
+    <form id="210" reportFile="SOTran_110" templateFile="" commandArgument="Pdf">
+      <header v="Đơn hàng ngoại tệ" e="Sales Order in Foreign Currency"></header>
+      <download>
+        <header v="Đơn hàng ngoại tệ" e="Sales Order in Foreign Currency"/>
+      </download>&f;
+    </form>
+
+    &s;
+
+    <form id="510" reportFile="" templateFile="SOTran_110" commandArgument="Excel" urlImage="&e;">
+      <header v="Đơn hàng (Excel)" e="Sales Order (Excel)"></header>
+      <download>
+        <header v="Đơn hàng" e="Sales Order"/>
+      </download>
+    </form>
+    <form id="610" reportFile="" templateFile="SOTran_210" commandArgument="Excel">
+      <header v="Đơn hàng ngoại tệ (Excel)" e="Sales Order in Foreign Currency (Excel)"></header>
+      <download>
+        <header v="Đơn hàng ngoại tệ" e="Sales Order in Foreign Currency"/>
+      </download>
+    </form>
+
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="ĐƠN HÀNG BÁN" e="SALES ORDER"/>
+    </field>
+    <field name="h_day" type="String">
+      <header v="Ngày đơn hàng" e="Date"/>
+    </field>
+    <field name="h_month" type="String">
+      <header v="tháng" e="Month"/>
+    </field>
+    <field name="h_year" type="String">
+      <header v="năm" e="Year"/>
+    </field>
+    <field name="h_so_ct" type="String">
+      <header v="Số đơn hàng:" e="Order No.:"/>
+    </field>
+
+    <field name="h_slogan" type="String">
+      <header v="" e=""/>
+    </field>
+    <field name="h_company" type="String">
+      <header v="Kính gửi:" e="Customer:"/>
+    </field>
+    <field name="h_address" type="String">
+      <header v="Địa chỉ" e="Address"/>
+    </field>
+    <field name="h_kh" type="String">
+      <header v="Khách hàng" e="Customer"/>
+    </field>
+    <field name="h_noi_giao" type="String">
+      <header v="Nơi giao" e="Ship - to"/>
+    </field>
+
+    <field name="h_vt" type="String">
+      <header v="Tên hàng hoá, vật tư" e="Item"/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="Đvt" e="UOM"/>
+    </field>
+    <field name="h_sl" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_gia" type="String">
+      <header v="Giá" e="Price"/>
+    </field>
+    <field name="h_tien" type="String">
+      <header v="Tiền" e="Amount"/>
+    </field>
+    <field name="h_ck" type="String">
+      <header v="Chiết khấu" e="Discount"/>
+    </field>
+
+    <field name="h_ma_hang" type="String">
+      <header v="Mã hàng" e="Item Code"/>
+    </field>
+    <field name="h_ten_hang" type="String">
+      <header v="Tên mặt hàng" e="Item Name"/>
+    </field>
+    <field name="h_nvbh" type="String">
+      <header v="Nhân viên bán hàng" e="Sales Employee"/>
+    </field>
+    <field name="h_pt_van_chuyen" type="String">
+      <header v="Phương thức vận chuyển" e="Shipping Method"/>
+    </field>
+    <field name="h_ngay_giao" type="String">
+      <header v="Ngày giao" e="Delivery Date"/>
+    </field>
+    <field name="h_han_tt" type="String">
+      <header v="Hạn thanh toán" e="Payment Term"/>
+    </field>
+    <field name="h_ngay_tt" type="String">
+      <header v="Ngày" e="Date"/>
+    </field>
+
+    <field name="h_total_tien_hang" type="String">
+      <header v="Tiền hàng" e="Total Amount"/>
+    </field>
+    <field name="h_total_ck" type="String">
+      <header v="Chiết khấu" e="Total Discount"/>
+    </field>
+    <field name="h_total_truoc_thue" type="String">
+      <header v="Tổng cộng trước thuế" e="Subtotal"/>
+    </field>
+    <field name="h_thue_gtgt" type="String">
+      <header v="Thuế GTGT" e="Sales Tax"/>
+    </field>
+    <field name="h_total" type="String">
+      <header v="Tổng thanh toán" e="Total"/>
+    </field>
+    <field name="h_bang_chu" type="String">
+      <header v="Bằng chữ:" e="In words:"/>
+    </field>
+
+    <field name="h_noi_dung" type="String">
+      <header v="Chúng tôi cung cấp hàng hóa, vật tư theo nội dung sau:" e="Company provide item:"/>
+    </field>	
+    <field name="h_stt" type="String">
+      <header v="STT" e="No."/>
+    </field>
+    <field name="h_giao_hang" type="String">
+      <header v="01. Thời gian giao hàng: " e="Date:"/>
+    </field>
+    <field name="h_dia_diem_gh" type="String">
+      <header v="02. Địa điểm giao hàng: " e="Address"/>
+    </field>
+    <field name="h_regard" type="String">
+      <header v="Xin trân trọng cảm ơn sự hợp tác! " e="Best regards!"/>
+    </field>
+  </fields>
+</report>

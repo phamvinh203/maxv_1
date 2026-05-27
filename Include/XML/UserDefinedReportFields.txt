@@ -1,0 +1,28 @@
+﻿<field name="ma_lo" categoryIndex="9">
+  <items style="AutoComplete" controller="Lot" reference="ten_lo%l" key="status = '1'" check="1 = 1" information="ma_lo$vdmlo.ten_lo%l"/>
+  <header v="Lô" e="Expense"></header>
+</field>
+<field name="ten_lo%l" readOnly="true" categoryIndex="9">
+  <header v="" e=""></header>
+</field>
+<field name="ma_td1"  categoryIndex="9">
+  <header v="Mã tự do 1" e="Free Code"></header>
+  <items style="AutoComplete" controller="Free1" reference="ten_td1%l" key="status = '1'" check="1 = 1" information="ma_td$dmtd1.ten_td%l"/>
+ </field>
+<field name="ten_td1%l" readOnly="true"  categoryIndex="9">
+  <header v="" e=""></header>
+</field> 
+<field name="ma_td2"  categoryIndex="9">
+  <header v="Mã tự do2" e="Free Code"></header>
+  <items style="AutoComplete" controller="Free2" reference="ten_td2%l" key="status = '1'" check="1 = 1" information="ma_td$dmtd2.ten_td%l" new="Default"/>
+ </field>
+<field name="ten_td2%l" readOnly="true"  categoryIndex="9">
+  <header v="" e=""></header>
+</field> 
+<field name="ma_td3"  categoryIndex="9">
+  <header v="Mã tự do3" e="Free Code"></header>
+  <items style="AutoComplete" controller="Free3" reference="ten_td3%l" key="status = '1'" check="1 = 1" information="ma_td$dmtd3.ten_td%l" new="Default"/>
+ </field>
+<field name="ten_td3%l" readOnly="true" categoryIndex="9">
+  <header v="" e=""></header>
+</field>  

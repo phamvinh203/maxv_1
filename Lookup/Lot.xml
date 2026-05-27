@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vdmlo" code="ma_lo" name="ten_lo%l" order="ma_lo"  xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục lô" e="Lot Maintenance"></header>
+
+  <fields>
+    <field name="ma_lo" allowSorting="true" allowFilter="true">
+      <header v="Mã lô" e="Lot"></header>
+    </field>
+    <field name="ten_lo%l" allowSorting="true" allowFilter="true">
+      <header v="Tên lô" e="Description"></header>
+    </field>
+  </fields>
+
+</lookup>

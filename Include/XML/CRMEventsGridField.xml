@@ -1,0 +1,21 @@
+﻿<field name="id" width="0" isPrimaryKey="true" hidden="true">
+  <header v="" e=""></header>
+</field>
+<field name="ten_loai%l" width="100" allowSorting="true" allowFilter="true">
+  <header v="Loại" e="Type"></header>
+</field>
+<field name="text" width="300" allowSorting="true" allowFilter="true">
+  <header v="Tiêu đề" e="Subject"></header>
+</field>
+<field name="start_date" width="120" type="DateTime" dataFormatString="dd/MM/yyyy HH:mm" allowSorting="true" allowFilter="true">
+  <header v="Ngày bắt đầu" e="Start Date"></header>
+</field>
+<field name="end_date" width="120" type="DateTime" dataFormatString="dd/MM/yyyy HH:mm" allowSorting="true" allowFilter="true">
+  <header v="Ngày kết thúc" e="Due Date"></header>
+</field>
+<field name="ten_tt%l" width="150" allowSorting="true" allowFilter="true">
+  <header v="Trạng thái" e="Status"></header>
+</field>
+<field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+  <header v="" e=""></header>
+</field>

@@ -1,0 +1,20 @@
+﻿<fields>
+  <field name="stt_rec_lh" width="0" isPrimaryKey="true" hidden="true">
+    <header v="" e=""></header>
+  </field>
+  <field name="ho_ten_nlh" width="150">
+    <header v="Họ và tên" e="Contact Name"></header>
+  </field>
+  <field name="dia_chi" width="300">
+    <header v="Địa chỉ" e="Address"></header>
+  </field>
+  <field name="dien_thoai" width="150">
+    <header v="Điện thoại công ty" e="Office Phone"></header>
+  </field>
+  <field name="dien_thoai_dd" width="150">
+    <header v="Điện thoại di động" e="Mobile Phone"></header>
+  </field>
+  <field name="email" width="150">
+    <header v="Thư (Email)" e="Email"></header>
+  </field>
+</fields>

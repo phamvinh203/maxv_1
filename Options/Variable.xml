@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<variable xmlns="urn:schemas-maxv-com:variable">
+  <var id="emptyRow">
+    <header v="Giá trị tại dòng &lt;span class=&quot;Highlight&quot;&gt;&#37;s&lt;/span&gt; không đúng." e="Invalid value in row &lt;span class=&quot;Highlight&quot;&gt;&#37;s&lt;/span&gt;." />
+  </var>
+  <var id="invalidValue">
+    <header v="Giá trị tại ô &lt;span class=&quot;Highlight&quot;&gt;&#37;s&lt;/span&gt; không đúng." e="Invalid value in cell &lt;span class=&quot;Highlight&quot;&gt;&#37;s&lt;/span&gt;." />
+  </var>
+  <var id="duplicateValue">
+    <header v="Giá trị trùng nhau tại dòng &lt;span class=&quot;Highlight&quot;&gt;&#37;s1&lt;/span&gt; và &lt;span class=&quot;Highlight&quot;&gt;&#37;s2&lt;/span&gt;." e="Duplicate value in row &lt;span class=&quot;Highlight&quot;&gt;&#37;s1&lt;/span&gt; and row &lt;span class=&quot;Highlight&quot;&gt;&#37;s2&lt;/span&gt;."/>
+  </var>
+  <var id="unexpectedError">
+    <header v="Có lỗi chưa xác định." e="There was an unexpected error." />
+  </var>
+</variable>

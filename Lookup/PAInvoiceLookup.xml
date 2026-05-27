@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="m83$000000" code="so_ct" name="stt_rec" order="ngay_ct, so_ct, stt_rec" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Chọn hóa đơn" e="Select Invoice"></header>
+  <fields>
+    <field name="so_ct" align="right">
+      <header v="Số hóa đơn" e="Invoice No."></header>
+    </field>
+    <field name="stt_rec" width="100">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy">
+      <header v="Ngày" e="Date"></header>
+    </field>
+    <field name="t_tt_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" width="120">
+      <header v="Tiền hàng" e="Amount"></header>
+    </field>
+    <field name="ma_nt" width="100">
+      <header v="Mã nt" e="Currency Code"></header>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @unit varchar(128), @custID nvarchar(64), @vcID varchar(33), @c varchar(33), @m varchar(33), @i varchar(33)
+select @custID = '%#10$' + rtrim(@ma_kh) + '#%', @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end
+select @vcID = case when @type = '1' then 'HM1' when @type = '2' then 'HMA' else 'HMB' end
+select @i = case when @type = '1' then 'i71$' when @type = '2' then 'i72$' else 'i78$' end
+select @m = replace(@i, 'i', 'm'), @c = replace(@i, 'i', 'c') + '000000'
+
+exec MaxvOnline$App$Voucher$Finding @vcID, @c, @m, @i, 'ngay_ct', 'convert(char(6), {0}, 112)', 'dateadd(month, 1, {0})', '000000', 
+  @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+  @custID, '', 'stt_rec',
+  'so_ct,stt_rec,ngay_ct,t_tt_nt,ma_nt',
+  'so_ct,stt_rec,ngay_ct,t_tt_nt,ma_nt',
+  '',
+  'ngay_ct, so_ct', 1, @@userID, 1, 
+  @ngay_ct1, @ngay_ct2, '', '', '1, 2', '0', @unit]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

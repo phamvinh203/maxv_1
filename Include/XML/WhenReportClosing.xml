@@ -1,0 +1,8 @@
+﻿<command event="Closing">
+  <text>
+    <![CDATA[
+select 'dispose$GridReport$(this);' as message
+return
+]]>
+  </text>
+</command>

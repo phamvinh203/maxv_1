@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="110" reportFile="Codabc6_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Tổng hợp chi phí sản xuất dự án" e="Project Costing Summary"/>
+      <download>
+        <header v="Tổng hợp chi phí sản xuất dự án" e="Project Costing Summary"/>
+      </download>&b;
+    </form>
+    <form id="210" reportFile="Codabc6_110" templateFile="" commandArgument="Pdf">
+      <header v="Tổng hợp chi phí sản xuất dự án ngoại tệ" e="Project Costing Summary in Foreign Currency"/>
+      <download>
+        <header v="Tổng hợp chi phí sản xuất dự án ngoại tệ" e="Project Costing Summary in Foreign Currency"/>
+      </download>&f;
+    </form>
+
+    &s;
+
+    <form id="510" reportFile="" templateFile="Codabc6_110" commandArgument="Excel" urlImage="&e;">
+      <header v="Tổng hợp chi phí sản xuất dự án" e="Project Costing Summary"></header>
+      <download>
+        <header v="Tổng hợp chi phí sản xuất dự án" e="Project Costing Summary"/>
+      </download>
+    </form>
+    <form id="610" reportFile="" templateFile="Codabc6_210" commandArgument="Excel">
+      <header v="Tổng hợp chi phí sản xuất dự án ngoại tệ" e="Project Costing Summary in Foreign Currency"></header>
+      <download>
+        <header v="Tổng hợp chi phí sản xuất dự án ngoại tệ" e="Project Costing Summary in Foreign Currency"/>
+      </download>
+    </form>
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="TỔNG HỢP CHI PHÍ SẢN XUẤT DỰ ÁN" e="PROJECT COSTING SUMMARY"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_ma_vv" type="String">
+      <header v="Dự án" e="Project"/>
+    </field>
+    <field name="h_ten_vv" type="String">
+      <header v="Tên dự án" e="Project Name"/>
+    </field>
+  </fields>
+</report>

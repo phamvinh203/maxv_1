@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<query xmlns="urn:schemas-maxv-com:data-query">
+  <commands>
+    <command action="Report">
+      <text>
+        <![CDATA[
+declare @unit varchar(33)
+set @unit = @@unit
+select ma_so_thue as companyTaxCode, so_dt as phoneNumber, tk_nh as bankInfoInvoice,
+    case when @@language = 'V' then ten_gd else ten_gd2 end as directorName,
+    case when @@language = 'V' then ten_ktt else ten_ktt2 end as chiefAccountantName, 
+    case when @@language = 'V' then ten_thu_quy else ten_thu_quy2 end as cashierName,
+	case when @@language = 'V' then ten_thu_kho else ten_thu_kho2 end as storeKeeperName
+  from dmdvcskb
+  where ma_dvcs = @unit and status = '1'
+]]>
+      </text>
+    </command>
+
+  </commands>
+</query>

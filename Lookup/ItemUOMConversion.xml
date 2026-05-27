@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vdmvtdvt" code="ma_vt" name="ten_vt%l" order="ma_vt" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục hàng hóa, vật tư" e="Item List"></header>
+
+  <fields>
+    <field name="ma_vt" allowSorting="true" allowFilter="true">
+      <header v="Mã hàng" e="Item Code"></header>
+    </field>
+
+    <field name="ten_vt%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên mặt hàng" e = "Item Name"></header>
+    </field>
+  </fields>
+</lookup>

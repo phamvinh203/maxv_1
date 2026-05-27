@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="m71$000000" code="so_ct" name="stt_rec" order="ngay_ct, so_ct, stt_rec" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Chọn hóa đơn" e="Select Invoice"></header>
+  <fields>
+    <field name="so_ct" align="right">
+      <header v="Số hóa đơn" e="Invoice No."></header>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy">
+      <header v="Ngày" e="Date"></header>
+    </field>
+    <field name="t_tt_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right">
+      <header v="Tiền hàng" e="FC Amount"></header>
+    </field>
+    <field name="ma_nt">
+      <header v="Mã nt" e="Currency Code"></header>
+    </field>
+    <field name="status">
+      <header v="Trạng thái" e="Status"></header>
+    </field>
+    <field name="statusname%l" width="100">
+      <header v="Tên trạng thái" e="Status Name"></header>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @unit varchar(128), @custID varchar(64)
+select @custID = '#10$' + rtrim(@ma_kh) + '#%', @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end
+
+exec MaxvOnline$App$Voucher$Finding 'HM1', 'c71$000000', 'm71$', 'i71$', 'ngay_ct', 'convert(char(6), {0}, 112)', 'dateadd(month, 1, {0})', '000000', 
+  @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem, 
+  @custID, '', 'stt_rec', 
+  'so_ct,stt_rec,ngay_ct,t_tt_nt,ma_nt,status', 
+  'so_ct,stt_rec,ngay_ct,t_tt_nt,ma_nt,b.status,b.statusname%l', 
+  'a left join dmttct b on a.status = b.status where b.ma_ct = ''HM1''', 
+  'ngay_ct, so_ct', 1, @@userID, 1, 
+  @ngay_ct1, @ngay_ct2, '', '', '1, 2', '0', @unit]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

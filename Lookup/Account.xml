@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmtk" code="tk" name="ten_tk%l" order="tk" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục tài khoản" e="Chart of Accounts"></header>
+
+  <fields>
+    <field name="tk" allowSorting="true" allowFilter="true" >
+      <header v="Tài khoản" e="Account"></header>
+    </field>
+
+    <field name="ten_tk%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên tài khoản" e = "Description"></header>
+    </field>
+  </fields>
+
+</lookup>

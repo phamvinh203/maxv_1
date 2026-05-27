@@ -1,0 +1,27 @@
+﻿    <field name="ma_ct" width="0" hidden="true" aliasName="a">
+      <header v="Mã chứng từ" e="Voucher code"></header>
+    </field>
+   <field name="status" width="0" aliasName="a" hidden="true" >
+      <header v="" e="Unit"></header>
+    </field>
+    <field name="user_id0" width="0" aliasName="a" hidden="true" >
+      <header v="" e="User"></header>
+    </field>
+    <field name="user_id2" width="0" aliasName="a" hidden="true" >
+      <header v="" e="User"></header>
+    </field>
+    <field name="datetime0" type="DateTime" dataFormatString="dd/MM/yyyy hh:mm" width="0" aliasName="a" hidden="true">
+      <header v="Ngày lập" e="Date"></header>
+    </field>
+    <field name="datetime2" type="DateTime" dataFormatString="dd/MM/yyyy hh:mm" width="120" aliasName="a" hidden="true">
+      <header v="Ngày sửa" e="Date"></header>
+    </field>
+    <field name="statusname" width="130" external="true" aliasName="x" allowFilter="true" >
+      <header v="Trạng thái" e="Unit"></header>
+    </field>
+    <field name="comment" width="130" external="true" aliasName="y">
+      <header v="Người lập" e="Unit"></header>
+    </field>
+    <field name="comment2" width="100" external="true" aliasName="z"  hidden="true">
+      <header v="Người sửa" e="Unit"></header>
+    </field>

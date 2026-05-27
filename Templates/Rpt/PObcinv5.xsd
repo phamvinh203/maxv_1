@@ -1,0 +1,44 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="en-GB">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="d1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="tk" type="xs:string" minOccurs="0" />
+							<xs:element name="ngay_bc" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="so_ngay" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="d2">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ma_kh" type="xs:string" minOccurs="0" />
+							<xs:element name="ten_kh" type="xs:string" minOccurs="0" />
+							<xs:element name="ten_kh2" type="xs:string" minOccurs="0" />
+							<xs:element name="stt" type="xs:decimal" minOccurs="0" />
+							<xs:element name="ma_ct0" type="xs:string" minOccurs="0" />
+							<xs:element name="so_ct" type="xs:string" minOccurs="0" />
+							<xs:element name="ten_dg" type="xs:string" minOccurs="0" />
+							<xs:element name="ten_dg2" type="xs:string" minOccurs="0" />
+							<xs:element name="ngay_ct0" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="ngay_dh" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="so_ngay_dh" type="xs:decimal" minOccurs="0" />
+							<xs:element name="t_tt0" type="xs:decimal" minOccurs="0" />
+							<xs:element name="t_tt_nt0" type="xs:decimal" minOccurs="0" />
+							<xs:element name="da_tt" type="xs:decimal" minOccurs="0" />
+							<xs:element name="da_tt_nt" type="xs:decimal" minOccurs="0" />
+							<xs:element name="cl" type="xs:decimal" minOccurs="0" />
+							<xs:element name="cl_nt" type="xs:decimal" minOccurs="0" />
+							<xs:element name="sysorder" type="xs:decimal" minOccurs="0" />
+							<xs:element name="sysprint" type="xs:decimal" minOccurs="0" />
+							<xs:element name="systotal" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

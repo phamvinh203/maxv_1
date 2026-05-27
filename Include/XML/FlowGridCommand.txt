@@ -1,0 +1,12 @@
+<command event="Loading">
+  <text>
+	<![CDATA[select 'this._voucherCode='@@id';load$]]>&Identity;<![CDATA[Grid$(this);' as message
+return]]>
+  </text>
+</command>
+<command event="Scattering">
+  <text>
+	<![CDATA[select 'scatter$]]>&Identity;<![CDATA[Grid$(this);' as message
+return]]>
+  </text>
+</command>

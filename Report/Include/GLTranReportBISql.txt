@@ -1,0 +1,5 @@
+﻿if @@form in ('810', '820', '821', '822', '830', '840') begin
+	declare @formTypeGL tinyint
+	if @@form in ('821', '822') set @formTypeGL = 1 else set @formTypeGL = 0
+	exec rs_GLTranReportBI @stt_rec, @@id, 'r00$$partition$current', @@language, @formTypeGL
+end

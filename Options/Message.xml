@@ -1,0 +1,673 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE message [
+  <!ENTITY CssClass "&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;.ts{font-family:Verdana;font-size:8.5pt;color:#444444;border-collapse:collapse;text-align:center;}.r1{width:50px;text-align:left;}.r2{width:100px;text-align:left;}.r3{width:100px;text-align:right;}.r4{width:300px;text-align:left;}.r5{width:100px;background-color:#f3f3f3;text-align:right;}.r6{width:50px;background-color:#f3f3f3;text-align:left;}.r7{width:300px;background-color:#f3f3f3;text-align:left;}.r8{width:100px;background-color:#f3f3f3;text-align:left;}.r9{width:645px;text-align:left;}.h{height:20px;}&lt;/style&gt;&lt;/head&gt;">
+  <!ENTITY HeaderColor "background-color:#FFFFF;">
+]>
+
+<message xmlns="urn:schemas-maxv-com:data-message">
+  <mail>
+    <setting>
+      <isSend value="true"/>     
+      <aliasName value="Accounting Online"/>
+      <userName value=""/>
+      <password value="123"/>
+      <host value="smtp.gmail.com"/>
+      <port value="587"/>
+      <isBodyHTML value="true"/>
+      <enableSSL value="true"/>
+      <clientTimeout value="15000"/>
+    </setting>
+
+    <template>
+      <action id="PurchaseRequisition" table="m91$000000" v="Phiếu nhu cầu vật tư chờ duyệt" e="Purchase requisition waiting for approval">
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số phiếu" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Memo"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_vat_tu">
+            <header v="Mã hàng" e="Item"/>
+          </field>
+          <field name="h_ten_vt">
+            <header v="Tên mặt hàng" e="Item Description"/>
+          </field>
+          <field name="h_dvt">
+            <header v="Đvt" e="UOM"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt phiếu nhu cầu vật tư" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy phiếu nhu cầu vật tư" e="Cancel"/>
+          </field>
+          <field name="so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_gia">
+            <header v="Đơn giá" e="Price"/>
+          </field>
+          <field name="h_tien">
+            <header v="Thành tiền" e="Amount"/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tổng tiền" e="Total Amount"/>
+          </field>
+          <field name="h_in_words">
+            <header v="Bằng chữ" e="In Words"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Phiếu yêu cầu này đã được duyệt, hủy hoặc thay đổi thông tin." e="This purchase requisition has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+select ltrim(so_ct) as so_ct, ma_nt, convert(varchar(12), b.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), b.datetime2, 121) as datetime2, dien_giai, dien_thoai, e_mail, d_language,
+    upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy
+  from @@sysDatabaseName..userinfo2 a, @@table b, dmxn c
+  where a.id in (select user_id3 from @@table where stt_rec = @@stt_rec) and b.stt_rec = @@stt_rec and b.stt_rec = c.stt_rec
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+select a.ma_vt, case @@language when 'v' then b.ten_vt else b.ten_vt2 end as ten_vt, a.dvt,
+    cast(so_luong as varchar) as so_luong, cast(gia_nt as varchar) as gia, cast(tien_nt as varchar) as tien
+  from @@table a left join dmvt b on a.ma_vt = b.ma_vt where stt_rec = @@stt_rec order by a.stt_rec0
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+select cast(t_tien_nt as varchar) as t_tt_nt from @@table where stt_rec = @@stt_rec
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @userID numeric(5, 0)
+select @userID = user_id3 from @@table where stt_rec = @@stt_rec
+delete @@sysDatabaseName..dbxn where code in (select ma_nhan from dmxn where stt_rec = @@stt_rec)
+delete @@sysDatabaseName..dbxn where code in (select ma_huy from dmxn where stt_rec = @@stt_rec)
+exec rs_PostPRAuthorizeDetails 1, @userID, 2, @@stt_rec, '', 0, ''
+exec rs_PostPRAuthorizeHeaders @userID, '1', @@stt_rec
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @userID numeric(5, 0)
+select @userID = user_id3 from @@table where stt_rec = @@stt_rec
+delete @@sysDatabaseName..dbxn where code in (select ma_nhan from dmxn where stt_rec = @@stt_rec)
+delete @@sysDatabaseName..dbxn where code in (select ma_huy from dmxn where stt_rec = @@stt_rec)
+exec rs_PostPRAuthorizeHeaders @userID, '2', @@stt_rec
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_vat_tu}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_vt}</td><td style="width:50px;]]>&HeaderColor;<![CDATA[">{!h_dvt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!so_luong}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_gia}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_vt}</td><td class="{!s1}">{!ten_vt}</td><td class="{!s2}">{!dvt}</td><td class="{!s3}">{!so_luong}</td><td class="{!s3}">{!gia}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>    
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+      </action>
+
+      <action id="ImportPurchaseOrder" table="m95$000000" v="Đơn hàng nhập khẩu chờ duyệt" e="Import purchase order waiting for approval">
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số đơn hàng" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Memo"/>
+          </field>
+          <field name="h_nha_cc">
+            <header v="Nhà cung cấp" e="Supplier"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_vat_tu">
+            <header v="Mã hàng" e="Item"/>
+          </field>
+          <field name="h_ten_vt">
+            <header v="Tên mặt hàng" e="Item Description"/>
+          </field>
+          <field name="h_dvt">
+            <header v="Đvt" e="UOM"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt đơn hàng" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy đơn hàng" e="Cancel"/>
+          </field>
+          <field name="so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_gia">
+            <header v="Đơn giá" e="Price"/>
+          </field>
+          <field name="h_tien">
+            <header v="Thành tiền" e="Amount"/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tiền hàng" e="Amount"/>
+          </field>
+          <field name="h_t_cp">
+            <header v="Chi phí" e="Charges"/>
+          </field>
+          <field name="h_t_nk">
+            <header v="Thuế nhập khẩu" e="Import Tax"/>
+          </field>
+          <field name="h_t_ttdb">
+            <header v="Thuế tiêu thụ đb" e="Excise Tax"/>
+          </field>
+          <field name="h_t_gtgt">
+            <header v="Thuế gtgt" e="VAT Amount"/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tổng tiền" e="Total Amount"/>
+          </field>
+          <field name="h_in_words">
+            <header v="Bằng chữ" e="In Words"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Đơn hàng nhập khẩu này đã được duyệt, hủy hoặc thay đổi thông tin." e="This import purchase order has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @id int, @l varchar(8)
+select @id = user_id3 from @@table where stt_rec = @@stt_rec
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @id
+
+select ltrim(so_ct) as so_ct, ma_nt,
+convert(varchar(12), a.ngay_ct, 103) as ngay_ct,
+convert(varchar(32), a.datetime2, 121) as datetime2,
+case @l when 'v' then d.ten_kh else d.ten_kh2 end as ten_kh, dien_giai, b.dien_thoai, b.e_mail, b.d_language,
+    upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy
+  from @@table a, @@sysDatabaseName..userinfo2 b, dmxn c, dmkh d
+  where a.stt_rec = @@stt_rec and b.id = @id and a.stt_rec = c.stt_rec and a.ma_kh = d.ma_kh
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+select a.ma_vt, case @@language when 'v' then b.ten_vt else b.ten_vt2 end as ten_vt, a.dvt,
+    cast(so_luong as varchar) as so_luong, cast(gia_nt as varchar) as gia, cast(tien_nt as varchar) as tien
+  from @@table a left join dmvt b on a.ma_vt = b.ma_vt where stt_rec = @@stt_rec order by a.stt_rec0
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+select cast(t_tien_nt as varchar) as t_tien_nt, cast(t_cp_nt as varchar) as t_cp_nt, 
+    cast(t_nk_nt as varchar) as t_nk_nt, cast(t_ttdb_nt as varchar) as t_ttdb_nt,
+    cast(t_thue_nt as varchar) as t_thue_nt, cast(t_tt_nt as varchar) as t_tt_nt
+  from @@table where stt_rec = @@stt_rec
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @userID numeric(5, 0)
+select @userID = user_id3 from @@table where stt_rec = @@stt_rec
+delete @@sysDatabaseName..dbxn where code in (select ma_nhan from dmxn where stt_rec = @@stt_rec)
+delete @@sysDatabaseName..dbxn where code in (select ma_huy from dmxn where stt_rec = @@stt_rec)
+exec rs_PostPOAuthorizeHeaders @userID, 1, '2', @@stt_rec
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @userID numeric(5, 0)
+select @userID = user_id3 from @@table where stt_rec = @@stt_rec
+delete @@sysDatabaseName..dbxn where code in (select ma_nhan from dmxn where stt_rec = @@stt_rec)
+delete @@sysDatabaseName..dbxn where code in (select ma_huy from dmxn where stt_rec = @@stt_rec)
+exec rs_PostPOAuthorizeHeaders @userID, 2, '2', @@stt_rec
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_nha_cc}</td><td class="r4">{!ten_kh}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_vat_tu}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_vt}</td><td style="width:50px;]]>&HeaderColor;<![CDATA[">{!h_dvt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!so_luong}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_gia}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_vt}</td><td class="{!s1}">{!ten_vt}</td><td class="{!s2}">{!dvt}</td><td class="{!s3}">{!so_luong}</td><td class="{!s3}">{!gia}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[              
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tien_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_cp}</td><td class="r3">{!t_cp_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_nk}</td><td class="r3">{!t_nk_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_ttdb}</td><td class="r3">{!t_ttdb_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_gtgt}</td><td class="r3">{!t_thue_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tt}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>    
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+
+      <action id="DomesticPurchaseOrder" table="m94$000000" v="Đơn hàng mua trong nước" e="Domestic Purchase Order">
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số đơn hàng" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_nha_cc">
+            <header v="Nhà cung cấp" e="Supplier"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Memo"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_vat_tu">
+            <header v="Mã hàng" e="Item"/>
+          </field>
+          <field name="h_ten_vt">
+            <header v="Tên mặt hàng" e="Item Description"/>
+          </field>
+          <field name="h_dvt">
+            <header v="Đvt" e="UOM"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt đơn hàng" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy đơn hàng" e="Cancel"/>
+          </field>
+          <field name="so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_gia">
+            <header v="Đơn giá" e="Price"/>
+          </field>
+          <field name="h_tien">
+            <header v="Thành tiền" e="Amount"/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tiền hàng" e="Amount"/>
+          </field>
+          <field name="h_t_thue">
+            <header v="Thuế" e="Tax Amount"/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tổng cộng" e="Total Amount"/>
+          </field>
+          <field name="h_in_words">
+            <header v="Bằng chữ" e="In Words"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Đơn hàng trong nước này đã được duyệt, hủy hoặc thay đổi thông tin." e="This domestic purchase order has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @id int, @l varchar(8)
+select @id = user_id3 from @@table where stt_rec = @@stt_rec
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @id
+
+select ltrim(so_ct) as so_ct, ma_nt, convert(varchar(12), a.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), a.datetime2, 121) as datetime2, case @l when 'v' then d.ten_kh else d.ten_kh2 end as ten_kh,
+    dien_giai, b.dien_thoai, b.e_mail, b.d_language, upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy
+  from @@table a, @@sysDatabaseName..userinfo2 b, dmxn c, dmkh d
+  where a.stt_rec = @@stt_rec and b.id = @id and a.stt_rec = c.stt_rec and a.ma_kh = d.ma_kh
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+select a.ma_vt, case @@language when 'v' then b.ten_vt else b.ten_vt2 end as ten_vt, a.dvt,
+    cast(so_luong as varchar) as so_luong, cast(gia_nt as varchar) as gia, cast(tien_nt as varchar) as tien
+  from @@table a left join dmvt b on a.ma_vt = b.ma_vt where stt_rec = @@stt_rec order by a.stt_rec0 
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+select cast(t_tien_nt as varchar) as t_tien_nt,
+cast(t_thue_nt as varchar) as t_thue_nt,
+cast(t_tt_nt as varchar) as t_tt_nt
+from @@table where stt_rec = @@stt_rec
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @userID numeric(5, 0)
+select @userID = user_id3 from @@table where stt_rec = @@stt_rec
+delete @@sysDatabaseName..dbxn where code in (select ma_nhan from dmxn where stt_rec = @@stt_rec)
+delete @@sysDatabaseName..dbxn where code in (select ma_huy from dmxn where stt_rec = @@stt_rec)
+exec rs_PostPOAuthorizeHeaders @userID, 1, '1', @@stt_rec
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @userID numeric(5, 0)
+select @userID = user_id3 from @@table where stt_rec = @@stt_rec
+delete @@sysDatabaseName..dbxn where code in (select ma_nhan from dmxn where stt_rec = @@stt_rec)
+delete @@sysDatabaseName..dbxn where code in (select ma_huy from dmxn where stt_rec = @@stt_rec)
+exec rs_PostPOAuthorizeHeaders @userID, 2, '1', @@stt_rec
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_nha_cc}</td><td class="r4">{!ten_kh}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_vat_tu}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_vt}</td><td style="width:50px;]]>&HeaderColor;<![CDATA[">{!h_dvt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!so_luong}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_gia}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_vt}</td><td class="{!s1}">{!ten_vt}</td><td class="{!s2}">{!dvt}</td><td class="{!s3}">{!so_luong}</td><td class="{!s3}">{!gia}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[              
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tien_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_thue}</td><td class="r3">{!t_thue_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tt}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+    </template>
+  </mail>
+
+  <sms>
+    <setting>
+      <isSend value="true"/>
+      <isReceive value="true"/>
+      <allowMultiMessage value="true"/>
+      <portName value="COM13"/>
+      <baudRate value="9600"/>
+      <dataBits value="8"/>
+      <maxLength value="160"/>
+      <delayTime value="2000"/>
+      <readTimeout value="300"/>
+      <writeTimeout value="300"/>
+      <dueTime value ="500"/>
+      <intervalTime value="7"/>
+      <errorMessage value="Chung tu nay da duoc duyet, huy hoac thay doi thong tin (This voucher has been approved, canceled or changed by another user)."/>
+    </setting>
+
+    <template>
+      <action id="PurchaseRequisition" table="m91$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="PYC So: " e="PR#: "/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tien} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="ImportPurchaseOrder" table="m95$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="Don hang: " e="Order#: "/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tt} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="DomesticPurchaseOrder" table="m94$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="Don hang: " e="Order#: "/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tt} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+    </template>
+  </sms>
+
+</message>

@@ -1,0 +1,12 @@
+﻿<command event="Loading">
+  <text>
+    <![CDATA[
+declare @taxProperty varchar(3), @taxCode varchar(8), @taxRate numeric(5,2), @taxAccount varchar(16), @taxType tinyint
+select @taxProperty = rtrim(val) from options where name = 'm_ma_tc_thue'
+select @taxCode = rtrim(val) from options where name = 'm_ma_thue_1'
+select @taxRate = a.thue_suat, @taxAccount = rtrim(a.tk_thue_no3), @taxType = b.tk_cn from dmthue a left join dmtk b on a.tk_thue_no3 = b.tk where a.ma_thue = @taxCode
+select 'this._voucherCode='@@id';this._taxProperty='''+ @taxProperty +''';this._taxCode='''+ @taxCode +''';this._taxRate='+ str(@taxRate) +';this._taxAccount='''+ @taxAccount +''';this._taxType='+ str(@taxType) +';load$GridVoucherTax$(this);' as message
+return
+]]>
+  </text>
+</command>

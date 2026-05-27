@@ -1,0 +1,4 @@
+﻿<![CDATA[
+      if (result && result.length > 0) f._voucherNumberBehavior.setVoucherNumber(1, f._voucherNumber, result[0].Value, result[1].Value, result[2].Value);
+        else f._voucherNumberBehavior.setVoucherNumber(1, f._voucherNumber, null, null, null);
+]]>

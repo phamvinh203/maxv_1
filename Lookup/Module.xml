@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmphanhe" code="ma_phan_he" name="ten_phan_he%l" order="stt" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Phân hệ" e="Module"></header>
+  <fields>
+    <field name="ma_phan_he" allowSorting="true" allowFilter="true">
+      <header v="Mã phân hệ" e="Module"></header>
+    </field>
+    <field name="ten_phan_he%l" allowFilter="true">
+      <header v ="Tên phân hệ" e = "Description"></header>
+    </field>
+    <field name="stt" width="60" allowSorting="true">
+      <header v ="Thứ tự" e = "Order"></header>
+    </field>
+  </fields>
+
+</lookup>

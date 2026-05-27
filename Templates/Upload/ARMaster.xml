@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY CheckVoucherRightBeforeProcess SYSTEM "Include\CheckVoucherRightBeforeProcess.txt">
+  <!ENTITY Detail "21">
+  <!ENTITY Code "HB2">
+  <!ENTITY And "&#13;">
+  
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY LockedDate "
+if @r is not null begin
+  select replace(@locked, '&#37;s', @@delta + @r) as message
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+        <type value="Voucher"/>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$ARMasterImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$ARMasterImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    <baseTable value="m&Detail;$000000, d&Detail;$000000"/>
+    <dependence value="m&Detail;$000000, d&Detail;$000000, i&Detail;$000000, c&Detail;$000000" alias="m, d, i, g"/>
+    <listTable value="#m&Detail;, #d&Detail;, #i&Detail;, #i&Detail;"/>
+    <alias value="master, detail, inquiry, general"/>
+  </setting>
+
+  <fields identity="true" name="stt">
+     <field name="ma_dvcs" column="A" allowNulls="false" upperCase="true" maxLength="16" resource="master, inquiry, general" check="ma_dvcs not in (select ma_dvcs from dmdvcs)&And;exists(select 1 from #unit b where @@table.ngay_ct = b.ngay_ct and @@table.so_ct = b.so_ct having count(b.ma_dvcs) > 1)&And;not exists(select 1 from sysunitrights b where @@table.ma_dvcs = b.ma_dvcs and b.user_id = @user and b.r_new = 1)" condition="&And;&And;if @admin &lt;&gt; 1 begin" tag="&And;&And;end" category="1"/>
+    <field name="ma_kh" column="B" allowNulls="false" upperCase="true" maxLength="16" resource="master" check="ma_kh not in (select ma_kh from dmkh)" category="1"/>
+	
+	<field name="ong_ba" column="D" maxLength="128" resource="master"/>
+	
+    <field name="ngay_ct" column="E" allowNulls="false" type="DateTime" resource="master, detail, inquiry, general"/>
+    <field name="so_ct" column="F" allowNulls="false" upperCase="true" maxLength="12" resource="master, detail, inquiry, general"/>
+    <field name="so_seri" column="G" allowNulls="false" upperCase="true" maxLength="16" resource="master"/>
+    <field name="dien_giai" column="H" maxLength="256" resource="master"/>
+    <field name="tk" column="I" upperCase="true" maxLength="16" resource="master" check="tk not in (select tk from dmtk where loai_tk = 1)" category="1"/>
+
+    <field name="tk_dt" column="J" allowNulls="false" maxLength="16" resource="detail" reference="1" upperCase="true" category="1"/>
+    <field name="dvt" column="K" reference="1" maxLength="10" resource="detail"/>
+    <field name="so_luong" column="L" type="Decimal" resource="detail"/>
+    <field name="gia_nt" column="M" type="Decimal" resource="detail"/>
+    <field name="tien_nt2" column="N" type="Decimal" resource="detail"/>
+    <field name="ma_nt" column="O" upperCase="true" maxLength="10" resource="master" check="ma_nt not in (select ma_nt from dmnt)" category="1"/>
+    <field name="ty_gia" column="P" type="Decimal" defaultValue="1" resource="master"/>
+    <field name="ma_thue" column="Q" allowNulls="false" maxLength="16" reference="1" upperCase="true" resource="detail" check="ma_thue not in (select ma_thue from dmthue)" category="1"/>
+	
+	<field name="thue_nt" column="R" type="Decimal" resource="detail"/>
+	
+    <field name="tk_thue" column="S" reference="1" upperCase="true" maxLength="16" resource="detail" check="tk_thue not in (select tk from dmtk where loai_tk = 1)" category="1"/>
+    <field name="ma_kh2" column="T" reference="1" upperCase="true" maxLength="16" resource="detail" check="ma_kh2 = '' and exists(select 1 from dmtk b where @@table.tk_thue = b.tk and b.tk_cn = 1) &And;ma_kh2 &lt;&gt; '' and not exists(select 1 from dmkh b where @@table.ma_kh2 = b.ma_kh)" category="1"/>
+    <field name="dien_giai2" column="U" reference="1.dien_giai" maxLength="256" insertValue="dien_giai" relation="dien_giai" resource="detail"/>
+    <field name="ma_tt" column="V" upperCase="true" maxLength="16" resource="master" check="ma_tt &lt;&gt; '' and ma_tt not in (select ma_tt from dmtt)" category="1"/>
+
+    <field name="ma_vv" column="W" reference="1" upperCase="true" maxLength="16" resource="detail" check="ma_vv &lt;&gt; '' and ma_vv not in (select ma_vv from dmvv)" category="1"/>
+    <field name="ma_bp" column="X" reference="1" upperCase="true" maxLength="16" resource="detail" check="ma_bp &lt;&gt; '' and ma_bp not in (select ma_bp from dmbp)" category="1"/>
+    <field name="so_lsx" column="Y" reference="1" upperCase="true" maxLength="16" resource="detail" check="so_lsx &lt;&gt; '' and so_lsx not in (select so_lsx from phlsx)" category="1"/>
+    <field name="ma_sp" column="Z" reference="1" upperCase="true" maxLength="16" resource="detail" check="ma_sp &lt;&gt; '' and ma_sp not in (select ma_vt from vdmsp)" category="1"/>
+    <field name="ma_hd" column="AA" reference="1" upperCase="true" maxLength="16" resource="detail" check="ma_hd &lt;&gt; '' and ma_hd not in (select ma_hd from dmhd)" category="1"/>
+    <field name="ma_phi" column="AB" reference="1" upperCase="true" maxLength="16" resource="detail" check="ma_phi &lt;&gt; '' and ma_phi not in (select ma_phi from dmphi)" category="1"/>
+	<field name="ma_nk" column="AC" reference="1" maxLength="16" />
+  </fields>
+
+  <processing>
+    <text>
+	&CheckVoucherRightBeforeProcess;
+      <![CDATA[
+declare @q nvarchar(4000), @duplicate nvarchar(512), @locked nvarchar(512), @field varchar(32), @wsID varchar(8), @voucherID varchar(8)
+declare @master varchar(16), @detail varchar(16), @inquiry varchar(16), @general varchar(16), @baseCurrency varchar(8), @datetime0 char(21), @d0 datetime
+declare @user int, @admin bit, @r int, @m int, @y int, @max1 int, @max2 int, @currentID int, @count int, @roundPrice int, @roundAmount int, @roundFAmount int
+
+select @d0 = getdate(), @datetime0 = convert(char(8), @d0, 112) + ' ' + convert(char(12), @d0, 114), @status = left(replace(@status, '''', ''), 1)
+select @admin = @@admin, @user = @@userID, @master = 'm]]>&Detail;<![CDATA[$', @detail = 'd]]>&Detail;<![CDATA[$', @inquiry = 'i]]>&Detail;<![CDATA[$', @general = 'c]]>&Detail;<![CDATA[$000000', @voucherID = ']]>&Code;<![CDATA['
+
+select @locked = case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày chứng từ tại dòng <span class="Highlight">%s</span>.' else N'Data is locked, please check the date of voucher at row <span class="Highlight">%s</span>.' end
+select @duplicate = case when @@language = 'v' then N'Chứng từ số <span class="Highlight">%s1</span> ngày <span class="Highlight">%s2</span> tại dòng <span class="Highlight">%s3</span> đã tồn tại.'
+  else 'The voucher number <span class="Highlight">%s1</span> dated <span class="Highlight">%s2</span> at row <span class="Highlight">%s3</span> already exists.' end
+
+select @wsID = rtrim(val) from options where name = 'm_ws_id'
+select @baseCurrency = rtrim(val) from options where name = 'm_ma_nt0'
+select @roundPrice = cast(rtrim(val) as int) from options where name = 'm_round_gia'
+select @roundAmount = cast(rtrim(val) as int) from options where name = 'm_round_tien'
+select @roundFAmount = cast(rtrim(val) as int) from options where name = 'm_round_tien_nt'
+
+select @max1 = character_maximum_length from information_schema.columns where table_name = @master + '000000' and column_name = 'so_ct'
+select @max2 = character_maximum_length from information_schema.columns where table_name = @detail + '000000' and column_name = 'so_lsx'
+
+
+
+
+-- Checking
+update @@table set so_ct = space(@max1 - len(rtrim(ltrim(so_ct)))) + rtrim(ltrim(so_ct))
+--if @check$Unit <> '1' select @r = min(stt) from @@table a join c]]>&Detail;<![CDATA[$000000 b on a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct
+--  else select @r = min(stt) from @@table a join c]]>&Detail;<![CDATA[$000000 b on a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct and a.ma_dvcs = b.ma_dvcs
+
+--if @r is not null begin
+--  if @check$Unit <> '1' select replace(replace(replace(@duplicate, '%s1', so_ct), '%s2', convert(varchar(12), cast(ngay_ct as smalldatetime), 103)), '%s3', @@delta + @r) as --message from @@table where stt = @r
+--    else select replace(replace(replace(replace(@duplicate$Unit, '%s1', so_ct), '%s2', convert(varchar(12), cast(ngay_ct as smalldatetime), 103)), '%s3', rtrim(ma_dvcs)), '%s4', --@@delta + @r) as message from @@table where stt = @r
+--  return
+--end
+
+-- Update
+update @@table set so_lsx = space(@max2 - len(ltrim(rtrim(so_lsx)))) + ltrim(rtrim(so_lsx)),
+    ma_nt = case when a.ma_nt <> '' then a.ma_nt else @baseCurrency end,
+    tk = case when a.tk <> '' then a.tk else c.tk end,
+    tk_thue = case when a.tk_thue <> '' then a.tk_thue else d.tk_thue_co end,
+    ma_tt = case when a.ma_tt <> '' then a.ma_tt else c.ma_tt end
+  from @@table a left join dmkh c on a.ma_kh = c.ma_kh left join dmthue d on a.ma_thue = d.ma_thue
+
+select top 0 a.ma_dvcs, a.ngay_ct, a.so_ct, b.ma_kh, b.so_seri, b.tk into #unit from m]]>&Detail;<![CDATA[$000000 a, @@table b
+insert into #unit select ma_dvcs, ngay_ct, so_ct, ma_kh, so_seri, tk from @@table group by ma_dvcs, ngay_ct, so_ct, ma_kh, so_seri,tk
+
+
+-- Locked Date
+select @r = min(stt) from @@table a, dmstt b where (a.ngay_ct < b.ngay_gh1) or (a.ngay_ct > b.ngay_gh2) or (a.ngay_ct <= b.ngay_ks)]]>&LockedDate;<![CDATA[
+select @r = min(stt) from @@table a, dmctks b where b.user_id = @user and b.ma_ct = @voucherID and a.ngay_ct <= b.ngay_ks]]>&LockedDate;<![CDATA[
+select @r = min(stt) from @@table a, dmdvcsks b where a.ma_dvcs = b.ma_dvcs and a.ngay_ct <= b.ngay_ks]]>&LockedDate;<![CDATA[
+select @r = min(stt) from @@table a, dmct2ks b where b.ma_ct = @voucherID and a.ngay_ct <= b.ngay_ks]]>&LockedDate;<![CDATA[
+select @r = min(stt) from @@table a, sysdaterules b where b.user_id = @user and ((b.ngay_ct1 is not null and a.ngay_ct < b.ngay_ct1) or (b.ngay_ct2 is not null and a.ngay_ct > b.ngay_ct2))]]>&LockedDate;<![CDATA[
+
+-- Check code
+select @field = 'ma_kh', @r = min(stt) from @@table where ma_kh <>'' and ma_kh not in (select ma_kh from dmkh)]]>&Error;<![CDATA[
+select @field = 'tk', @r = min(stt) from @@table where tk <>'' and tk not in (select tk from dmtk where loai_tk=1)]]>&Error;<![CDATA[
+select @field = 'tk_dt', @r = min(stt) from @@table where tk_dt <>'' and tk_dt not in (select tk from dmtk where loai_tk=1)]]>&Error;<![CDATA[
+select @field = 'tk_thue', @r = min(stt) from @@table where tk_thue <>'' and tk_thue not in (select tk from dmtk where loai_tk=1)]]>&Error;<![CDATA[
+
+select @field = 'ma_nk', @r = min(stt) from @@table where ma_nk <> '' and ma_nk not in (select ma_nk from v20dmnk)]]>&Error;<![CDATA[
+select @field = 'ma_vv', @r = min(stt) from @@table where ma_vv <> '' and ma_vv not in (select ma_vv from dmvv)]]>&Error;<![CDATA[
+select @field = 'ma_bp', @r = min(stt) from @@table where ma_bp <> '' and ma_bp not in (select ma_bp from dmbp)]]>&Error;<![CDATA[
+select @field = 'so_lsx', @r = min(stt) from @@table where so_lsx <> '' and so_lsx not in (select so_lsx from phlsx)]]>&Error;<![CDATA[
+select @field = 'ma_sp', @r = min(stt) from @@table where ma_sp <> '' and ma_sp not in (select ma_vt from vdmsp)]]>&Error;<![CDATA[
+select @field = 'ma_hd', @r = min(stt) from @@table where ma_hd <> '' and ma_hd not in (select ma_hd from dmhd)]]>&Error;<![CDATA[
+select @field = 'ma_phi', @r = min(stt) from @@table where ma_phi <> '' and ma_phi not in (select ma_phi from dmphi)]]>&Error;<![CDATA[
+select @field = 'ma_thue', @r = min(stt) from @@table where ma_thue <> '' and ma_thue not in (select ma_thue from dmthue)]]>&Error;<![CDATA[
+
+
+-- Gather
+select top 0 stt_rec, ngay_ct, so_ct,ma_kh, so_seri,tk, cast(0 as int) as stt, identity(int, 1, 1) as id into #id from m]]>&Detail;<![CDATA[$000000
+insert into #id(stt_rec, ngay_ct, so_ct, ma_kh, so_seri, tk, stt) 
+	select '', ngay_ct, so_ct, ma_kh, so_seri, tk, min(stt) from @@table group by ngay_ct, so_ct, ma_kh, so_seri,tk order by ngay_ct, so_ct, ma_kh, so_seri,tk
+
+select identity(int, 1, 1) as id, cast(stt as int) as stt, convert(varchar(8), ngay_ct, 112) + so_ct + ma_kh + so_seri + tk as c, cast(0 as int) as ln into #ln 
+	from @@table order by ngay_ct, so_ct, ma_kh, so_seri, tk, stt
+	
+declare @lineNumber int, @keyValue varchar(64), @sequence bit
+select @keyValue = null
+update #ln set @sequence = case when c = @keyValue then 1 else 0 end, @lineNumber = case when @sequence = 1 then @lineNumber + 1 else 1 end, ln = @lineNumber, @keyValue = c from #ln with (index(0))
+create index i on #ln(stt)
+
+select @count = count(*) from #id
+select @currentID = stt_rec from dmstt
+
+update dmstt set stt_rec = stt_rec + @count
+update #id set stt_rec = @wsID + replace(str(id + rtrim(@currentID) , 9), ' ', '0') + @voucherID
+
+select top 0 stt_rec, stt_rec0, line_nbr, ngay_ct, so_ct, dvt, so_luong, gia_nt, gia, tien_nt2, tien2, ma_thue, thue_suat, tk_thue, thue_nt, thue, tk_dt
+		, ma_kh2, dien_giai, ma_vv, ma_bp, so_lsx, ma_sp, ma_hd, ma_phi
+  into #d]]>&Detail;<![CDATA[ from d]]>&Detail;<![CDATA[$000000
+
+  insert into #d]]>&Detail;<![CDATA[ select b.stt_rec, dbo.MaxvOnline$Function$Voucher$GetRecordsGroup(i.ln), i.ln, a.ngay_ct, a.so_ct,
+    a.dvt, a.so_luong, a.gia_nt, round(a.gia_nt * a.ty_gia, @roundPrice), a.tien_nt2, round(a.tien_nt2 * a.ty_gia, @roundAmount),
+    a.ma_thue, d.thue_suat, a.tk_thue, a.thue_nt, round(a.thue_nt * a.ty_gia, @roundAmount),
+    a.tk_dt, a.ma_kh2, a.dien_giai2, a.ma_vv, a.ma_bp, a.so_lsx, a.ma_sp, a.ma_hd, a.ma_phi
+  from @@table a join #id b on a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct and a.ma_kh=b.ma_kh and a.so_seri=b.so_seri and a.tk=b.tk 
+	left join dmthue d on a.ma_thue = d.ma_thue join #ln i on a.stt = i.stt
+  order by a.ngay_ct, a.so_ct, a.stt
+
+select top 0 stt_rec, status, ma_dvcs, ma_nk, ngay_ct, so_ct, so_seri, dien_giai, tk, ma_kh, ma_tt, ma_nt, ty_gia, t_tien_nt2, t_tien2, t_thue_nt, t_thue, ong_ba
+  into #m]]>&Detail;<![CDATA[ from m]]>&Detail;<![CDATA[$000000
+ 
+insert into #m]]>&Detail;<![CDATA[ select b.stt_rec, @status, a.ma_dvcs, a.ma_nk, a.ngay_ct, a.so_ct, a.so_seri, a.dien_giai, a.tk, a.ma_kh, a.ma_tt,
+	  a.ma_nt, a.ty_gia, d.t_tien_nt2, d.t_tien2, d.t_thue_nt, d.t_thue, a.ong_ba
+  from @@table a
+	  join #id b on a.stt = b.stt
+    join #unit c on a.ngay_ct = c.ngay_ct and a.so_ct = c.so_ct and a.ma_kh = c.ma_kh and a.so_seri=c.so_seri and a.tk=c.tk
+	  join (select stt_rec, sum(tien_nt2) as t_tien_nt2, sum(tien2) as t_tien2, sum(thue_nt) as t_thue_nt,
+      sum(thue) as t_thue from #d]]>&Detail;<![CDATA[ group by stt_rec) d on b.stt_rec = d.stt_rec
+
+	  
+select top 0 stt_rec, ngay_ct, so_ct, ma_dvcs, status, user_id0, c$, m$, d$, identity(int, 1, 1) as id into #i]]>&Detail;<![CDATA[ from i]]>&Detail;<![CDATA[$000000
+insert into #i]]>&Detail;<![CDATA[ select stt_rec, ngay_ct, so_ct, ma_dvcs, @status, @user, convert(varchar(12), ngay_ct, 112) + so_ct + stt_rec,
+  '#10$' + rtrim(ma_kh) + '#20$' + rtrim(ma_nt) + '#30$' + rtrim(tk), '' from #m]]>&Detail;<![CDATA[
+select @q = dbo.MaxvOnline$Function$Update$Inquiry('#i]]>&Detail;<![CDATA[', '#d]]>&Detail;<![CDATA[', 'd$', 'tk_dt, ma_thue', '#10$, #20$', 'stt_rec', default, default, default, default, default)
+exec sp_executesql @q
+
+declare @p varchar(32), @masterTable varchar(32), @detailTable varchar(32), @inquiryTable varchar(32), @insertKey varchar(128), @masterFields varchar(8000), @detailFields varchar(8000)
+
+-- check tiep
+select @masterFields = 'stt_rec, ma_dvcs, loai_ct, ma_ct, ma_nk, ngay_ct, ngay_lct, so_seri, so_ct, so_dh, so_lo, ngay_lo, ma_gd,'
+select @masterFields = @masterFields + 'ma_kh, ong_ba, dien_giai, ma_bp, ma_nvbh, tk, ma_nt, ty_gia,'
+select @masterFields = @masterFields + 't_tien_nt2, t_tien2, t_thue_nt, t_thue, tk_thue_no, ten_vtthue, ghi_chuthue, tk_ck, t_ck_nt, t_ck, ma_tt,'
+select @masterFields = @masterFields + 't_tt_nt, t_tt, nam, ky, sl_in, status, datetime0, datetime2, user_id0, user_id2,'
+select @masterFields = @masterFields + 'contract_id, bcontract_id, fee_id, job_id, prd_id, dept_id, mo_nbr,'
+select @masterFields = @masterFields + 'fcode1, fcode2, fcode3, fdate1, fdate2, fdate3, fqty1, fqty2, fqty3, fnote1, fnote2, fnote3, s1, s2, s3, s4, s5, s6, s7, s8, s9'
+
+select @detailFields = 'stt_rec, stt_rec0, ma_ct, ngay_ct, so_ct, tk_dt, dvt, so_luong, gia, gia_nt, tien_nt2, tien2,'
+select @detailFields = @detailFields + 'dien_giai, ma_thue, thue_suat, tk_thue, thue_nt, thue, tk_ck, tl_ck, ck_nt, ck, tt, tt_nt,'
+select @detailFields = @detailFields + 'ma_kh2, ma_vv, ma_sp, ma_bp, so_lsx, line_nbr, ma_hd, ma_phi, so_dh_i,'
+select @detailFields = @detailFields + 'ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, ngay_td1, ngay_td2, ngay_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6, s7, s8, s9'
+
+select distinct month(ngay_ct) as m, year(ngay_ct) as y into #k from #id
+select @r = min(y * 12 + m) from #k
+
+while @r is not null begin
+  select @m = m, @y = y from #k where y * 12 + m = @r
+  select @p = rtrim(@y) + replace(str(@m, 2), ' ', '0'), @insertKey = 'month(ngay_ct) = ' + rtrim(@m) + ' and year(ngay_ct) = ' + rtrim(@y)
+  select @masterTable = @master + @p, @detailTable = @detail + @p, @inquiryTable = @inquiry + @p
+	
+  -- m21
+  select @q = 'insert into ' + @masterTable + '(' + @masterFields + ')' + ' select stt_rec, ma_dvcs, '''', ''' + @voucherID + ''','
+  select @q = @q + 'ma_nk, ngay_ct, ngay_ct, so_seri, so_ct, '''', '''', null, '''', ma_kh, ong_ba, dien_giai, '''', '''', tk, ma_nt, ty_gia,'
+  select @q = @q + 't_tien_nt2, t_tien2, t_thue_nt, t_thue, tk, '''', '''', '''', 0, 0, '''', t_tien_nt2 + t_thue_nt, t_tien2 + t_thue,'
+  select @q = @q + '0, 0, 0, ''' + @status + ''', getdate(), getdate(), ' + rtrim(@user) + ',' + rtrim(@user) + ', '
+  select @q = @q + ''''', '''', '''', '''', '''', '''', '''', '''', '''', '''', null, null, null, 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0, null, null, null'
+  select @q = @q + ' from #m21 where month(ngay_ct) = ' + rtrim(@m) + ' and year(ngay_ct) = ' + rtrim(@y)
+  exec sp_executesql @q
+
+  -- d21
+  select @q = 'insert into ' + @detailTable + '(' + @detailFields + ')' + ' select stt_rec, stt_rec0, ''' + @voucherID + ''', ngay_ct, so_ct,'
+  select @q = @q + 'tk_dt, dvt, so_luong, gia, gia_nt, tien_nt2, tien2, dien_giai, ma_thue, thue_suat, tk_thue, thue_nt, thue, '''', 0, 0, 0, 0, 0,'
+  select @q = @q + 'ma_kh2, ma_vv, ma_sp, ma_bp, so_lsx, line_nbr, ma_hd, ma_phi, '''','
+  select @q = @q + ''''', '''', '''', 0, 0, 0, null, null, null, '''', '''', '''', '''', '''', '''', 0, 0, 0, null, null, null'
+  select @q = @q + ' from #d21 where month(ngay_ct) = ' + rtrim(@m) + ' and year(ngay_ct) = ' + rtrim(@y)
+  exec sp_executesql @q
+  --i21
+  select @q = 'insert into ' + @inquiryTable + ' select stt_rec, ngay_ct, so_ct, ma_dvcs, status, user_id0, c$, m$, d$'
+  select @q = @q + ' from #i21 where month(ngay_ct) = ' + rtrim(@m) + ' and year(ngay_ct) = ' + rtrim(@y)
+  exec sp_executesql @q
+	-- c21
+  select @q = 'insert into ' + @general + ' select stt_rec, ngay_ct, so_ct, ma_dvcs, status, user_id0'
+  select @q = @q + ' from #i21 where month(ngay_ct) = ' + rtrim(@m) + ' and year(ngay_ct) = ' + rtrim(@y)
+  exec sp_executesql @q
+  
+  select @r = min(y * 12 + m) from #k where y * 12 + m > @r
+end
+
+insert into ctgt21 (stt_rec, ngay_ct, ngay_lct, ten_kh, dia_chi, ma_so_thue)
+  select a.stt_rec, a.ngay_ct, a.ngay_ct, b.ten_kh, b.dia_chi, b.ma_so_thue from #m]]>&Detail;<![CDATA[ a join dmkh b on a.ma_kh = b.ma_kh
+  
+declare @External nvarchar(4000), @Statement nvarchar(4000), @Numeric varchar(4000), @String varchar(4000), @fieldSelect varchar(4000)
+
+if @status <> '0' begin
+  select * into #detailpost from #d]]>&Detail;<![CDATA[ where line_nbr = 1
+
+  select @External = 'ten_vt = b.dien_giai, tk_du = c.tk, tk_thue_co = b.tk_thue, t_thue_nt = b.thue_nt, t_thue = b.thue, t_tien_nt2 = b.tien_nt2, t_tien2 = b.tien2, status = ''' + @status + ''',ma_ct = ''' + @voucherID + ''', ngay_lct = b.ngay_ct, datetime0 = ''' + @datetime0 + ''', datetime2 = ''' + @datetime0 + ''', user_id0 = ' + rtrim(@user) + ', user_id2 = ' + rtrim(@user)
+  select @Statement = '', @Numeric = 'nam, ky, sl_td1, sl_td2, sl_td3, s4, s5, s6', @String = 'loai_ct, ma_kho,ghi_chu, ma_nvbh,so_dh, ma_nk, ma_mau_ct, ma_td1, ma_td2, ma_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3'
+  exec MaxvOnline$Voucher$Import$PostTax '#m]]>&Detail;<![CDATA[', '#d]]>&Detail;<![CDATA[', '#k', @Numeric, @String, @External, @Statement, '1'
+
+  select @External = 'status = ''' + @status + ''',ma_ct = ''' + @voucherID + ''', loai_ct = '''', ngay_ct0 = b.ngay_ct, dien_giai = c.dien_giai, t_tt_nt = c.t_tien_nt2 + c.t_thue_nt, t_tt = c.t_tien2 + c.t_thue, t_tien_nt2 = c.t_tien_nt2, t_tien2 = c.t_tien2, datetime0 = ''' + @datetime0 + ''', datetime2 = ''' + @datetime0 + ''', user_id0 = ' + rtrim(@user) + ', user_id2 = ' + rtrim(@user)
+  select @Statement = '', @Numeric = 'tt, tt_nt, sl_td1, sl_td2, sl_td3, s4, s5, s6', @String = 'ma_td1, ma_td2, ma_td3, gc_td1, s1, s2, s3'
+  exec MaxvOnline$Voucher$Import$PostPayment '#m]]>&Detail;<![CDATA[', '#detailpost', 'tk', @Numeric, @String, @External, @Statement, '0', '1', '0'
+  
+end
+if @status = '2' begin
+  declare @glGroup varchar(128), @glAcctField varchar(128), @glAcctFieldRef varchar(128), @glAmountField varchar(128), @glFCAmountField varchar(128), @glKey varchar(512), @glNoAccList VARCHAR(128), @glNoAccListRef VARCHAR(128), @cNoAccounts varchar(128)
+
+  select @cNoAccounts = replace(rtrim(val), '''', '''''') from options where name = 'm_tk_tk_vt'
+  select @glAcctField = 'tk', @glAcctFieldRef = 'tk_dt', @glAmountField = 'tien2', @glFCAmountField = 'tien_nt2', @glKey = '1=1', @glNoAccList = '0', @glNoAccListRef = '0'
+  select @Numeric = 'nam, ky, sl_td1, sl_td2, sl_td3, s4, s5, s6', @String = 'so_lo, ma_gd, so_dh, gc_td1, gc_td2, gc_td3, s1, s2, s3', @External = 'dien_giai_h = b.dien_giai, datetime0 = ''' + @datetime0 + ''', datetime2 = ''' + @datetime0 + ''', user_id0 = ' + rtrim(@user) + ', user_id2 = ' + rtrim(@user), @Statement = ''
+  select @glGroup = groupby from @@sysDatabaseName..voucherinfo where ma_ct = @voucherID
+
+  select stt_rec, stt_rec0, line_nbr, ngay_ct, so_ct, tien_nt2, tien2, tk_dt, cast('' as varchar(32)) as ma_kh2, ma_vv, ma_bp, so_lsx, ma_sp, ma_hd, ma_phi, dien_giai into #dGL0 from #d]]>&Detail;<![CDATA[
+  update #d]]>&Detail;<![CDATA[ set ma_kh2 = '' where tk_thue in (select tk from dmtk where tk_cn = 0)
+  insert into #dGL0 select a.stt_rec, a.stt_rec0, a.line_nbr, a.ngay_ct, a.so_ct, a.thue_nt, a.thue, a.tk_thue, a.ma_kh2, a.ma_vv, a.ma_bp, a.so_lsx, a.ma_sp, a.ma_hd, a.ma_phi, b.dien_giai as dien_giai from #d]]>&Detail;<![CDATA[ a Left  join #m]]>&Detail;<![CDATA[ b on a.stt_rec = b.stt_rec where a.thue_suat <> 0
+
+  select a.*, b.tk, b.ma_dvcs, b.ma_kh, case when a.ma_kh2 <> '' then a.ma_kh2 else b.ma_kh end as ma_kh_ref, @voucherID as ma_ct, cast('' as char(2)) as loai_ct, 
+	b.ngay_ct as ngay_lct, b.ma_nt, b.ty_gia, b.dien_giai as dien_giai_h , '' as ma_ku, '' as ma_td1, '' as ma_td2, '' as ma_td3, b.ma_nk as ma_nk, b.ong_ba as ong_ba
+	into #dGL from #dGL0 a join #m]]>&Detail;<![CDATA[ b on a.stt_rec = b.stt_rec where (not (@cNoAccounts <> '' and dbo.ff_inlist(b.tk, @cNoAccounts) = 1))
+
+  exec MaxvOnline$Voucher$Import$PostGL2 '#m]]>&Detail;<![CDATA[', '#dGL', @voucherID, @glAcctField, @glAcctFieldRef, @glAmountField, @glFCAmountField, @glKey, @glNoAccList, @glNoAccListRef, @glGroup, @Numeric, @String, @External, @Statement, '#k'
+end
+
+
+
+
+]]>
+    </text>
+  </processing>
+
+</import>

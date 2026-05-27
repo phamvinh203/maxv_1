@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$BMTranImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$BMTranImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    <baseTable value="phdm, ctdm"/>
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_sp" column="A" allowNulls="false" upperCase="true" maxLength="16"/>
+    <field name="dvt_sp" column="C"  maxLength="10"/>
+    <field name="ma_bp" column="D" upperCase="true" maxLength="16"/>
+    <field name="ma_vt" column="F" allowNulls="false"  upperCase="true" maxLength="16"/>
+    <field name="dvt" column="H" reference="1" maxLength="10"/>
+    <field name="so_luong" column="I" type="Decimal"/>
+    <field name="tl_hh" column="J" type="Decimal"/>
+    <field name="ngay_hl_tu" column="K" type="DateTime"/>
+    <field name="ngay_hl_den" column="L" type="DateTime"/>
+    <field name="tg_th" column="M" type="Decimal"/>
+    <field name="tl_pb" column="N" type="Decimal"/>
+    <field name="dien_giai" column="O"  maxLength="255"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @q nvarchar(4000), @s varchar(8000), @field varchar(32), @wsID varchar(1), @baseCurrency char(3)
+declare @user int, @admin bit, @r int, @i int, @c1 int, @c2 int, @currentID int, @count int, @voucherID varchar(8), @id char(13)
+
+select @wsID = rtrim(val) from options where rtrim(name) = 'm_ws_id'
+select @baseCurrency = upper(rtrim(val)) from options where rtrim(name) = 'm_ma_nt0'
+select @i = 1, @admin = @@admin, @user = @@userID, @voucherID = 'DM1'
+
+-- Update
+update @@table set dvt_sp = b.dvt from @@table a join dmvt b on a.ma_sp = b.ma_vt where a.dvt_sp = ''
+update @@table set dvt = b.dvt from @@table a join dmvt b on a.ma_vt = b.ma_vt where a.dvt = ''
+
+-- Check
+select @field = 'ma_sp', @r = min(stt) from @@table where ma_sp not in (select ma_vt from vdmsp)]]>&Error;<![CDATA[
+select @field = 'dvt_sp', @r = min(stt) from @@table a left join vdmvtqddvt b on a.dvt_sp = b.dvt and (a.ma_sp = b.ma_vt or b.ma_vt = '*') left join dmvt c on a.ma_sp = c.ma_vt and a.dvt_sp = c.dvt where b.dvt is null and c.dvt is null]]>&Error;<![CDATA[
+select @field = 'ma_bp', @r = min(stt) from @@table where ma_bp <> '' and ma_bp not in (select ma_bp from dmbp)]]>&Error;<![CDATA[
+
+select @field = 'ma_vt', @r = min(stt) from @@table where ma_vt not in (select ma_vt from dmvt)]]>&Error;<![CDATA[
+select @field = 'dvt', @r = min(stt) from @@table a left join vdmvtqddvt b on a.dvt = b.dvt and (a.ma_vt = b.ma_vt or b.ma_vt = '*') left join dmvt c on a.ma_vt = c.ma_vt and a.dvt = c.dvt where b.dvt is null and c.dvt is null]]>&Error;<![CDATA[
+
+if @admin <> 1 begin
+  if @type = '1' begin
+    if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@admin, @user, 'BMTran', 'Edit') = 0 select @type = '0'
+  end
+end
+
+if @type = '0' delete @@table from @@table a where exists(select 1 from phdm b where a.ma_sp = b.ma_sp)
+select a.* into #k from @@table a join phdm b on a.ma_sp = b.ma_sp
+delete @@table from @@table a where exists(select 1 from #k b where a.ma_sp = b.ma_sp)
+
+select @count = count(*) from @@table
+
+if @count > 0 begin
+  create table #id1(stt_rec char(13), ma_sp varchar(32), stt int, id int identity(1, 1))
+  insert into #id1(ma_sp, stt) select ma_sp, min(stt) from @@table group by ma_sp
+
+  select @c1 = count(*) from #id1
+  select @c2 = 1, @id = '', @s = '', @currentID = stt_rec from dmstt  
+
+  update dmstt set stt_rec = stt_rec + @count
+  update #id1 set stt_rec = @wsID + replace(str(id + rtrim(@currentID) , 9), ' ', '0') + @voucherID
+		
+  create table #d1(stt_rec char(13), stt_rec0 char(3), line_nbr int,
+		ma_vt varchar(32), dvt nvarchar(32), nhieu_dvt bit, he_so numeric(24, 12), so_luong numeric(16, 3), tl_hh numeric(24, 12), 
+		ngay_ct1 smalldatetime, ngay_ct2 smalldatetime, tg_th int, tl_pb numeric(24, 12), dien_giai nvarchar(256))
+		
+  insert into #d1 select b.stt_rec, replace(str((a.stt - b.stt) + 1, 3), ' ', '0'), (a.stt - b.stt) + 1,
+      a.ma_vt, a.dvt, c.nhieu_dvt, 1, a.so_luong, a.tl_hh,
+      a.ngay_hl_tu, a.ngay_hl_den, a.tg_th, a.tl_pb, a.dien_giai
+    from @@table a join #id1 b on a.ma_sp = b.ma_sp
+      left join dmvt c on a.ma_vt = c.ma_vt
+       order by a.ma_sp, a.stt
+
+  update #d1 set he_so = b.he_so from #d1 a join vdmvtqddvt b on (a.ma_vt = b.ma_vt or b.ma_vt = '*') and a.dvt = b.dvt where a.nhieu_dvt = 1
+  
+  create table #m1(stt_rec char(13), ma_sp char(32), dvt_sp nvarchar(32), nhieu_dvt bit, he_so numeric(24, 12), ma_bp char(32), t_so_luong numeric(16, 3))
+  insert into #m1 select b.stt_rec, a.ma_sp, a.dvt_sp, c.nhieu_dvt, 1, a.ma_bp, 0
+    from @@table a join #id1 b on a.stt = b.stt
+      join dmvt c on a.ma_sp = c.ma_vt
+
+  update #m1 set t_so_luong = b.t_so_luong from #m1 a join (select stt_rec, sum(so_luong) as t_so_luong from #d1 group by stt_rec) b on a.stt_rec = b.stt_rec
+  update #m1 set he_so = b.he_so from #m1 a join vdmvtqddvt b on (a.ma_sp = b.ma_vt or b.ma_vt = '*') and a.dvt_sp = b.dvt where a.nhieu_dvt = 1
+
+  create table #i1(stt_rec char(13), ngay_ct smalldatetime, so_ct char(12), ma_dvcs varchar(32), c$ varchar(8000), m$ varchar(8000), d$ varchar(8000), ma_sp varchar(32), stt int, id int identity(1, 1))
+  insert into #i1 select a.stt_rec, null, '', '', a.ma_sp + a.stt_rec,
+	  '#10$' + a.ma_sp + '#20$' + b.ma_bp, '', a.ma_sp, a.stt from #id1 a join @@table b on a.stt = b.stt
+
+  while @c1 >= @c2 begin
+    select @id = stt_rec from #i1 where id = @c2
+    select @s = @s + '#10$' + rtrim(isnull(ma_vt, '')) from #d1 where stt_rec = @id
+    update #i1 set d$ = @s where stt_rec = @id
+    select @s = '', @c2 = @c2 + 1
+  end
+
+  -- Insert
+  insert into phdm(stt_rec, ma_ct, loai_ct, ma_gd, ma_nt, ty_gia, t_so_luong, t_tien_nt, t_tien,
+      ma_sp, so_luong, dvt, he_so, ma_bp, loai_dm, stt_rec_sx, status, datetime0, datetime2, user_id0, user_id2,
+      fcode1, fcode2, fcode3, fdate1, fdate2, fdate3, fqty1, fqty2, fqty3, fnote1, fnote2, fnote3, s1, s2, s3, s4, s5, s6, s7, s8, s9)
+  select stt_rec, @voucherID, '', '', @baseCurrency, 1, t_so_luong, 0, 0,
+      ma_sp, 0, dvt_sp, he_so, ma_bp, 0, '', '1', getdate(), getdate(), @user, @user, '', '', '', null, null, null, 0, 0, 0, '', '', '', '', '', '', 0, 0, 0, null, null, null
+    from #m1
+ 
+  insert into ctdm(stt_rec, stt_rec0, ma_ct, ma_vt, dvt, he_so, so_luong, gia_nt, gia, tien_nt, tien, tl_hh,
+      ngay_ct1, ngay_ct2, tg_th, tl_pb, sl_dh, sl_tt, ma_tc1, ma_tc2, ma_tc3, dien_giai, line_nbr,
+      ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, ngay_td1, ngay_td2, ngay_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6, s7, s8, s9)
+  select stt_rec, stt_rec0, @voucherID, ma_vt, dvt, he_so, so_luong,
+			0, 0, 0, 0, tl_hh, ngay_ct1, ngay_ct2, tg_th, tl_pb, 0, 0, null, null, null, dien_giai, line_nbr,
+			'', '', '', 0, 0, 0, null, null, null, '', '', '', '', '', '', 0, 0, 0, null, null, null
+    from #d1
+
+  insert into idm select stt_rec, ngay_ct, so_ct, ma_dvcs, '1', @user, c$, m$, d$, ma_sp from #i1
+end
+
+if @type = '1' begin
+  select @id = '', @s = '', @c2 = 1, @c1 = count(*) from #k
+
+  if @c1 > 0 begin
+    create table #id2(stt_rec char(13), ma_sp varchar(32), stt int, id int identity(1, 1))
+    insert into #id2 select b.stt_rec, a.ma_sp, min(a.stt) from #k a join phdm b on a.ma_sp = b.ma_sp group by a.ma_sp, b.stt_rec
+    
+		create table #d2(stt_rec char(13), stt_rec0 char(3), line_nbr int,
+			ma_vt varchar(32), dvt varchar(32), nhieu_dvt bit, he_so numeric(24, 12), so_luong numeric(16, 3), tl_hh numeric(24, 12), 
+			ngay_ct1 smalldatetime, ngay_ct2 smalldatetime, tg_th int, tl_pb numeric(24, 12), dien_giai nvarchar(256))
+
+    insert into #d2 select b.stt_rec, replace(str((a.stt - b.stt) + 1, 3), ' ', '0'), (a.stt - b.stt) + 1,
+				a.ma_vt, a.dvt, c.nhieu_dvt, 1, a.so_luong, a.tl_hh,
+				a.ngay_hl_tu, a.ngay_hl_den, a.tg_th, a.tl_pb, a.dien_giai
+      from #k a join #id2 b on a.ma_sp = b.ma_sp
+        left join dmvt c on a.ma_vt = c.ma_vt
+          order by a.ma_sp, a.stt
+
+    update #d2 set he_so = b.he_so from #d2 a join vdmvtqddvt b on (a.ma_vt = b.ma_vt or b.ma_vt = '*') and a.dvt = b.dvt where a.nhieu_dvt = 1
+
+    create table #m2(stt_rec char(13), ma_sp varchar(32), dvt_sp nvarchar(32), nhieu_dvt bit, he_so numeric(24, 12), ma_bp varchar(32), t_so_luong numeric(16, 3))
+    insert into #m2 select b.stt_rec, a.ma_sp, a.dvt_sp, c.nhieu_dvt, 1, a.ma_bp, 0
+      from #k a join #id2 b on a.stt = b.stt
+        join dmvt c on a.ma_sp = b.ma_sp
+
+    update #m2 set t_so_luong = b.t_so_luong from #m2 a join (select stt_rec, sum(so_luong) as t_so_luong from #d2 group by stt_rec) b on a.stt_rec = b.stt_rec
+    update #m2 set he_so = b.he_so from #m2 a join vdmvtqddvt b on (a.ma_sp = b.ma_vt or b.ma_vt = '*') and a.dvt_sp = b.dvt where a.nhieu_dvt = 1
+
+    create table #i2(stt_rec char(13), ngay_ct smalldatetime, so_ct char(12), ma_dvcs varchar(32), c$ varchar(8000), m$ varchar(8000), d$ varchar(8000), ma_sp varchar(32), stt int, id int identity(1, 1))
+    insert into #i2 select a.stt_rec, null, '', '', a.ma_sp + a.stt_rec,
+      '#10$' + a.ma_sp + '#20$' + b.ma_bp, '', a.ma_sp, a.stt from #id2 a join #k b on a.stt = b.stt
+
+    while @c1 >= @c2 begin
+      select @id = stt_rec from #i2 where id = @c2
+      select @s = @s + '#10$' + rtrim(isnull(ma_vt, '')) from #d2 where stt_rec = @id
+      update #i2 set d$ = @s where stt_rec = @id
+      select @s = '', @c2 = @c2 + 1
+    end
+
+    -- Update
+    update phdm set ma_sp = b.ma_sp, dvt = b.dvt_sp, he_so = b.he_so, ma_bp = b.ma_bp, t_so_luong = b.t_so_luong
+      from phdm a join #m2 b on a.stt_rec = b.stt_rec
+
+    delete ctdm where stt_rec in (select distinct stt_rec from #id2)
+    insert into ctdm(stt_rec, stt_rec0, ma_ct, ma_vt, dvt, he_so, so_luong, gia_nt, gia, tien_nt, tien, tl_hh,
+        ngay_ct1, ngay_ct2, tg_th, tl_pb, sl_dh, sl_tt, ma_tc1, ma_tc2, ma_tc3, dien_giai, line_nbr,
+        ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, ngay_td1, ngay_td2, ngay_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6, s7, s8, s9)
+    select stt_rec, stt_rec0, @voucherID, ma_vt, dvt, he_so, so_luong,
+			  0, 0, 0, 0, tl_hh, ngay_ct1, ngay_ct2, tg_th, tl_pb, 0, 0, null, null, null, dien_giai, line_nbr,
+			  '', '', '', 0, 0, 0, null, null, null, '', '', '', '', '', '', 0, 0, 0, null, null, null
+      from #d2
+    
+    update idm set ngay_ct = b.ngay_ct, so_ct = b.so_ct, ma_dvcs = b.ma_dvcs, user_id0 = @user, c$ = b.c$, m$ = b.m$, d$ = b.d$
+      from idm a join #i2 b on a.stt_rec = b.stt_rec
+  end
+end
+]]>
+    </text>
+  </processing>
+
+</import>

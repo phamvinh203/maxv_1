@@ -1,0 +1,23 @@
+﻿<command event="InitExternalFields">
+  <text>
+    <![CDATA[
+declare @voucherBook varchar(32), @currentNumber varchar(32), @minNumber varchar(32), @maxNumber varchar(32), @cookie varchar(32)
+select @voucherBook = rtrim(ma_nk), @cookie = convert(varchar(19), datetime2, 121) from @@prime$partition$current where stt_rec = @stt_rec
+
+if @@action = 'New' begin
+  declare @currentDate smalldatetime
+  select @currentDate = convert(char(8), getdate(), 112)
+  if @voucherBook <> '' begin
+    if not exists (select 1 from v20dmnk where status = 1 and ma_nk = @voucherBook and so_ct0 <> so_ct2 and (ma_dvcs = @@unit or ma_dvcs = '') and (@currentDate between ngay_hl_tu and ngay_hl_den or ((ngay_hl_tu is null and @currentDate <= ngay_hl_den) or (ngay_hl_den is null and ngay_hl_tu <= @currentDate)) or (ngay_hl_tu is null and ngay_hl_den is null)) and ma_nk in (select ma_nk from v20dmctnk where ma_ct = @@id and (lstuser = '' or charindex(rtrim(@@userName) + ',', replace(lstuser, ' ', '') + ',') > 0))) begin
+      select @voucherBook = ''
+    end
+  end
+end
+
+if @voucherBook = '' select @currentNumber = '', @minNumber = '', @maxNumber = ''
+  else select @currentNumber = rtrim(ltrim(so_ct0)), @minNumber = rtrim(ltrim(so_ct1)), @maxNumber = rtrim(ltrim(so_ct2)) from v20dmnk where ma_nk = @voucherBook
+select @voucherBook as ma_nk, @currentNumber as so_ct0$, @minNumber as so_ct1$, @maxNumber as so_ct2$, @cookie as cookie
+return
+]]>
+  </text>
+</command>

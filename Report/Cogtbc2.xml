@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="510" reportFile="" templateFile="Cogtbc2_110" commandArgument="Excel" urlImage="&e;">
+      <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố" e="Cost of Product by Cost Factor Group"></header>
+      <download>
+        <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố" e="Cost of Product by Cost Factor Group"/>
+      </download>
+    </form>
+    <form id="520" reportFile="" templateFile="Cogtbc2_210" commandArgument="Excel">
+      <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố ngoại tệ" e="Cost of Product by Cost Factor Group in Foreign Currency"></header>
+      <download>
+        <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố ngoại tệ" e="Cost of Product by Cost Factor Group in Foreign Currency"/>
+      </download>
+    </form>
+	
+     <form id="610" reportFile="" templateFile="Cogtbc2_120" commandArgument="Excel" urlImage="&e;">
+      <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố" e="Cost of Product by Cost Factor Group"></header>
+      <download>
+        <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố" e="Cost of Product by Cost Factor Group"/>
+      </download>
+    </form>
+    <form id="620" reportFile="" templateFile="Cogtbc2_220" commandArgument="Excel">
+      <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố ngoại tệ" e="Cost of Product by Cost Factor Group in Foreign Currency"></header>
+      <download>
+        <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố ngoại tệ" e="Cost of Product by Cost Factor Group in Foreign Currency"/>
+      </download>
+    </form>
+	
+	<form id="710" reportFile="" templateFile="Cogtbc2_130" commandArgument="Excel" urlImage="&e;">
+      <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố" e="Cost of Product by Cost Factor Group"></header>
+      <download>
+        <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố" e="Cost of Product by Cost Factor Group"/>
+      </download>
+    </form>
+    <form id="720" reportFile="" templateFile="Cogtbc2_230" commandArgument="Excel">
+      <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố ngoại tệ" e="Cost of Product by Cost Factor Group in Foreign Currency"></header>
+      <download>
+        <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố ngoại tệ" e="Cost of Product by Cost Factor Group in Foreign Currency"/>
+      </download>
+    </form>
+	
+	<form id="810" reportFile="" templateFile="Cogtbc2_140" commandArgument="Excel" urlImage="&e;">
+      <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố" e="Cost of Product by Cost Factor Group"></header>
+      <download>
+        <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố" e="Cost of Product by Cost Factor Group"/>
+      </download>
+    </form>
+    <form id="820" reportFile="" templateFile="Cogtbc2_240" commandArgument="Excel">
+      <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố ngoại tệ" e="Cost of Product by Cost Factor Group in Foreign Currency"></header>
+      <download>
+        <header v="Báo cáo giá thành sản phẩm theo nhóm yếu tố ngoại tệ" e="Cost of Product by Cost Factor Group in Foreign Currency"/>
+      </download>
+    </form>
+ 
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="BÁO CÁO GIÁ THÀNH SẢN PHẨM THEO NHÓM YẾU TỐ" e="COST OF PRODUCT BY COST FACTOR GROUP"/>
+    </field>
+    <field name="h_tu_ky" type="String">
+      <header v="Từ kỳ" e="From Period"/>
+    </field>
+    <field name="h_den_ky" type="String">
+      <header v="đến kỳ" e="to"/>
+    </field>
+    <field name="h_nam" type="String">
+      <header v="năm" e="Year"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_ma_bp" type="String">
+      <header v="Bộ phận" e="Department"/>
+    </field>
+    <field name="h_so_lsx" type="String">
+      <header v="Số lsx" e="MO Number"/>
+    </field>
+    <field name="h_ma_sp" type="String">
+      <header v="Mã sp" e="Item Code"/>
+    </field>
+    <field name="h_ten_sp" type="String">
+      <header v="Tên sản phẩm" e="Item Name"/>
+    </field>
+    <field name="h_nh_yt" type="String">
+      <header v="Nhóm yếu tố" e="Cost Factor Group"/>
+    </field>
+    <field name="h_tong_cong" type="String">
+      <header v="Tổng cộng" e="Total"/>
+    </field>
+  </fields>
+</report>

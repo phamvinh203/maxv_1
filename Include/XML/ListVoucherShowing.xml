@@ -1,0 +1,11 @@
+﻿<command event="Showing">
+  <text>
+    <![CDATA[
+declare @fileTicket nvarchar(256)
+select @fileTicket = lower(replace(newid(),'-',''));
+insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values(@fileTicket, @@userID, '@@appDatabaseName', getdate());
+select 'this._ticket = ''' + @fileTicket + '''' as message
+return
+]]>
+  </text>
+</command>

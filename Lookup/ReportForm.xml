@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmmaubc1" code="form" name="ten_maubc%l" order="form" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Danh mục mẫu báo cáo" e="Report Model List"></header>
+  <fields>    
+    <field name="form" allowSorting="true" allowFilter="true" >
+      <header v="Mã mẫu báo cáo" e="Report Code"></header>
+    </field>
+    <field name="ten_maubc%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên mẫu báo cáo" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

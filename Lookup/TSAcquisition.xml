@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmtgcc" code="ma_tg_ts" name="ten_tg_ts%l" order="ma_tg_ts" filter="status = 1" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục lý do tăng giảm CCDC" e="Tool and Supply Decrease Declaration List"></header>
+
+  <fields>
+    <field name="ma_tg_ts" allowSorting="true" allowFilter="true">
+      <header v="Mã tăng giảm" e="Code"></header>
+    </field>
+    <field name="ten_tg_ts%l"  allowSorting="true" allowFilter="true">
+      <header v="Tên tăng giảm" e="Description"></header>
+    </field>
+  </fields>
+
+</lookup>

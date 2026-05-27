@@ -1,0 +1,8 @@
+﻿<![CDATA[
+declare @$lockedDate nvarchar(512)
+select @$lockedDate = case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày ngày khóa sổ.' else N'Data is locked, you must modify system locked date.' end
+if exists(select 1 from dmstt where year(ngay_ks) >= nam_bd) begin
+  select 'this._denyNew = true;this._denyEdit = true;this._denyDelete = true;this._denyMessage=''' + @$lockedDate + '''' as message
+  return
+end
+]]>

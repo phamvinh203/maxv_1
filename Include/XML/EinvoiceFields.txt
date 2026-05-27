@@ -1,0 +1,27 @@
+﻿<field name="hddt_ma_ncc" external="true" disabled="true" defaultValue="''" categoryIndex="10">
+  <header v="Đơn vị phát hành" e="Published Supplier"></header>
+</field>
+<field name="hddt_mau_hd" external="true" disabled="true" defaultValue="''" categoryIndex="10">
+  <header v="Mẫu hóa đơn" e="Invoice Form"></header>
+</field>
+<field name="hddt_so_seri" external="true" disabled="true" defaultValue="''" categoryIndex="10">
+  <header v="Số seri" e="Invoice Serial"></header>
+</field>
+<field name="hddt_so_hd" external="true" disabled="true" defaultValue="''" categoryIndex="10">
+  <header v="Số hóa đơn" e="Invoice No."></header>
+</field>
+<field name="hddt_ngay_hd" type="DateTime" dataFormatString="@datetimeFormat" external="true" disabled="true" defaultValue="''" categoryIndex="10">
+  <header v="Ngày hóa đơn" e="Invoice Date"></header>
+</field>
+<field name="hddt_ngay_ky" type="DateTime" dataFormatString="@datetimeFormat" external="true" disabled="true" defaultValue="''" categoryIndex="10">
+  <header v="Ngày ký" e="Signed Date"></header>
+</field>
+<field name="hddt_ma_so_thue" external="true" disabled="true" defaultValue="''" categoryIndex="10">
+  <header v="Mã số thuế" e="Tax Code"></header>
+</field>
+<field name="hddt_ma_tra_cuu" external="true" disabled="true" defaultValue="''" categoryIndex="10">
+  <header v="Mã tra cứu" e="Reservation Code"></header>
+</field>
+<field name="hddt_status" external="true" disabled="true" defaultValue="''" categoryIndex="10">
+  <header v="Tình trạng hóa đơn" e="Einvoice Status"></header>
+</field>

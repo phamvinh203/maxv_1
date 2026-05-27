@@ -1,0 +1,24 @@
+﻿    <field name="ma_cp" allowNulls="false" width="100" aliasName="a">
+      <header v="Mã chi phí" e="Charge"></header>
+      <items style="AutoComplete" controller="Charge" reference="ten_cp%l" key="status = '1' and (ma_ct = @@id or ma_ct = '')" check="ma_ct = @@id or ma_ct = ''" information="ma_loai$dmcp.ten_cp%l"/>
+    </field>
+    <field name="ten_cp%l" readOnly="false" external="true" defaultValue="''" inactivate="true" width="300" aliasName="b">
+      <header v="Tên chi phí" e="Charge Description"></header>
+    </field>
+    <field name="tien_cp_nt" type="Decimal" dataFormatString="@baseCurrencyPriceInputFormat" clientDefault="0" width="100">
+      <header v="Tiền nt" e="FC Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_cp" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" width="100" allowContain="true">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+      <header v="" e=""></header>
+    </field>

@@ -1,0 +1,20 @@
+﻿<![CDATA[
+declare @$lockedDate nvarchar(512), @$denyAccess nvarchar(512), @$checkVoucherLockedDate smalldatetime, @$checkVoucherUnit varchar(32)
+select @$lockedDate = case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày ngày khóa sổ.' else N'Data is locked, you must modify system locked date.' end
+select @$denyAccess = '$NotAuthorized'
+select @$checkVoucherLockedDate = ngay_ct, @$checkVoucherUnit = ma_dvcs from @@table where stt_rec = @stt_rec
+if @$checkVoucherLockedDate is not null begin
+  create table #lockedDate (r int)
+  insert into #lockedDate exec fs20_CheckLockedDateOnVoucher @@id, @$checkVoucherLockedDate, @@userID, 1
+  if not exists(select * from #lockedDate where r = 1) begin
+    select @$lockedDate as message
+    return
+  end
+end
+if @@admin <> 1 begin
+  if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @$checkVoucherUnit and r_del = 1) begin
+    select @$denyAccess as message
+    return
+  end    
+end
+]]>

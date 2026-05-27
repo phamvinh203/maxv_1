@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="Lookup" targetNamespace="urn:schemas-maxv-com:data-lookup" elementFormDefault="qualified" xmlns="urn:schemas-maxv-com:data-lookup" xmlns:a="urn:schemas-maxv-com:data-lookup" xmlns:mstns="urn:schemas-maxv-com:data-lookup" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="lookup" type ="lookupType">
+    <xs:key name="field">
+      <xs:selector xpath="a:fields/a:field" />
+      <xs:field xpath="@name"/>
+    </xs:key>
+  </xs:element>
+
+  <xs:complexType name="lookupType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="header" type="headerType"/>
+      <xs:element name="fields">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="field" type="fieldType" minOccurs="1" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="database" type="databaseName" use="optional"/>
+    <xs:attribute name="table" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>Specifies the name of the table</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="code" type="xs:string" use="optional"/>
+    <xs:attribute name="name" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>You can use %l or %e placed after the value</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="filter" type="xs:string" use="optional"/>
+    <xs:attribute name="order" type="xs:string" use="optional"/>
+
+  </xs:complexType>
+
+  <xs:complexType name="headerType">
+    <xs:attribute name="v" type="xs:string" use="required"/>
+    <xs:attribute name="e" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="fieldType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="header" type="headerType"/>
+      <xs:element name="items" type="itemsType" minOccurs="0" maxOccurs="1"/>
+    </xs:all>
+
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="dataType" use="optional"/>
+
+    <xs:attribute name="allowSorting" type="xs:boolean" use="optional"/>
+    <xs:attribute name="allowFilter" type="xs:boolean" use="optional"/>
+    <xs:attribute name="width" type="xs:int" use="optional"/>
+    <xs:attribute name="dataFormatString" type="xs:string" use="optional"/>
+    <xs:attribute name="align" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="itemsType">
+    <xs:sequence>
+      <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="value" type="xs:string" use="required"/>
+          <xs:attribute name="text" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="dataType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AnsiString"/>
+      <xs:enumeration value="Binary"/>
+      <xs:enumeration value="Byte"/>
+      <xs:enumeration value="Boolean"/>
+      <xs:enumeration value="Currency"/>
+      <xs:enumeration value="Date"/>
+      <xs:enumeration value="DateTime"/>
+      <xs:enumeration value="Decimal"/>
+      <xs:enumeration value="Double"/>
+      <xs:enumeration value="Guid"/>
+      <xs:enumeration value="Int16"/>
+      <xs:enumeration value="Int32"/>
+      <xs:enumeration value="Int64"/>
+      <xs:enumeration value="Object"/>
+      <xs:enumeration value="SByte"/>
+      <xs:enumeration value="Single"/>
+      <xs:enumeration value="String"/>
+      <xs:enumeration value="Time"/>
+      <xs:enumeration value="UInt16"/>
+      <xs:enumeration value="UInt32"/>
+      <xs:enumeration value="UInt64"/>
+      <xs:enumeration value="VarNumeric"/>
+      <xs:enumeration value="AnsiStringFixedLength"/>
+      <xs:enumeration value="StringFixedLength"/>
+      <xs:enumeration value="Xml"/>
+      <xs:enumeration value="DateTime2"/>
+      <xs:enumeration value="DateTimeOffset"/>
+      <xs:enumeration value="Byte[]"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="databaseName">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="App"/>
+      <xs:enumeration value="Sys"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

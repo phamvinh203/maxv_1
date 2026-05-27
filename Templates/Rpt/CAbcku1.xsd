@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsReport" targetNamespace="http://tempuri.org/dsReport.xsd" xmlns:mstns="http://tempuri.org/dsReport.xsd" xmlns="http://tempuri.org/dsReport.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:element name="dsReport" msdata:IsDataSet="true" msdata:Locale="en-US" msprop:Generator_UserDSName="dsReport" msprop:Generator_DataSetName="dsReport">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="d1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tu_ngay" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="den_ngay" type="xs:dateTime" minOccurs="0" />			  
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="d2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="sysorder" type="xs:int" minOccurs="0" />
+              <xs:element name="sysprint" type="xs:int" minOccurs="0" />
+              <xs:element name="systotal" type="xs:int" minOccurs="0" />
+              <xs:element name="stt" type="xs:int" minOccurs="0" />
+              <xs:element name="ma_ku" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_ku" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_ku2" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_ku" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="so_ku" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_ku1" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ngay_ku2" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ma_nt" type="xs:string" minOccurs="0" />
+              <xs:element name="tien_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tien" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tinh_trang" type="xs:unsignedByte" minOccurs="0" />
+              <xs:element name="ls_t" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ls_qh" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ls_td" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tk" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_hd" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_vv" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_tk" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_tk2" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+
+  <!ENTITY GLTranReport SYSTEM ".\Include\GLTranReport.xml">
+  <!ENTITY GLTranReportSql SYSTEM ".\Include\GLTranReportSql.txt">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+if dbo.MaxvOnline$Function$CheckSQLInjection(@stt_rec) = 0 return
+]]>&GLTranReportSql;<![CDATA[
+else begin
+	declare @ma_tt nvarchar(16), @so_tt nvarchar(255), @so_tt2 nvarchar(255), @ngay_tt nvarchar(255), @ngay_tt2 nvarchar(255), @ten_bc nvarchar(255), @ten_bc2 nvarchar(255)
+	select @ma_tt = rtrim(ltrim(val)) from options where name='r_cdkt'
+	select @so_tt=so_tt, @so_tt2 = so_tt2, @ngay_tt = ngay_tt, @ngay_tt2 = ngay_tt2 from report1 where ma_tt=@ma_tt 
+	select @ten_bc = ten_bc, @ten_bc2=ten_bc2 from report2 where ma_tt=@ma_tt and sysid='IRTran'
+	
+    -- Lay tk_vt trong dmvt cach nhau bang dau ','
+        create table #dmtkvt(tk_vt nvarchar(64))
+        insert into #dmtkvt select distinct tk_vt from @@prime$partition$current a with(nolock)
+		    left join d74$$partition$current b with(nolock) on (a.stt_rec = b.stt_rec) where a.stt_rec = @stt_rec
+	   
+        declare @tk_vt nvarchar(64) = ''
+        select @tk_vt = @tk_vt + ', ' + LTRIM(RTRIM(tk_vt)) from #dmtkvt
+        select @tk_vt = LTRIM(RIGHT(@tk_vt, LEN(@tk_vt) - 1))
+        drop table #dmtkvt 
+        
+    -- Lấy tài khoản đối ứng(tk_co)
+        create table #dmtkco(tk_co nvarchar(64))
+        insert into #dmtkco select distinct tk_du from @@prime$partition$current a with(nolock)
+		    left join d74$$partition$current b with(nolock) on (a.stt_rec = b.stt_rec) where a.stt_rec = @stt_rec
+	   
+        declare @tk_co nvarchar(64) = ''
+        select @tk_co = @tk_co + ', ' + LTRIM(RTRIM(tk_co)) from #dmtkco
+        select @tk_co = LTRIM(RIGHT(@tk_co, LEN(@tk_co) - 1))
+        drop table #dmtkco
+    
+	-- Lay ten kho
+		create table #dmkho (ma_kho nvarchar(126), ten_kho nvarchar(256) )
+        insert into #dmkho select distinct a.ma_kho, '' from d74$$partition$current a with(nolock) where a.stt_rec = @stt_rec
+		Update #dmkho set ten_kho = rtrim(ltrim(a.ma_kho)) + ' - ' + b.ten_kho from #dmkho a left join dmkho b on a.ma_kho = b.ma_kho
+	   
+        declare @kho nvarchar(4000) = ''
+        select @kho = @kho + ', ' + LTRIM(RTRIM(ten_kho)) from #dmkho
+        select @kho = LTRIM(RIGHT(@kho, LEN(@kho) - 1))
+        drop table #dmkho
+	
+    declare @m_ma_nt0 varchar(10), @key varchar(128)
+    select @m_ma_nt0 = val from options where name = N'm_ma_nt0'
+    select case when a.ong_ba <> '' then a.ong_ba else case when @@language = 'V' then d.ten_kh else d.ten_kh2 end end as ong_ba, 
+        b.ma_kho, isnull(c.dia_chi,'') dia_diem, ltrim(a.so_ct) so_ct, a.t_tien,  a.t_tien_nt,
+		    dbo.MaxvOnline$Function$System$ReadCurrency(@m_ma_nt0, a.t_tien, @@language) t_tien_in_word, 
+		    dbo.MaxvOnline$Function$System$ReadCurrency(a.ma_nt, a.t_tien_nt, @@language) t_tien_nt_in_word,
+		    replace(str(day(a.ngay_ct),2),' ','0') ngay, replace(str(month(a.ngay_ct),2),' ','0') thang, cast(year(a.ngay_ct) as char(4)) nam,
+        RTRIM(a.ma_kh) as ma_kh, d.ten_kh, d.dia_chi, a.dien_giai, @tk_vt as tk_no, @tk_co as tk_co,
+		@so_tt as so_tt, @so_tt2 as so_tt2, @ngay_tt as ngay_tt, @ngay_tt2 as ngay_tt2, @ten_bc as ten_bc, @ten_bc2 as ten_bc2,
+		@kho as ten_kho
+	    from @@prime$partition$current a with(nolock)
+		    left join d74$$partition$current b with(nolock) on (a.stt_rec = b.stt_rec and b.stt_rec0 = (select min(stt_rec0) from d74$$partition$current with(nolock) where stt_rec = a.stt_rec))
+		    left join dmkho c with(nolock) on b.ma_kho = c.ma_kho
+		    left join dmkh d with(nolock) on a.ma_kh = d.ma_kh
+	    where a.stt_rec = @stt_rec
+
+    select @key = 'a.stt_rec = ''' + @stt_rec + ''''
+    exec pr_PrintIRTran @@language, @key, 'd74$$partition$current', @@id	
+end
+]]>
+    </text>
+  </query>
+  <forms>
+    <form id="110" reportFile="IRTran_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Phiếu nhập kho" e="Receiving Transaction"/>
+      <download >
+        <header v="Phiếu nhập kho" e="Receiving Transaction"/>
+      </download>&b;
+    </form>
+	
+	<form id="510" reportFile="" templateFile="IRTran_110" commandArgument="Excel" urlImage="&e;">
+      <header v="Phiếu nhập kho (Excel)" e="Receiving Transaction (Excel)"></header>
+      <download>
+        <header  v="Phiếu nhập kho (Excel)" e="Receiving Transaction"/>
+      </download>&b;
+    </form>
+	
+
+    &s;
+
+    &GLTranReport;
+  </forms>
+
+  <fields>
+    <field name="title" type ="String">
+      <header v="PHIẾU NHẬP KHO" e="PURCHASE ORDER"/>
+    </field>
+  
+
+    <field name="h_nguoi_giao_hang" type="String">
+      <header v="Họ và tên người giao hàng:" e="Deliverer's Full Name:"/>
+    </field>
+    <field name="h_theo" type="String">
+      <header v="Theo:............................................."
+              e="According to:....................................."/>
+    </field>
+    <field name="h_so" type="String">
+      <header v="số:................ "
+              e="No.:................ "/>
+    </field>
+    <field name="h_ngay" type="String">
+      <header v="ngày ..............tháng..........năm............ của..............................................................................................................................................................................."
+              e="Date:.............................................. of............................................................................................................................................................................."/>
+    </field>
+    <field name="h_nhap_tai_kho" type="String">
+      <header v="Nhập tại kho:" e="Receiving Site:"/>
+    </field>
+    <field name="h_dia_diem" type="String">
+      <header v="Địa điểm:" e="Location:"/>
+    </field>
+
+    <field name="h_so_ct" type="String">
+      <header v="Số:" e="No.:"/>
+    </field>
+    <field name="h_no" type="String">
+      <header v="Nợ:"
+              e="Debit:"/>
+    </field>
+    <field name="h_co" type="String">
+      <header v="Có:"
+              e="Credit:"/>
+    </field>
+    
+    <field name="h_ten_vt" type="String">
+      <header v="Tên mặt hàng" e="Item Name"/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="Đvt" e="UOM"/>
+    </field>
+    <field name="h_so_luong" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_gia" type="String">
+      <header v="Đơn giá" e="Price"/>
+    </field>
+    <field name="h_tien" type="String">
+      <header v="Thành tiền" e="Amount"/>
+    </field>
+    <field name="h_chung_tu" type="String">
+      <header v="Chứng từ" e="In Voucher"/>
+    </field>
+    <field name="h_thuc_nhap" type="String">
+      <header v="Thực nhập" e="Receiving"/>
+    </field>
+
+    <field name="h_xac_nhan" type="String">
+      <header v="Số tiền viết bằng chữ:" e="Amount (in Words):"/>
+    </field>
+    <field name="h_ct_goc" type="String">
+      <header v="Số chứng từ gốc kèm theo:" e="No. of Original Document(s)"/>
+    </field>
+
+    <field name="h_co_tk" type ="String">
+      <header v="Có:" e="Credit Account:"/>
+    </field>
+    <field name="h_no_tk" type ="String">
+      <header v="Nợ:" e="Debit Account:"/>
+    </field>
+    <field name="h_dien_giai" type ="String">
+      <header v="Lý do:" e="Debit Account:"/>
+    </field>
+    <field name="h_stt" type ="String">
+      <header v="Stt" e="No"/>
+    </field>
+    <field name="h_ma_vt" type ="String">
+      <header v="Mã hàng" e="No"/>
+    </field>
+    <field name="h_ct" type ="String">
+      <header v="Theo CT" e="No"/>
+    </field>
+    <field name="h_thuc" type ="String">
+      <header v="Thực nhập" e="No"/>
+    </field>
+    <field name="h_so_ct_goc" type ="String">
+      <header v="Kèm theo:" e="No"/>
+    </field>
+    <field name="h_nguoi_lap" type ="String">
+      <header v="Người lập phiếu" e="No"/>
+    </field>
+    <field name="h_nguoi_giao" type ="String">
+      <header v="Người giao hàng" e="No"/>
+    </field>
+    <field name="h_thu_kho" type ="String">
+      <header v="Thủ kho" e="No"/>
+    </field>
+    <field name="h_ke_toan" type ="String">
+      <header v="Kế toán trưởng" e="No"/>
+    </field>
+
+
+    <field name="h_ho_ten" type ="String">
+      <header v="Họ tên người giao hàng:" e="Deliverer:"/>
+    </field>
+    <field name="h_don_vi" type ="String">
+      <header v="Đơn vị:" e="Company:"/>
+    </field>
+    <field name="h_dia_chi" type ="String">
+      <header v="Địa chỉ:" e="Address:"/>
+    </field>
+    <field name="h_so_hoa_don" type ="String">
+      <header v="Số hóa đơn:" e="Invoice No.:"/>
+    </field>
+    <field name="h_tk_co" type ="String">
+      <header v="Tài khoản có:" e="Credit Account:"/>
+    </field>
+    <field name="h_so_phieu" type ="String">
+      <header v="Số phiếu:" e="Voucher No.:"/>
+    </field>
+
+    <field name="h_kho" type ="String">
+      <header v="Kho" e="Site"/>
+	</field>
+	<field name="ma_kho" type ="String">
+      <header v="Mã kho" e="SiteCode"/>
+    </field>
+    <field name="h_vat_tu" type ="String">
+      <header v="Tên hàng hóa, vật tư" e="Item"/>
+    </field>
+    <field name="h_tk" type ="String">
+      <header v="Tài khoản" e="Account"/>
+    </field>
+
+
+    <field name="h_t_tien" type ="String">
+      <header v="Tiền hàng" e="Total Amount"/>
+    </field>
+    <field name="h_t_cp" type ="String">
+      <header v="Chi phí" e="Charges"/>
+    </field>
+    <field name="h_t_thue" type ="String">
+      <header v="Thuế GTGT" e="VAT"/>
+    </field>
+    <field name="h_tong_cong" type ="String">
+      <header v="Tổng cộng:" e="Total"/>
+    </field>
+
+    
+  </fields>
+</report>

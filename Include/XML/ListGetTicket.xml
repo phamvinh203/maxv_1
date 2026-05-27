@@ -1,0 +1,11 @@
+﻿<action id="ListTicket">
+  <text>
+    <![CDATA[
+declare @fileTicket nvarchar(256)
+select @fileTicket = lower(replace(newid(),'-',''));
+insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values(@fileTicket, @@userID, '@@appDatabaseName', getdate());
+select @fileTicket as value
+return
+]]>
+  </text>
+</action>

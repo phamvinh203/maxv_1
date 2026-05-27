@@ -1,0 +1,7 @@
+﻿  <css>
+    <text>
+      <![CDATA[
+.SelectionOutline{outline-style:dotted;outline-width:1px;}
+]]>
+    </text>
+  </css>

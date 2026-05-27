@@ -1,0 +1,24 @@
+﻿<command event="Created">
+  <text>
+    <![CDATA[
+select 'init$]]>&Identity;<![CDATA[Filter$(this);' as message
+return
+]]>
+  </text>
+</command>
+<command event="Loading">
+  <text>
+    <![CDATA[
+select 'active$]]>&Identity;<![CDATA[Filter$(this);' as message
+return
+]]>
+  </text>
+</command>
+<command event="Closing">
+  <text>
+    <![CDATA[
+select 'close$]]>&Identity;<![CDATA[Filter$(this);' as message
+return
+]]>
+  </text>
+</command>

@@ -1,0 +1,20 @@
+﻿<toolbar>
+  <button command="Search">
+    <title v="Toolbar.Search" e="Toolbar.Search"></title>
+  </button>
+  <button command="Print">
+    <title v="Toolbar.Print" e="Toolbar.Print"></title>
+  </button>
+  <button command="Export">
+    <title v="Toolbar.Export" e="Toolbar.Export"></title>
+  </button>
+  <button command="Aggregate">
+    <title v="Toolbar.Aggregate" e="Toolbar.Aggregate"></title>
+  </button>
+  <button command="Seprate">
+    <title v="-" e="-"></title>
+  </button>
+  <button command="Freeze">
+    <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+  </button>
+</toolbar>

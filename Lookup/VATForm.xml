@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmmaubc3" code="mau_bc" name="ten_bc%l" order="mau_bc" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Danh mục mẫu báo cáo thuế" e="VAT Forms List"></header>
+  <fields>
+    <field name="mau_bc" allowSorting="true" allowFilter="true" >
+      <header v="Mẫu bc" e="Form"></header>
+    </field>
+
+    <field name="ten_bc%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên mẫu báo cáo" e = "Description"></header>
+    </field>
+  </fields>
+
+</lookup>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$UnitConversionImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$UnitConversionImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+		<field name="ma_vt" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+		<field name="dvt" column="C" isPrimaryKey="true" allowNulls="false" maxLength="24" />
+		<field name="he_so" column="D" type="Decimal"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin = 0 and @type = '1' begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'UnitConversion', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+-- Check
+--alter table @@table alter column ma_vt char(32)
+--create index i on @@table (ma_bp)
+
+if @type = '0' delete @@table where rtrim(ltrim(ma_vt)) + rtrim(ltrim(dvt)) in (select rtrim(ltrim(ma_vt)) + rtrim(ltrim(dvt)) from dmqddvt)
+
+select @field = 'ma_vt', @r = min(stt) from @@table where ma_vt <> '' and ma_vt not in (select ma_vt from dmvt where nhieu_dvt=1)]]>&Error;<![CDATA[
+select @field = 'dvt', @r = min(stt) from @@table where dvt <> '' and dvt not in (select dvt from dmdvt)]]>&Error;<![CDATA[
+
+select a.* into #k from @@table a join dmqddvt b on a.ma_vt = b.ma_vt and a.dvt = b.dvt
+delete @@table where rtrim(ltrim(ma_vt)) + rtrim(ltrim(dvt)) in (select rtrim(ltrim(ma_vt)) + rtrim(ltrim(dvt)) from #k)
+-- 
+
+-- Insert
+select @q = 'insert into dmqddvt(ma_vt, dvt, he_so, xtype,status, datetime0, datetime2, user_id0, user_id2, '
+select @q = @q + ' ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6)'
+select @q = @q + 'select ma_vt, dvt, max(he_so), ''U'', ''1'', getdate(), getdate(), rtrim(@@userID), rtrim(@@userID), '''', '''', '
+select @q = @q + ' 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0 from @@table group by ma_vt, dvt'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update dmqddvt set he_so = b.he_so, datetime2 = getdate(), user_id2 = @@userID
+  from dmqddvt a, #k b where a.ma_vt = b.ma_vt and a.dvt = b.dvt
+end
+
+]]>
+    </text>
+  </processing>
+
+</import>

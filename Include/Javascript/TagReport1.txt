@@ -1,0 +1,57 @@
+﻿<![CDATA[
+function isCheck$Grid(g) {
+  var msg = (g._language == 'v' ? 'Chưa có bản ghi nào được chọn, phải đánh dấu trước khi thực hiện chức năng này.' : 'No record selected, please select at least one record to process.');
+  if (g._$k.length == 0) {
+    $message.show(msg, String.format('$find(\'{0}\')._focusWhenTabChanged();', g.get_id()));
+    return false;
+  }
+  return true;
+}
+function fill$Grid(g, f) {
+  if (f && g._$k.length == 0) return;
+  for (var r = 1; r <= g._rowCount; r++) {
+    var k = row$Key(g, r), i = Array.indexOf(g._$k, k);
+    g._setItemValue(r, g._$t, (i > -1));
+  }
+}
+function init$ExportKey(g, c) {
+  var p = (c ? c : ''), keys = p + g._$k.join(',') + p, v = g._filterMemvars, i = $func.findMemvarIndex(g._$f, v);
+  if (i > -1) {
+    var memvar = v[i];
+    memvar.NewValue = memvar.Compressed ? $func.compress(keys) : keys;
+  }
+}
+function toggle$Grid(o) {
+  var c = o.parentNode.parentNode.parentNode.id, g = $find($func.left(c, c.length - 11));
+  for (var r = 1; r <= g._rowCount; r++) {		
+    if (!g._getItem(r, g._$t).disabled) {
+      var k = row$Key(g, r), i = Array.indexOf(g._$k, k);
+      if (i == -1) Array.add(g._$k, k);
+        else Array.removeAt(g._$k, i);
+      g._setItemValue(r, g._$t, (i == -1));
+    }
+  }
+  
+  init$ExportKey(g);
+  if (g._rowCount <= 0) return;
+  else {
+	g._activeRow = g._rowCount;
+	g._activeColumn = g._$t;
+	g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+	g._focusWhenTabChanged();
+  }
+}
+function onChange$SelectedValue(o) {
+  var a = o.id.split('_inputCell_'), g = o.grid;
+  if (!g) g = $find(a[0]);
+  var r = $func.getLocationCell(o)[0], k = row$Key(g, r), i = Array.indexOf(g._$k, k);
+  if (i == -1) Array.add(g._$k, k);
+    else Array.removeAt(g._$k, i);
+
+  init$ExportKey(g);
+  g._activeRow = a[1].split('.')[0];
+  g._activeColumn = a[1].split('.')[1];
+  g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+}
+function row$Key(g, r) {return g._getItemValue(r, g._$i);}
+]]>

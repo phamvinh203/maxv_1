@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmkh" code="ma_kh" name="ten_kh%l" order="ma_kh" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục Khách hàng, Nhà cung cấp" e="Customer List"></header>
+
+  <fields>
+    <field name="ma_kh" allowSorting="true" allowFilter="true">
+      <header v="Mã khách" e="Customer ID"></header>
+    </field>
+
+    <field name="ten_kh%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên khách hàng" e = "Customer Name"></header>
+    </field>
+	<field name="dia_chi" allowSorting="true" allowFilter="true">
+      <header v ="Địa chỉ" e = "Address"></header>
+    </field>
+	<field name="Ma_so_thue" allowSorting="true" allowFilter="true">
+      <header v ="Mã số thuế" e = "Tax code"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

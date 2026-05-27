@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmct" code="ma_ct" name="ten_ct%l" order="ma_ct" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục chứng từ" e="Voucher List"></header>
+
+  <fields>
+    <field name="ma_ct" allowSorting="true" allowFilter="true" >
+      <header v="Mã chứng từ" e="Code"></header>
+    </field>
+
+    <field name="ten_ct%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên chứng từ" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

@@ -1,0 +1,8 @@
+﻿<field name="ma_cp"/>
+<field name="ten_cp%l"/>
+<field name="tien_cp_nt"/>
+<field name="tien_cp"/>
+
+<field name="stt_rec"/>
+<field name="stt_rec0"/>
+<field name="line_nbr"/>

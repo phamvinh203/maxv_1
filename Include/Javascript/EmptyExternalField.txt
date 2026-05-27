@@ -1,0 +1,11 @@
+<![CDATA[
+function set$Voucher$EmptyExternalField(g, s) {
+  var a = s.split(',');
+  for (var i = 0; i < a.length; i++) {
+    var l = g._getColumnOrder($func.trim(a[i]));
+    for (var r = 0; r < g._rowCount; r++) {
+      g._setItemValue(r + 1, l, null);
+    }
+  }
+}
+]]>

@@ -1,0 +1,134 @@
+﻿<fields>
+  <field name="stt_rec_dm" isPrimaryKey="true" hidden="true" readOnly="true">
+    <header v="" e=""></header>
+  </field>
+  <field name="stt_rec_cd" hidden="true">
+    <header v="" e=""></header>
+  </field>
+  <field name="ho_dm" allowNulls="false">
+    <header v="Họ" e="Last Name"></header>
+    <clientScript><![CDATA[onchange=onChange$LeadForm$Name(this);]]></clientScript>
+  </field>
+  <field name="ten_dm" allowNulls="false">
+    <header v="Tên" e="First Name"></header>
+    <footer v="Họ và tên" e="Full Name"></footer>
+    <clientScript><![CDATA[onchange=onChange$LeadForm$Name(this);]]></clientScript>
+  </field>
+  <field name="cong_ty" allowNulls="false">
+    <header v="Công ty/tổ chức" e="Company"></header>
+  </field>
+  <field name="chuc_vu">
+    <header v="Chức vụ" e="Title"></header>
+  </field>
+  <field name="nguon_dm">
+    <items style="AutoComplete" controller="crLeadSource" reference="ten_nguon_dm%l" key="status ='1'" check="1=1" information="ma_nguon$crdmngdm.ten_nguon%l"/>
+    <header v="Nguồn" e="Lead Source"></header>
+  </field>
+  <field name="ten_nguon_dm%l" readOnly="true" external="true" defaultValue="''">
+    <header v="" e=""></header>
+  </field>
+  <field name="ma_cd" external="true" defaultValue="''">
+    <items style="AutoComplete" controller="crCampaign" reference="ten_cd" key="((@@admin = 1) or (user_ref like '{$%c[userRef]}' + '&#37;') or user_ref in (select user_ref from crctquyencd where user_id = @@userID)) and status ='1'" check="((@@admin = 1) or (user_ref like '{$%c[userRef]}' + '&#37;') or user_ref in (select user_ref from crctquyencd where user_id = @@userID))" information="ma_cd$crcd.ten_cd"/>
+    <clientScript><![CDATA[onchange=onChange$LeadForm$Campaign(this);]]></clientScript>
+    <header v="Chiến dịch" e="Campaign"></header>
+  </field>
+  <field name="ten_cd" readOnly="true" external="true" defaultValue="''">
+    <header v="" e=""></header>
+  </field>
+
+  <field name="gioi_tinh" clientDefault="1" dataFormatString="1, 2" align="right" categoryIndex="1">
+    <header v="Giới tính" e="Gender"/>
+    <footer v="1 - Nam, 2 - Nữ" e="1 - Male, 2 - Female"></footer>
+    <items style="Mask"/>
+  </field>
+  <field name="dien_thoai" categoryIndex="1">
+    <header v="Điện thoại công ty" e="Office Phone"></header>
+  </field>
+  <field name="dien_thoai_dd" categoryIndex="1">
+    <header v="Điện thoại di động" e="Mobile Phone"></header>
+  </field>
+  <field name="fax" categoryIndex="1">
+    <header v="Số gửi bản sao &lt;span class=&quot;LabelDescription&quot;&gt;(Fax)&lt;/span&gt;" e="Fax Number"></header>
+  </field>
+  <field name="email" categoryIndex="1">
+    <header v="Thư &lt;span class=&quot;LabelDescription&quot;&gt;(Email)" e="Email Address"></header>
+  </field>
+  <field name="website" categoryIndex="1">
+    <header v="Trang chủ" e="Website"></header>
+  </field>
+  <field name="ma_lvkd" categoryIndex="1">
+    <header v="Lĩnh vực" e="Industry"></header>
+    <items style="AutoComplete" controller="crIndustry" reference="ten_lvkd%l" key="status = '1'" check="1 = 1" information="ma_lv$crdmlvkd.ten_lv%l"/>
+  </field>
+  <field name="ten_lvkd%l" readOnly="true" external="true" defaultValue="''">
+    <header v="" e=""></header>
+  </field>
+  <field name="qm_ns" type="Decimal" dataFormatString="####0" categoryIndex="1">
+    <header v="Quy mô nhân sự" e="Employees"></header>
+    <items style="Numeric"/>
+  </field>
+  <field name="ma_tt" categoryIndex="1">
+    <items style="AutoComplete" controller="crLeadStatus" reference="ten_tt%l" key="status ='1'" check="1=1" information="ma_tt$crdmttdm.ten_tt%l"/>
+    <header v="Tình trạng" e="Lead State"></header>
+  </field>
+  <field name="ten_tt%l" readOnly="true" external="true" defaultValue="''">
+    <header v="" e=""></header>
+  </field>
+
+  <field name="dia_chi" categoryIndex="2">
+    <header v="Địa chỉ" e="Address"></header>
+  </field>
+  <field name="tinh_thanh" categoryIndex="2">
+    <header v="Tỉnh/thành" e="Province"></header>
+    <items style="AutoComplete" controller="crProvinceCity" reference="ten_tinh_thanh%l" key="status ='1'" check="1=1" information="ma_tinh$crdmtinh.ten_tinh%l"/>
+    <clientScript><![CDATA[onchange=onChange$LeadForm$Province(this);]]></clientScript>
+  </field>
+  <field name="ten_tinh_thanh%l" readOnly="true" external="true" defaultValue="''">
+    <header v="" e=""></header>
+  </field>
+  <field name="quan_huyen" categoryIndex="2">
+    <header v="Quận/huyện" e="District"></header>
+    <items style="AutoComplete" controller="crDistrict" reference="ten_quan_huyen%l" key="ma_tinh = case when '{$%c[tinh_thanh]}' &lt;&gt; '' then '{$%c[tinh_thanh]}' else '' end and status ='1'" check="ma_tinh = case when '{$%c[tinh_thanh]}' &lt;&gt; '' then '{$%c[tinh_thanh]}' else '' end" information="ma_quan$crdmquan.ten_quan%l"/>
+  </field>
+  <field name="ten_quan_huyen%l" readOnly="true" external="true" defaultValue="''">
+    <header v="" e=""></header>
+  </field>
+  <field name="quoc_gia" categoryIndex="2">
+    <header v="Quốc gia" e="Country"></header>
+    <items style="AutoComplete" controller="crCountry" reference="ten_quoc_gia%l" key="status ='1'" check="1=1" information="ma_qg$crdmqg.ten_qg%l"/>
+  </field>
+  <field name="ten_quoc_gia%l" readOnly="true" external="true" defaultValue="''">
+    <header v="" e=""></header>
+  </field>
+
+  <field name="ghi_chu" rows="3" categoryIndex="9">
+    <header v="Ghi chú" e="Note"></header>
+  </field>
+  <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true" categoryIndex="9">
+    <header v="Trạng thái" e="Status"></header>
+    <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+    <items style="Mask"/>
+  </field>
+
+	<field name="userRef" external="true" defaultValue="''" hidden="true" readOnly="true">
+    <header v="" e=""></header>
+  </field>
+	<field name="converted" type="Boolean" hidden="true" readOnly="true">
+    <header v="" e=""></header>
+  </field>
+  <field name="user_ref" hidden="true" readOnly="true">
+    <header v="" e=""></header>
+  </field>
+  <field name="ho_ten_dm" external="true" defaultValue="''" hidden="true">
+    <header v="" e=""></header>
+  </field>
+  <field name="deny_field" external="true" defaultValue="''" hidden="true" readOnly="true">
+    <header v="" e=""></header>
+  </field>
+  <field name="controller" external="true" defaultValue="''" hidden="true" readOnly="true" allowContain="true">
+    <header v="" e=""></header>
+  </field>
+	  <field name="dia_chi_lh" external="true" defaultValue="''" hidden="true">
+    <header v="" e=""></header>
+  </field>
+</fields>

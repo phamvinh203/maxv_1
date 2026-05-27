@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmhd" code="ma_hd" name="ten_hd%l" order="ma_hd" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục hợp đồng" e="Contract List"></header>
+
+  <fields>
+    <field name="ma_hd" allowSorting="true" allowFilter="true">
+      <header v="Mã hợp đồng" e="Contract"></header>
+    </field>
+
+    <field name="ten_hd%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên hợp đồng" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

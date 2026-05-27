@@ -1,0 +1,18 @@
+﻿<field name="loai_du_lieu" clientDefault="2" categoryIndex="1">
+  <header v="Loại dữ liệu" e="Data Type"/>
+  <items style="DropDownList">
+    <item value="1">
+      <text v="Số liệu thực tế" e="Physics"/>
+    </item>
+    <item value="2">
+      <text v="Theo hóa đơn" e="Book"/>
+    </item>
+    <item value="3">
+      <text v="Số liệu thực tế - Đvt" e="Physics - UOM"/>
+    </item>
+    <item value="4">
+      <text v="Theo hóa đơn - Đvt" e="Book - UOM"/>
+    </item>
+  </items>
+  <clientScript>&OnSelectionOutline;</clientScript>
+</field>

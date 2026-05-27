@@ -1,0 +1,9 @@
+﻿<field name="fileupload" external="true" allowContain="true" defaultValue="''" readOnly="true" hidden="true" filterSource="Plugin" categoryIndex="&ListIndex;">
+	<header v="&lt;div style='height:100&#37;;width:100&#37;;padding:0;margin:0;' id='attachmentID'&gt;&lt;/div&gt;" e="&lt;div style='height:100&#37;;width:100&#37;;padding:0;margin:0;' id='attachmentID'&gt;&lt;/div&gt;"></header>
+</field>
+<field name="fileticket" external="true" allowContain="true" defaultValue="''" readOnly="true" hidden="true" filterSource="Ignore" categoryIndex="&ListIndex;">
+	<header v="" e=""></header>
+</field>
+<field name="filekey" readOnly="true" external="true" defaultValue="''" hidden="true" allowContain="true" filterSource="Ignore" categoryIndex="&ListIndex;">
+  <header v="" e=""></header>
+</field>

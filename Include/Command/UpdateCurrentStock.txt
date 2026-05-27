@@ -1,0 +1,6 @@
+﻿declare @q nvarchar(4000), @r tinyint
+select @r = cast(val as tinyint) from options where lower(name) = 'm_round_sl'
+select top 0 ma_kho, ma_vi_tri, ma_vt, ma_lo, so_luong as sl_nhap, so_luong as sl_xuat into #currentStock from &DetailVariable;
+if @post = 1 and (@@action = 'New' or @@action = 'Edit') insert into #currentStock select ma_kho, ma_vi_tri, ma_vt, ma_lo, case when &StockType; = 1 then sum(round(so_luong * he_so, @r)) else 0 end as sl_nhap, case when &StockType; = 2 then sum(round(so_luong * he_so, @r)) else 0 end as sl_xuat from &DetailVariable; group by ma_kho, ma_vi_tri, ma_vt, ma_lo
+set @q = dbo.MaxvOnline$Function$Voucher$GetSQLUpdateCurrentStock('r70$$partition$previous', 'r90$$partition$previous', @stt_rec, @@id, @@action, @Stock)
+exec sp_executesql @q

@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$CustomerImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$CustomerImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_kh" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+	<field name="ten_kh" column="B" allowNulls="false" maxLength="255"/>
+	<field name="ten_kh2" column="C" maxLength="256"/>
+	<field name="dia_chi" column="D" maxLength="255"/>
+	<field name="ma_so_thue" column="E" maxLength="18" upperCase="true"/>
+	<field name="doi_tac" column="F" maxLength="128"/>
+	<field name="dien_thoai" column="G" maxLength="32"/>
+	<field name="fax" column="H" maxLength="32"/>
+	<field name="e_mail" column="I" maxLength="48"/>
+	<field name="home_page" column="J" maxLength="48"/>
+	<field name="tk_nh" column="K" maxLength="48"/>
+	<field name="ngan_hang" column="L" maxLength="128"/>
+	<field name="tinh_thanh" column="M" maxLength="48"/>
+	<field name="t_tien_cn" column="N" type="Decimal"/>
+	<field name="ma_tt" column="O" maxLength="3"/>
+	<field name="tk" column="P" maxLength="16"/>
+	<field name="ma_nvbh" column="Q" maxLength="16"/>
+	
+	<field name="kh_yn" column="R" type="Boolean" defaultValue="true"/>
+	<field name="cc_yn" column="S" type="Boolean" defaultValue="true"/>
+	<field name="nv_yn" column="T" type="Boolean" defaultValue="true"/>
+	<field name="nh_kh1" column="U" maxLength="16"/>
+	<field name="nh_kh2" column="V" maxLength="16"/>
+	<field name="nh_kh3" column="W" maxLength="16"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+select @irregularChars = '''`~!@#$%^&*(),;"<>?/\,_'
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+
+select @fields = 'ma_kh, ten_kh, ten_kh2, dia_chi, ma_so_thue, doi_tac, ma_nvbh, tk, ma_tt, t_tien_cn, kh_yn, cc_yn, nv_yn, nh_kh1, nh_kh2, nh_kh3, dien_thoai, fax, e_mail, home_page, tk_nh, ngan_hang, tinh_thanh'
+
+-- Check
+alter table @@table alter column ma_kh char(32)
+create index i on @@table (ma_kh)
+
+if @type = '0' delete @@table where ma_kh in (select ma_kh from dmkh)
+
+select @field = 'ma_kh', @r = min(stt) from @@table where ma_kh like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+
+select @field = 'tk', @r = min(stt) from @@table where tk <> '' and tk not in (select tk from dmtk where loai_tk = 1)]]>&Error;<![CDATA[
+select @field = 'ma_tt', @r = min(stt) from @@table where ma_tt <> '' and ma_tt not in (select ma_tt from dmtt)]]>&Error;<![CDATA[
+select @field = 'ma_nvbh', @r = min(stt) from @@table where ma_nvbh <> '' and ma_nvbh not in (select ma_nvbh from dmnvbh)]]>&Error;<![CDATA[
+
+select @field = 'nh_kh1', @r = min(stt) from @@table where nh_kh1 <> '' and nh_kh1 not in (select ma_nh from dmnhkh where loai_nh = 1)]]>&Error;<![CDATA[
+select @field = 'nh_kh2', @r = min(stt) from @@table where nh_kh2 <> '' and nh_kh2 not in (select ma_nh from dmnhkh where loai_nh = 2)]]>&Error;<![CDATA[
+select @field = 'nh_kh3', @r = min(stt) from @@table where nh_kh3 <> '' and nh_kh3 not in (select ma_nh from dmnhkh where loai_nh = 3)]]>&Error;<![CDATA[
+
+
+select a.* into #k from @@table a join dmkh b on a.ma_kh = b.ma_kh
+delete @@table where ma_kh in (select ma_kh from #k)
+
+-- 
+select @field = 'ma_kh'
+select @q = 'select top 1 @r = a.stt from @@table a, @@table b with (index(i)) where a.ma_kh <> b.ma_kh and a.ma_kh = rtrim(b.ma_kh) '
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+select top 1 @r = a.stt from @@table a, dmkh b with (index(PK_dmkh)) where a.ma_kh = rtrim(b.ma_kh)]]>&Duplicate;<![CDATA[
+select @q = 'select top 1 @r = b.stt from dmkh a, @@table b with (index(i)) where a.ma_kh= rtrim(b.ma_kh) '
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+
+-- Insert
+select @q = 'insert into dmkh(' + @fields + ', status, datetime0, datetime2, user_id0, user_id2, ong_ba, ghi_chu, t_tien_hd, '
+select @q = @q + 'ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6)'
+select @q = @q + 'select ' + @fields + ', ''1'', getdate(), getdate(), rtrim(@@userID), rtrim(@@userID), '''', '''', 0, '
+select @q = @q + ''''', '''', '''', 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0 from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update dmkh set ten_kh = b.ten_kh, ten_kh2 = b.ten_kh2, dia_chi = b.dia_chi, ma_so_thue = b.ma_so_thue, doi_tac = b.doi_tac, ma_nvbh = b.ma_nvbh, tk = b.tk, ma_tt = b.ma_tt,
+      t_tien_cn = b.t_tien_cn, kh_yn = b.kh_yn, cc_yn = b.cc_yn, nv_yn = b.nv_yn, nh_kh1 = b.nh_kh1, nh_kh2 = b.nh_kh2, nh_kh3 = b.nh_kh3,
+      dien_thoai = b.dien_thoai, fax = b.fax, e_mail = b.e_mail, home_page = b.home_page, tk_nh = b.tk_nh, ngan_hang = b.ngan_hang, tinh_thanh = b.tinh_thanh, datetime2 = getdate(), user_id2 = @@userID
+  from dmkh a, #k b where a.ma_kh = b.ma_kh
+end
+]]>
+    </text>
+  </processing>
+
+</import>

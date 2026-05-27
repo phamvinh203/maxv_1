@@ -1,0 +1,15 @@
+﻿<toolbar>
+  <button command="Insert">
+    <title v="Toolbar.Insert" e="Toolbar.Insert"></title>
+  </button>
+  <button command="Clone">
+    <title v="Toolbar.Clone" e="Toolbar.Clone"></title>
+  </button>
+  <button command="Remove">
+    <title v="Toolbar.Remove" e="Toolbar.Remove"></title>
+  </button>
+
+  <button command="Freeze">
+    <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+  </button>
+</toolbar>

@@ -1,0 +1,5 @@
+﻿<![CDATA[
+.GridViewSearchContainer {width: 200px; display: inline-block; box-sizing: border-box; vertical-align: middle;}
+.GridViewSearchInput {border: 1px solid #7f9db9; font-family: Tahoma; font-size: 11px; height: 16px; outline: 0 none; padding: 0 5px; width: 165px;}
+.GridViewSearchButton {background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAMAAABFNRROAAAA/1BMVEUAAAABSd/m6O3w8vT8/f8oauU/eOVYheSrxfUBTePu8PUKU+T19fgTXeUeZujk7fwTVN4xa+UBR9tVguFVguRVg+cKT+BYieheje1kke5tkeNqlet2m+l+oOp6o/CAouqHp+qLqOmKquyCqfGIrPGNrfGNr/KPsfKWsOuYuPSov+8DVOWpxPa0xu+3y/W5yvC8zvS9z/a90fbC0/XA1fnP3PfP3PjP3fnP3frQ2/XV3/bY5fvd5/oBRtYJWObn7vzq7fLs7/UPXObv8fbq8f3s8fvw8fYTVuHy8/bz9Pf09ffw9P0QWOX09vj19/32+f75+vn8/f4TU9n9/v8BRdJtfnRtAAAAAXRSTlMAQObYZgAAAIpJREFUeF5NydMSw0AYQOF/EaO2bdu28f7P0k0y7fTcfXPA7DWo1IZ3sNokgqz81ToRIdaqh4WkeZt8iBJy8/FjQ2lOJBgfcpxoKKUV9hgfo1qZYd4u6Wv1MlpObUyLviKdA35FysoMvR1yIIS8mS2A3LU7PXRWbZxWANB5TtwUvsXfrgf8Uot/+AAGaw/eWhbQKgAAAABJRU5ErkJggg==); background-repeat: no-repeat; background-position: center center; width: 15px; height: 15px; cursor: pointer; border: 0; outline: none; padding-right: 10px;}
+]]>

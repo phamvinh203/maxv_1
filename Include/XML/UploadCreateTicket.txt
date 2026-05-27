@@ -1,0 +1,3 @@
+﻿declare @ticket varchar(32)
+select @ticket = '';select @ticket = lower(replace(newid(),'-','')); 
+insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values (@ticket, @@userID, '@@appDatabaseName', getdate())

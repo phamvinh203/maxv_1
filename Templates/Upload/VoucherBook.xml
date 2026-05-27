@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$VoucherBookImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$VoucherBookImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+		<field name="ma_nk" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+		<field name="ten_nk" column="B" allowNulls="false" maxLength="256"/>
+		<field name="ten_nk2" column="C" maxLength="256"/>
+		<field name="ma_dvcs" column="D" maxLength="16"/>
+		<field name="ky_hieu" column="E" maxLength="20"/>
+		<field name="so_seri" column="F" maxLength="20"/>
+		<field name="so_ct1" column="G" maxLength="12"/>
+		<field name="so_ct2" column="H" maxLength="12"/>
+		<field name="so_ct0" column="I" maxLength="12"/>
+		<field name="m_trung_so" type="Decimal" column="J"/>
+		<field name="ngay_ph" type="DateTime" column="K"/>
+		<field name="ngay_hl_tu" type="DateTime" column="L"/>
+		<field name="ngay_hl_den" type="DateTime" column="M"/>
+		<field name="status" column="N" maxLength="1"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin = 0 and @type = '1' begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'VoucherBook', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+select @irregularChars = ]]>&IrregularValue;<![CDATA[
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có hoặc lồng nhau.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+
+
+-- Check
+alter table @@table alter column ma_nk char(32)
+create index i on @@table (ma_nk)
+
+
+if @type = '0' delete @@table where ma_nk in (select ma_nk from v20dmnk)
+
+select @field = 'ma_nk', @r = min(stt) from @@table where ma_nk like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+
+
+select a.* into #k from @@table a join v20dmnk b on a.ma_nk = b.ma_nk
+delete @@table where ma_nk in (select ma_nk from #k)
+
+
+-- 
+select @q = 'select top 1 @r = a.stt from @@table a, @@table b with (index(i)) where a.ma_nk <> b.ma_nk and a.ma_nk =rtrim(b.ma_nk)'
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+select top 1 @r = a.stt from @@table a, v20dmnk b with (index(PK_v20dmq)) where a.ma_nk = rtrim(b.ma_nk)]]>&Duplicate;<![CDATA[
+select @q = 'select top 1 @r = b.stt from v20dmnk a, @@table b with (index(i)) where a.ma_nk = rtrim(b.ma_nk)'
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+
+
+-- Insert
+select @q = 'insert into v20dmnk(ma_nk, ten_nk, ten_nk2,ma_dvcs,ky_hieu,so_seri,so_ct1,so_ct2,so_ct0,m_trung_so,ngay_ph,ngay_hl_tu,ngay_hl_den, status,datetime0, datetime2, user_id0, user_id2)'
+select @q = @q + 'select ma_nk, ten_nk, ten_nk2,ma_dvcs,ky_hieu,so_seri,so_ct1,so_ct2,so_ct0,m_trung_so,ngay_ph,ngay_hl_tu,ngay_hl_den, status, getdate(), getdate(), rtrim(@@userID), rtrim(@@userID) from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update v20dmnk set ten_nk = b.ten_nk, ten_nk2 = b.ten_nk2, ma_dvcs=b.ma_dvcs,ky_hieu=b.ky_hieu,so_seri=b.so_seri,so_ct0=b.so_ct0, so_ct1=b.so_ct1, so_ct2=b.so_ct2,m_trung_so=b.m_trung_so,ngay_ph=b.ngay_ph,ngay_hl_tu=b.ngay_hl_tu, ngay_hl_den=b.ngay_hl_den,
+  datetime2 = getdate(), user_id2 = @@userID
+  from v20dmnk a, #k b where a.ma_nk = b.ma_nk
+end
+
+]]>
+    </text>
+  </processing>
+
+</import>

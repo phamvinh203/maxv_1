@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmloaihd2" code="loai_hd" name="ten_loai_hd%l" order="stt" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Danh mục loại hóa đơn" e="Invoice Type List"></header>
+  <fields>
+    <field name="loai_hd" allowSorting="true" allowFilter="true">
+      <header v="Loại hóa đơn" e="Type"></header>
+    </field>
+    <field name="ten_loai_hd%l" allowSorting="true" allowFilter="true">
+      <header v="Tên loại hóa đơn" e="Description"></header>
+    </field>
+    <field name="stt" type="Int16" dataFormatString="###" allowSorting="true" allowFilter="true">
+      <header v="Số thứ tự" e="Number"></header>
+    </field>
+  </fields>
+</lookup>

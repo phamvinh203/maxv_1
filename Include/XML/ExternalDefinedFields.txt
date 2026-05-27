@@ -1,0 +1,70 @@
+﻿<field name="ma_vv" width="100" clientDefault="Default" aliasName="a">
+  <header v="Dự án" e="Job"></header>
+  <items style="AutoComplete" controller="Job" reference="ten_vv%l" key="status = '1'" check="1 = 1" information="ma_vv$dmvv.ten_vv%l" new="Default"/>
+</field>
+<field name="ten_vv%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>
+<field name="ma_sp" width="100" clientDefault="Default" aliasName="a">
+  <items style="AutoComplete" controller="Product" reference="ten_sp%l" key="status = '1'" check="1 = 1" information="ma_vt$vdmsp.ten_vt%l" new="Item"/>
+  <header v="Sản phẩm" e="Product"></header>
+</field>
+<field name="ten_sp%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>
+<field name="ma_bp" width="100" clientDefault="Default" aliasName="a">
+  <items style="AutoComplete" controller="Department" reference="ten_bp%l" key="status = '1'" check="1 = 1" information="ma_bp$dmbp.ten_bp%l"/>
+  <header v="Phòng ban" e="Department"></header>
+</field>
+<field name="ten_bp%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>
+<field name="so_lsx" width="100" align="right" clientDefault="Default" aliasName="a">
+  <items style="AutoComplete" controller="MO" reference="ten_lsx%l" information="so_lsx$phlsx.dien_giai"/>
+  <header v="Lsx" e="MO"></header>
+</field>
+<field name="ten_lsx%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>
+<field name="ma_hd" width="100" clientDefault="Default" aliasName="a">
+  <items style="AutoComplete" controller="Contract" reference="ten_hd%l" key="status = '1'" check="1 = 1" information="ma_hd$dmhd.ten_hd%l" new="Default"/>
+  <header v="Hợp đồng" e="Contract"></header>
+</field>
+<field name="ten_hd%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>
+<field name="ma_ku" width="100" clientDefault="Default" aliasName="a">
+  <items style="AutoComplete" controller="LoanContract" reference="ten_ku%l" information="ma_ku$dmku.ten_ku%l" new="Default"/>
+  <header v="Khế ước" e="Loan Contract"></header>
+</field>
+<field name="ten_ku%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>
+<field name="ma_phi" width="100" clientDefault="Default" aliasName="a">
+  <items style="AutoComplete" controller="Expense" reference="ten_phi%l" information="ma_phi$dmphi.ten_phi%l" new="Default"/>
+  <header v="Phí" e="Expense"></header>
+</field>
+<field name="ten_phi%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>
+<field name="ma_td1" width="100" clientDefault="Default" aliasName="a">
+  <header v="Mã Job" e="Free List"></header>
+  <items style="AutoComplete" controller="Free1" reference="ten_td1%l" key="status = '1'" check="1 = 1" information="ma_td$dmtd1.ten_td%l" new="Default"/>
+</field>
+<field name="ten_td1%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>
+<field name="ma_td2" width="100" clientDefault="Default" aliasName="a">
+  <header v="Mã tự do2" e="Free List"></header>
+  <items style="AutoComplete" controller="Free2" reference="ten_td2%l" key="status = '1'" check="1 = 1" information="ma_td$dmtd2.ten_td%l" new="Default"/>
+</field>
+<field name="ten_td2%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>
+<field name="ma_td3" width="100" clientDefault="Default" aliasName="a">
+  <header v="Mã tự do3" e="Free List"></header>
+  <items style="AutoComplete" controller="Free3" reference="ten_td3%l" key="status = '1'" check="1 = 1" information="ma_td$dmtd3.ten_td%l" new="Default"/>
+</field>
+<field name="ten_td3%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+  <header v="" e=""></header>
+</field>

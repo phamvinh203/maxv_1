@@ -1,0 +1,1 @@
+ and (@@admin = 1 or (not exists(select 1 from syssiterights where user_id = @@userID) or b.ma_kho in (select ma_kho from syssiterights where user_id = @@userID))) 

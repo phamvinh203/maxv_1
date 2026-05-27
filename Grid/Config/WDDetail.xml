@@ -1,0 +1,3 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config hiddenFields="ma_vi_tri,ma_lo,gia,gia_nt,tien,tien_nt" disableCommands="Retrieve, Separate" xmlns="urn:schemas-maxv-com:data-config"/> 
+

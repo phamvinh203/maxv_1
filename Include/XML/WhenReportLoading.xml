@@ -1,0 +1,8 @@
+﻿<command event="Loading">
+  <text>
+    <![CDATA[
+select 'load$GridReport$(this);' as message
+return
+]]>
+  </text>
+</command>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="r70$000000" code="so_ct" name="stt_rec_id" order="ngay_ct, so_ct, stt_rec, stt_rec0" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Xem phiếu nhập" e="Lookup"></header>
+  <fields>
+    <field name="so_ct" align="right">
+      <header v="Số phiếu" e="Voucher No."></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy">
+      <header v="Ngày" e="Date"></header>
+    </field>
+    <field name="ma_kho">
+      <header v="Mã kho" e="Site"></header>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0">
+      <header v="" e=""></header>
+    </field>
+    <field name="so_luong" type="Decimal" dataFormatString="### ### ### ### ###.000" align="right">
+      <header v="Số lượng" e="Quantity"></header>
+    </field>
+    <field name="gia_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right">
+      <header v="Giá nt" e="FC Price"></header>
+    </field>
+    <field name="ma_nt">
+      <header v="Mã nt" e="Currency Code"></header>
+    </field>
+    <field name="gia" type="Decimal" dataFormatString="### ### ### ### ##0" align="right">
+      <header v="Giá" e="Price"></header>
+    </field>
+    <field name="stt_rec_id">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Finding">
+      <text>
+        <![CDATA[ 
+declare @queryWhereClause nvarchar(4000), @queryFormClause nvarchar(4000), @unit varchar(128)
+select @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end, @queryFormClause = ''
+select @queryWhereClause = 'a.nxt = 1 and a.ma_vt = ''' +  replace(@ma_vt, '''', '''''') + ''' and a.ma_ct = ''' +  replace(@ma_ct, '''', '''''') + ''''
+
+if @ma_kho <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_kho = ''' + replace(rtrim(@ma_kho), '''', '''''') + ''''
+if @ma_vi_tri <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_vi_tri = ''' + replace(rtrim(@ma_vi_tri), '''', '''''') + ''''
+if @ma_lo <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_lo = ''' + replace(rtrim(@ma_lo), '''', '''''') + ''''
+
+exec MaxvOnline$App$Voucher$View @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+  'a.so_ct,a.ngay_ct,a.ma_kho,a.stt_rec,a.stt_rec0,a.sl_nhap as so_luong,a.gia_nt,a.ma_nt,a.gia,a.stt_rec+'',''+a.stt_rec0 as stt_rec_id',
+  @queryFormClause, @queryWhereClause, @ngay_ct1, @ngay_ct2, @unit, 0, 1, @@userID
+]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

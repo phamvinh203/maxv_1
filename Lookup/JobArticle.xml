@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="v20dmvvct" code="ma_so" name="chi_tieu%l" order="ma_so" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục chỉ tiêu công trình" e="Job Article List"></header>
+
+  <fields>
+    <field name="ma_so" allowSorting="true" allowFilter="true">
+      <header v="Chỉ tiêu" e="Article"></header>
+    </field>
+
+    <field name="chi_tieu%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên chỉ tiêu" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

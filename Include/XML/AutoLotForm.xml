@@ -1,0 +1,173 @@
+﻿<title v="Cập nhật lô" e="Lot Maintenance"></title>
+  <fields>
+    <field name="ma_vt" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_lo" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_nhap" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_kh">
+      <header v="&c11;" e="&c12;"></header>
+    </field>
+    <field name="ten_kh%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_lap" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" clientDefault="Default">
+      <header v="Ngày lập" e="Voucher Date"></header>
+    </field>
+    <field name="so_ct" dataFormatString="@upperCaseFormat" align="right">
+      <header v="&c21;" e="&c22;"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="index" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="dmlo" external="true" clientDefault="0" defaultValue="0" rows="208" categoryIndex="1" allowNulls="false">
+      <header v="" e=""></header>
+      <label v="Chi tiết" e="Detail"></label >
+      <items style="Grid" controller="&Identity;Grid" row="1">
+        <item value="ForeignKey">
+          <text v ="String: ma_vt, ma_vt" e="String: ma_vt, ma_vt"></text>
+        </item>
+        <item value="ForeignKey">
+          <text v ="String: ma_lo, ma_lo" e="String: ma_lo, ma_lo"></text>
+        </item>
+        <item value="ForeignKey">
+          <text v ="String: ngay_nhap, ngay_nhap" e="String: ngay_nhap, ngay_nhap"></text>
+        </item>
+      </items>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="268" anchor="6" split="10">
+      <item value="100, 30, 70, 35, 65, 0, 0, 37, 100, 100, 8, 58, 50, 100, 0, 0"/>
+      <item value="110100000011011: [ma_kh].Label, [ma_kh], [ten_kh%l], [ma_vt], [so_ct].Label, [so_ct], [index]"/>
+      <item value="-----------10111: [ngay_lap].Label, [ngay_lap], [ma_lo], [ngay_nhap]"/>
+
+      <item value="1: [dmlo]"/>
+
+      <categories>
+        <category index="1" columns="769" anchor="1">
+          <header v="Chi tiết" e="Detail"/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Created">
+      <text>
+        <![CDATA[
+select 'create$]]>&Identity;<![CDATA[Form$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$]]>&Identity;<![CDATA[Form$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$]]>&Identity;<![CDATA[Form$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã vật tư <span class="Highlight">%s1</span> và lô <span class="Highlight">%s2</span> đã có hoặc lồng nhau trong danh mục lô.' else N'The record consisting of item <span class="Highlight">%s1</span> and lot <span class="Highlight">%s2</span> is invalid or already exists.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @dmlo a left join dmlo b on a.ma_vt = b.ma_vt where a.status = '0' and a.ma_lo like (rtrim(b.ma_lo) + '%') or b.ma_lo like (rtrim(a.ma_lo) + '%')) begin
+  declare @v1 varchar(16), @v2 varchar(16)
+  select @v1 = a.ma_vt, @v2 = a.ma_lo from @dmlo a left join dmlo b on a.ma_vt = b.ma_vt where a.ma_lo like (rtrim(b.ma_lo) + '%') or b.ma_lo like (rtrim(a.ma_lo) + '%')
+  select 'ma_lo' as field, replace(replace(@$exists, '%s1', rtrim(@v1)), '%s2', rtrim(@v2)) as message
+  return
+end
+
+insert into @@table select ma_vt, ma_lo, ten_lo, ten_lo2, ngay_nhap, ngay_sx, ngay_bdsd, ngay_kt, ngay_hhsd, ngay_hhbh, ma_vt2, sl_nhap, sl_xuat, ghi_chu, 1, @@userID, @@userID, getdate(), getdate(), '', '', '', 0, 0, 0, null, null, null, '', '', '', '', '', '', 0, 0, 0, null, null, null
+  from @dmlo
+  where (ma_vt + ma_lo not in (select ma_vt + ma_lo from dmlo)) and ma_vt in (select ma_vt from dmvt)
+  
+select '' as field, '' as message, 'on$]]>&Identity;<![CDATA[Filter$Retrieve$QueryComplete(this);' as script
+return
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function create$]]>&Identity;<![CDATA[Form$(f) {
+  var w = f.grid.get_element().parentForm;
+  f.setItemValues('ma_vt, ma_lo, ngay_nhap, ma_kh, ten_kh%l, so_ct, ngay_lap', [
+  f.grid._items, f.grid._lots, f.grid._voucherDate, w.getItemValue('ma_kh'), w.getItemValue('ten_kh%l'),w.getItemValue('so_ct'), w.getItemValue('ngay_lct')
+  ]);
+}
+function active$]]>&Identity;<![CDATA[Form$(f) {
+  f.setReadOnlyFields('ma_kh, so_ct, ngay_lap');
+  f.add_onResponseComplete(on$]]>&Identity;<![CDATA[Form$ResponseComplete);
+}
+function close$]]>&Identity;<![CDATA[Form$(f) {try {f.remove_onResponseComplete(on$]]>&Identity;<![CDATA[Form$ResponseComplete);} catch (ex) {}}
+function on$]]>&Identity;<![CDATA[Form$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+  case 'Checking':
+    var g = f.getItem('dmlo')._controlBehavior, z = f.grid, l = g._getColumnOrder('ma_lo');
+    z._save$Lots = [];
+    for (var i = 1; i <= g._rowCount; i++) {
+      Array.add(z._save$Lots, g._getItemValue(i, l));
+    }
+    break;
+  default:
+    break;
+}
+}
+function on$]]>&Identity;<![CDATA[Filter$Retrieve$QueryComplete(f) {
+  var g = f.grid, a = g._save$Lots, l = g._getColumnOrder('ma_lo');
+  for (var i = 0; i < a.length; i++) {
+    var c = a[i], row;
+    for (var j = 0; j < g._rowIdx.length; j++) {
+      if (g._rowIdx[j][0] == i + 1) {
+        row = g._rowIdx[j][1];
+        var o = g._getItem(row, l);
+        o.value = c;
+        if (o.label) {
+          Sys.UI.DomElement.removeCssClass(o, 'InvalidInput');
+          o.label.checked = true;
+        }
+      }
+    }
+  }
+  set$]]>&Identity;<![CDATA[Filter$FormScript(g);
+}
+function set$]]>&Identity;<![CDATA[Filter$FormScript(g) {g._formScript = 'show$]]>&Identity;<![CDATA[Filter$QueryComplete(this)';}
+function show$]]>&Identity;<![CDATA[Filter$QueryComplete(g) {
+  g._memvars = [];
+  g._focusWhenTabChanged();
+}
+]]>
+    </text>
+  </script>

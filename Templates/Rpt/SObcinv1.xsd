@@ -1,0 +1,68 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="vi-VN">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="d1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tu_ngay" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="den_ngay" type="xs:dateTime" minOccurs="0" />			  
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="d2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="sysorder" type="xs:int" minOccurs="0" />
+              <xs:element name="sysprint" type="xs:int" minOccurs="0" />
+              <xs:element name="systotal" type="xs:int" minOccurs="0" />              
+              <xs:element name="ma_ct" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_ct" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ngay_ct0" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="so_ct" type="xs:string" minOccurs="0" />
+              <xs:element name="so_seri" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_kh" type="xs:string" minOccurs="0" />
+              <xs:element name="dien_giai" type="xs:string" minOccurs="0" />              
+              <xs:element name="ma_nt" type="xs:string" minOccurs="0" />
+              <xs:element name="ty_gia" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tien_nt2" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tien2" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_thue_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_thue" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_ck_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_ck" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt_nt0" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt0" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ma_tt" type="xs:string" minOccurs="0" />
+              <xs:element name="t_tt_qd" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt_qd0" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tat_toan" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ngay_tt" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="tt_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tt_qd" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt1" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt_nt1" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tt_cn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ty_gia_dg" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tien_cl_no" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tien_cl_co" type="xs:decimal" minOccurs="0" />
+
+              <xs:element name="ma_ct0" type="xs:string" minOccurs="0" />
+              <xs:element name="stt_ct_nkc" type="xs:unsignedByte" minOccurs="0" />
+              <xs:element name="ten_kh" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_kh2" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_tt0" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="con_pt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="con_pt_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="han_tt" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

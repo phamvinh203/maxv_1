@@ -1,0 +1,8 @@
+﻿<![CDATA[
+declare @$recordHasBeenChanged nvarchar(512)
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Chứng từ hiện tại đã được sửa hoặc xóa bởi người sử dụng khác.' else N'This voucher has been modified or deleted by another user.' end
+if not exists(select 1 from @@prime$partition$previous where stt_rec = $stt_rec.OldValue and convert(varchar(19), datetime2, 121) = @$cookie) begin
+  select @$recordHasBeenChanged as message
+  return
+end
+]]>

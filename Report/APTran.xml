@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+
+  <!ENTITY GLTranReport SYSTEM ".\Include\GLTranReport.xml">
+  <!ENTITY GLTranReportSql SYSTEM ".\Include\GLTranReportSql.txt">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+if dbo.MaxvOnline$Function$CheckSQLInjection(@stt_rec) = 0 return
+]]>&GLTranReportSql;<![CDATA[
+else begin
+    declare @m_ma_nt0 varchar(10), @key varchar(128)
+    select @m_ma_nt0 = val from options where name = N'm_ma_nt0'
+    
+    select rtrim(a.ong_ba) as ong_ba, a.ma_kh, rtrim(b.ten_kh) as ten_kh ,rtrim(b.ten_kh2) as ten_kh2, b.dia_chi, ltrim(a.so_ct) as so_ct, 
+		    a.t_tien, a.t_tien_nt, a.t_thue, a.t_thue_nt, a.t_tt, a.t_tt_nt, c.tk, isnull(c.ten_tk, '') as ten_tk, isnull(c.ten_tk2, '') as ten_tk2,
+		    dbo.MaxvOnline$Function$System$ReadCurrency(@m_ma_nt0, a.t_tt, @@language) as t_tt_in_word, 
+		    dbo.MaxvOnline$Function$System$ReadCurrency(a.ma_nt, a.t_tt_nt, @@language) as t_tt_nt_in_word,
+		    replace(str(day(ngay_ct),2),' ','0') ngay, replace(str(month(ngay_ct),2),' ','0') thang, cast(year(ngay_ct) as char(4)) nam
+	    from @@prime$partition$current a with(nolock)
+		    left join dmkh b with(nolock) on a.ma_kh = b.ma_kh 
+		    left join dmtk c with(nolock) on a.tk = c.tk
+	    where stt_rec = @stt_rec
+
+    select @key = 'a.stt_rec = ''' + @stt_rec + ''''
+    exec pr_PrintAPTran @@language, @key, 'd31$$partition$current', @@id
+end
+]]>
+    </text>
+  </query>
+
+  <forms>
+    <form id="110" reportFile ="APTran_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Hóa đơn mua hàng dịch vụ" e="Service Purchase Invoice"/>
+      <download>
+        <header v="Hóa đơn mua hàng dịch vụ" e="Service Purchase Invoice"/>
+      </download>&b;
+    </form>
+    <form id="210" reportFile="APTran_110" templateFile="" commandArgument="Pdf">
+      <header v="Hóa đơn mua hàng dịch vụ tiền ngoại tệ" e="Service Purchase Invoice in Foreign Currency"/>
+      <download>
+        <header  v="Hóa đơn mua hàng dịch vụ tiền ngoại tệ" e="Service Purchase Invoice in Foreign Currency"/>
+      </download>&f;
+    </form>
+
+    &s;
+
+    <form id="510" reportFile="" templateFile="APTran_110" commandArgument="Excel" urlImage="&e;">
+      <header v="Hóa đơn mua hàng dịch vụ (Excel)" e="Service Purchase Invoice (Excel)"></header>
+      <download>
+        <header  v="Hóa đơn mua hàng dịch vụ (Excel)" e="Service Purchase Invoice (Excel)"/>
+      </download>&b;
+    </form>
+    <form id="610" reportFile="" templateFile="APTran_210" commandArgument="Excel">
+      <header v="Hóa đơn mua hàng dịch vụ ngoại tệ (Excel)" e="Service Purchase Invoice in Foreign Currency"/>
+      <download>
+        <header  v="Hóa đơn mua hàng dịch vụ ngoại tệ (Excel)" e="Service Purchase Invoice in Foreign Currency"/>
+      </download>&f;
+    </form>
+
+    &s;
+
+    &GLTranReport;
+  </forms>
+  <fields>
+    <field name="title" type ="String">
+      <header v="PHIẾU NHẬP MUA DỊCH VỤ" e="SERVICE PURCHASE INVOICE"/>
+    </field>
+    <field name="h_ht_nguoi_giao_hang" type ="String">
+      <header v="Họ tên người giao hàng:" e="Deliverer:"/>
+    </field>
+    <field name="h_don_vi" type ="String">
+      <header v="Đơn vị:" e="Company:"/>
+    </field>
+    <field name="h_dia_chi" type ="String">
+      <header v="Địa chỉ:" e="Address:"/>
+    </field>
+    <field name="h_tk_co" type ="String">
+      <header v="Tài khoản có:" e="Credit Account:"/>
+    </field>
+    <field name="h_so_phieu" type ="String">
+      <header v="Số phiếu:" e="Voucher No.:"/>
+    </field>
+    <field name="h_dien_giai" type ="String">
+      <header v="Diễn giải" e="Description"/>
+    </field>
+    <field name="h_tk" type ="String">
+      <header v="Tài khoản nợ" e="Debit Account"/>
+    </field>
+    <field name="h_tien" type ="String">
+      <header v="Tiền" e="Amount"/>
+    </field>
+    <field name="h_hyphen" type ="String">
+      <header v="-" e="-"/>
+    </field>
+    <field name="h_space" type ="String">
+      <header v=" " e=" "/>
+    </field>
+    <field name="h_t_tien" type ="String">
+      <header v="Tổng cộng tiền hàng" e="Total Amount"/>
+    </field>
+    <field name="h_t_thue" type ="String">
+      <header v="Tổng cộng tiền thuế" e="Total VAT"/>
+    </field>
+    <field name="h_tong_cong" type ="String">
+      <header v="Tổng cộng" e="Total"/>
+    </field>
+    <field name="h_xac_nhan" type ="String">
+      <header v="Số tiền (viết bằng chữ):" e="Amount (in Words):"/>
+    </field>
+  </fields>
+</report>

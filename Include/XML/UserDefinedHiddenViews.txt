@@ -1,0 +1,7 @@
+﻿<field name="ma_vv"/>
+<field name="ma_bp"/>
+<field name="so_lsx"/>
+<field name="ma_sp"/>
+<field name="ma_hd"/>
+<field name="ma_phi"/>
+<field name="ma_ku"/>

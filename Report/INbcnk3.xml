@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+
+  <forms>
+    <form id="110" reportFile="INbcnk3_110" commandArgument="pdf" urlImage="&p;">
+      <header v="Báo cáo hàng nhập nhóm theo 2 chỉ tiêu" e="Receiving Report By Two Criteria"></header>
+      <download>
+        <header  v="Báo cáo hàng nhập nhóm theo 2 chỉ tiêu" e="Receiving Report By Two Criteria"/>
+      </download>&b;
+    </form>
+
+    <form id="210" reportFile="INbcnk3" commandArgument="pdf">
+      <header v="Báo cáo hàng nhập nhóm theo 2 chỉ tiêu ngoại tệ" e="Receiving Report By Two Criteria in Foreign Currency"></header>
+      <download>
+        <header  v="Báo cáo hàng nhập nhóm theo 2 chỉ tiêu ngoại tệ" e="Receiving Report By Two Criteria in Foreign Currency"/>
+      </download>&f;
+    </form>
+	 &s;	
+	<form id="510" reportFile="" templateFile="INbcnk3_110" commandArgument="Excel" rowFilter="[2$sysprint = 1]" urlImage="&e;">
+      <header v="Báo cáo hàng nhập nhóm theo 2 chỉ tiêu (Excel)" e="Receiving Report By Two Criteria (Excel)"></header>
+      <download>
+        <header  v="Báo cáo hàng nhập nhóm theo 2 chỉ tiêu (Excel)" e="Receiving Report By Two Criteria (Excel)"/>
+      </download>&b;
+    </form>
+	<form id="610" reportFile="" templateFile="INbcnk3_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+      <header v="Báo cáo hàng nhập nhóm theo 2 chỉ tiêu ngoại tệ (Excel)" e="Receiving Report By Two Criteria in Foreign Currency(Excel)"></header>
+      <download>
+        <header  v="Báo cáo hàng nhập nhóm theo 2 chỉ tiêu ngoại tệ (Excel)" e="Receiving Report By Two Criteria in Foreign Currency(Excel)"/>
+      </download>&f;
+    </form>
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="BÁO CÁO HÀNG NHẬP NHÓM THEO 2 CHỈ TIÊU" e="RECEIVING REPORT BY TWO CRITERIA"/>
+    </field>
+    <field name="h_kho" type="String">
+      <header v="Kho:" e="Site:"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_ma" type="String">
+      <header v="Mã" e="Id"/>
+    </field>
+    <field name="h_ten" type="String">
+      <header v="Tên" e="Name"/>
+    </field>
+    <field name="h_so_luong" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_gia_tri" type="String">
+      <header v="Giá trị" e="Amount"/>
+    </field>
+    <field name="h_gia_tri_nt" type="String">
+      <header v="Giá trị nt" e="FC Amount"/>
+    </field>
+  </fields>
+</report>

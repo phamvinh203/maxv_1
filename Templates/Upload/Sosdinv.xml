@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$SosdinvImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$SosdinvImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_dvcs" column="A" allowNulls="false" maxLength="8" upperCase="true"/>
+	<field name="ngay_ct" column="B" isPrimaryKey="true" allowNulls="false" type="DateTime"/>
+	<field name="so_ct" column="C" isPrimaryKey="true" allowNulls="false" maxLength="12" upperCase="true"/>
+	<field name="ma_kh" column="D" allowNulls="false" maxLength="16" upperCase="true"/>
+	<field name="ma_nvbh" column="E" maxLength="16" upperCase="true"/>
+	<field name="tk" column="F" allowNulls="false" maxLength="16" upperCase="true"/>
+	<field name="dien_giai" column="G" maxLength="128"/>
+	<field name="ma_nt" column="H" allowNulls="false" maxLength="3" upperCase="true"/>
+	<field name="t_tt_nt" column="I" type="Decimal"/>
+	<field name="ty_gia" column="J" type="Decimal" defaultValue="1"/>
+	<field name="t_tt_qd0" column="K" type="Decimal"/>
+	<field name="ma_tt" column="L" maxLength="3" upperCase="true"/>
+	<field name="tat_toan" column="M" type="Decimal"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @q nvarchar(4000), @message nvarchar(4000), @fields nvarchar(4000), @field varchar(32), @wsID varchar(1), @voucherID varchar(8)
+declare @user int, @admin bit, @m int, @year int, @r int, @i int, @currentID int, @count int, @baseCurrency varchar(10), @round int
+
+select @i = 1, @voucherID = 'HD0', @admin = @@admin, @user = @@userID, @year = nam_bd from dmstt
+select @baseCurrency = rtrim(val) from options where rtrim(name) = 'm_ma_nt0'
+select @wsID = rtrim(val) from options where rtrim(name) = 'm_ws_id'
+select @round = cast(rtrim(val) as int) from options where name = 'm_round_tien'
+select @m = character_maximum_length from information_schema.columns where table_name = 'cttt20' and column_name = 'so_ct'
+
+update @@table set so_ct = space(@m - len(rtrim(so_ct))) + ltrim(so_ct)
+
+-- Checking
+set @field = 'ma_dvcs'
+select @r = min(stt) from @@table where ma_dvcs not in (select ma_dvcs from dmdvcs where status = '1')]]>&Error;<![CDATA[
+select @r = min(stt) from @@table where ma_dvcs in (select distinct ma_dvcs from dmdvcsks where year(ngay_ks) >= @year)]]>&Error;<![CDATA[
+
+if @admin <> 1 begin
+  if @type = '1' begin
+    if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@admin, @user, 'ARInvoiceOpeningBalance', 'Edit') = 0 select @type = '0'
+  end
+
+  select @r = min(a.stt) from @@table a where not exists(select 1 from @@table a join cttt20 b on a.so_ct = b.so_ct and a.ngay_ct = b.ngay_ct where b.ma_ct = @voucherID)
+    and a.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_new = 1)]]>&Error;<![CDATA[
+
+  if @type = '1' begin
+    select @r = min(stt) from @@table a where exists(select 1 from @@table a join cttt20 b on a.so_ct = b.so_ct and a.ngay_ct = b.ngay_ct where b.ma_ct = @voucherID)
+      and a.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_edit = 1)]]>&Error;<![CDATA[
+  end
+end
+
+select @field = 'ma_kh', @r = min(stt) from @@table where ma_kh not in (select ma_kh from dmkh)]]>&Error;<![CDATA[
+select @field = 'ma_nvbh', @r = min(stt) from @@table where ma_nvbh <> '' and ma_nvbh not in (select ma_nvbh from dmnvbh)]]>&Error;<![CDATA[
+select @field = 'tk', @r = min(stt) from @@table where tk not in (select tk from dmtk where tk_cn = 1 and loai_tk = 1)]]>&Error;<![CDATA[
+select @field = 'ma_nt', @r = min(stt) from @@table where ma_nt not in (select ma_nt from dmnt)]]>&Error;<![CDATA[
+select @field = 'ma_tt', @r = min(stt) from @@table where ma_tt <> '' and ma_tt not in (select ma_tt from dmtt)]]>&Error;<![CDATA[
+select @field = 'tat_toan', @r = min(stt) from @@table where tat_toan not in ('0', '1')]]>&Error;<![CDATA[
+
+if @type = '0' delete @@table from @@table a where exists(select 1 from cttt20 b where a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct and b.ma_ct = @voucherID)
+
+select min(b.stt_rec) as stt_rec, a.ngay_ct, a.so_ct, a.ma_dvcs, a.ma_kh, a.ma_nvbh, a.tk, a.dien_giai, a.ma_nt, a.t_tt_nt, a.ty_gia, a.t_tt_qd0, a.ma_tt, a.tat_toan into #k
+  from @@table a join cttt20 b on a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct where b.ma_ct = @voucherID
+  group by a.ngay_ct, a.so_ct, a.ma_dvcs, a.ma_kh, a.ma_nvbh, a.tk, a.dien_giai, a.ma_nt, a.t_tt_nt, a.ty_gia, a.t_tt_qd0, a.ma_tt, a.tat_toan
+  
+delete @@table from @@table a where exists(select 1 from #k b where a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct)
+
+-- Insert
+select @count = count(*) from @@table
+if @count > 0 begin
+  alter table @@table add stt_rec char(13)
+  select @currentID = stt_rec from dmstt
+  update dmstt set stt_rec = stt_rec + @count
+  
+  update @@table set ma_nt = '', ty_gia = 0 where ma_nt = @baseCurrency 
+  
+  select @q = 'update @@table set stt_rec = ''' + @wsID + ''' + replace(str(stt + ' + rtrim(@currentID) + ', 9), '' '', ''0'') + ''' + @voucherID + ''' '
+  select @q = @q + 'insert into cttt20(stt_rec, stt_rec0, stt_rec_tt, line_nbr, ngay_ct, ngay_ct0, so_ct, ma_ct, so_seri, loai_tt, ma_gd, ma_dvcs, loai_ct, '
+  select @q = @q + 'ma_kh, dien_giai, so_lsx, ma_vv, ma_sp, ma_bp, ma_nvbh, tk, ma_tt, ma_nt, ty_gia, '
+  select @q = @q + 't_tt, t_tt0, t_tt1, t_tt_nt, t_tt_nt0, t_tt_nt1, t_tt_qd, t_tt_qd0, '
+  select @q = @q + 't_tien_nt2, t_tien2, t_thue_nt, t_thue, t_ck_nt, t_ck, tt_nt, tt, tt_qd, tt_cn, ty_gia_dg, tien_cl_no, tien_cl_co, '
+  select @q = @q + 'tat_toan, ngay_tt, nam, ky, status, datetime0, datetime2, user_id0, user_id2, ma_hd, ma_ku, ma_phi, so_dh, '
+  select @q = @q + 'ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, ngay_td1, ngay_td2, ngay_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6, s7, s8, s9) '
+  
+  select @q = @q + 'select stt_rec, '''', '''', 0, ngay_ct, ngay_ct, so_ct, ''' + @voucherID + ''', '''', 0, '''', ma_dvcs, '''', '
+  select @q = @q + 'ma_kh, dien_giai, '''', '''', '''', '''', ma_nvbh, tk, ma_tt, ma_nt, ty_gia, '
+  select @q = @q + 'case when ma_nt = '''' then t_tt_nt else round(t_tt_nt * ty_gia, ' + rtrim(@round) + ') end, '
+  select @q = @q + 'case when ma_nt = '''' then t_tt_nt else round(t_tt_nt * ty_gia, ' + rtrim(@round) + ') end, '
+  select @q = @q + 'case when ma_nt = '''' then t_tt_qd0 else round(t_tt_qd0 * ty_gia, ' + rtrim(@round) + ') end, '
+  select @q = @q + 'case when ma_nt = '''' then 0 else t_tt_nt end, case when ma_nt = '''' then 0 else t_tt_nt end, '
+  select @q = @q + 'case when ma_nt = '''' then 0 else t_tt_qd0 end, t_tt_qd0, t_tt_qd0, '
+  select @q = @q + '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '
+  select @q = @q + 'tat_toan, null, 0, 0, '''', getdate(), getdate(), ' + rtrim(@user) + ',' + rtrim(@user) + ', '''', '''', '''', '''', '
+  select @q = @q + ''''', '''', '''', 0, 0, 0, null, null, null, '''', '''', '''', '''', '''', '''', 0, 0, 0, null, null, null'
+  select @q = @q + ' from @@table'
+  exec sp_executesql @q
+end
+
+-- Update
+if @type = 1 begin
+  update #k set ma_nt = '', ty_gia = 0 where ma_nt = @baseCurrency
+  
+  update cttt20 set ma_dvcs = b.ma_dvcs, ngay_ct0 = b.ngay_ct, ma_kh = b.ma_kh, ma_nvbh = b.ma_nvbh, tk = b.tk, dien_giai = b.dien_giai,
+      ma_nt = b.ma_nt, ty_gia = b.ty_gia, ma_tt = b.ma_tt, tat_toan = b.tat_toan, datetime2 = getdate(), user_id2 = @user,
+      t_tt = case when b.ma_nt = '' then b.t_tt_nt else round(b.t_tt_nt * b.ty_gia, @round) end,
+      t_tt0 = case when b.ma_nt = '' then b.t_tt_nt else round(b.t_tt_nt * b.ty_gia, @round) end,
+      t_tt1 = case when b.ma_nt = '' then b.t_tt_qd0 else round(b.t_tt_qd0 * b.ty_gia, @round) end,
+      t_tt_nt = case when b.ma_nt = '' then 0 else b.t_tt_nt end, t_tt_nt0 = case when b.ma_nt = '' then 0 else b.t_tt_nt end,
+      t_tt_nt1 = case when b.ma_nt = '' then 0 else b.t_tt_qd0 end, t_tt_qd = b.t_tt_qd0, t_tt_qd0 = b.t_tt_qd0
+    from cttt20 a join #k b on a.stt_rec = b.stt_rec
+end
+]]>
+    </text>
+  </processing>
+
+</import>

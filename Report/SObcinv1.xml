@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="110" reportFile="SObcinv1_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Bảng kê công nợ phải thu theo hóa đơn" e="Account Receivable Report by Invoice"></header>
+      <download>
+        <header v="Bảng kê công nợ phải thu theo hóa đơn" e="Account Receivable Report by Invoice"/>
+      </download>
+    </form>
+
+    <form id="210" reportFile="SObcinv1_210" templateFile="" commandArgument="Pdf">
+      <header v="Bảng kê công nợ phải thu theo hóa đơn ngoại tệ" e="Account Receivable Report by Invoice in Foreign Currency"/>
+      <download>
+        <header v="Bảng kê công nợ phải thu theo hóa đơn ngoại tệ" e="Account Receivable Report by Invoice in Foreign Currency"/>
+      </download>
+      <fields>
+        <field name="h_ma_nt" type="String">
+          <header v="Mã nt" e="FC Code"/>
+        </field>
+        <field name="h_nt" type="String">
+          <header v="nt" e="FC"/>
+        </field>
+      </fields>
+    </form>
+	&s; 
+	<form id="510" templateFile ="SObcinv1_110" commandArgument="Excel" rowFilter="[2$sysprint = 1]" urlImage="&e;">
+		<header v="Bảng kê công nợ phải thu theo hóa đơn" e="Account Receivable Report by Invoice"></header>
+		<download>
+			<header v="Bảng kê công nợ phải thu theo hóa đơn" e="Account Receivable Report by Invoice"/>
+		</download>
+	</form>	
+	<form id="610" templateFile ="SObcinv1_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Bảng kê công nợ phải thu theo hóa đơn ngoại tệ" e="Account Receivable Report by Invoice in Foreign Currency"></header>
+		<download>
+			<header v="Bảng kê công nợ phải thu theo hóa đơn ngoại tệ" e="Account Receivable Report by Invoice in Foreign Currency"/>
+		</download>
+	</form>	
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="BẢNG KÊ CÔNG NỢ THEO HÓA ĐƠN" e="ACCOUNT RECEIVABLE REPORT BY INVOICE"/>
+    </field>
+    <field name="h_dFrom" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_dTo" type="String">
+      <header v="đến ngày" e="to"></header>
+    </field>
+
+    <field name="h_ct" type="String">
+      <header v="Chứng từ" e="Voucher"/>
+    </field>
+    <field name="h_ngay_ct" type="String">
+      <header v="Ngày" e="Date"/>
+    </field>
+    <field name="h_so_ct" type="String">
+      <header v="Số" e="Number"/>
+    </field>
+    <field name="h_dien_giai" type="String">
+      <header v="Diễn giải" e="Description"/>
+    </field>
+    <field name="h_phai_thu" type="String">
+      <header v="Phải thu" e="Amount Invoice"/>
+    </field>
+    <field name="h_da_thu" type="String">
+      <header v="Đã thu" e="Received"/>
+    </field>
+    <field name="h_con_pt" type="String">
+      <header v="Còn phải thu" e="Receivable"/>
+    </field>
+    <field name="h_han_tt" type="String">
+      <header v="Hạn thanh toán" e="Payment Term"/>
+    </field>
+    <field name="h_total" type="String">
+      <header v="Tổng cộng" e="Total"/>
+    </field>
+	<field name="h_ma_kh" type="String">
+      <header v="Mã khách" e="Customer"/>
+    </field>
+	<field name="h_ten_kh" type="String">
+      <header v="Tên khách hàng" e="Customer Name"/>
+    </field>
+  </fields>
+</report>

@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config hiddenFields="ma_vi_tri, ma_lo, pn_so, pn_ln, dh_so, dh_ln, tk_ln" disableCommands="Separate" xmlns="urn:schemas-maxv-com:data-config"/> 

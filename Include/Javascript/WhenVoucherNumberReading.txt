@@ -1,0 +1,11 @@
+﻿<![CDATA[
+    case 'Reading':
+      f._voucherNumber = result[0].Value;
+      f._voucherNumberBehavior.setVoucherNumber(0, f._voucherNumber, null, null, null);
+      break;
+    case 'GetVoucherNumber':
+      f._voucherNumberBehavior.setVoucherNumber(2, f._voucherNumber, result[0].Value, result[1].Value, result[2].Value);
+      f.setItemControlBehavior('so_seri', result[3].Value, null, true);
+      f.live(f._voucherNumberBehavior._voucherNumber);
+      break;
+]]>

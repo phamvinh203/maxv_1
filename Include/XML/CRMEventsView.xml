@@ -1,0 +1,10 @@
+﻿<item value="110000000: [datetime0].Label, [datetime0]"/>
+<item value="111000000: [event_yn].Label, [event_yn], [event_yn].Description"/>
+<item value="110000001: [text].Label, [text], [id]"/>
+<item value="1100: [muc_do].Label, [muc_do]"/>
+<item value="110000000: [assigned_name].Label, [assigned_name]"/>
+<item value="110000000: [share_user].Label, [share_user]"/>
+<item value="110100001: [ma_nhom].Label, [ma_nhom], [ten_nhom], [share_group]"/>
+<item value="110111000: [start_date].Label, [start_date], [start_time],[full_day], [full_day].Label"/>
+<item value="1101: [end_date].Label, [end_date], [end_time]"/>
+<item value="110000000: [details].Label, [details]"/>

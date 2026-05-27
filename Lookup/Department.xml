@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmbp" code="ma_bp" name="ten_bp%l" order="ma_bp" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục phòng ban" e="Department List"></header>
+
+  <fields>
+    <field name="ma_bp" allowSorting="true" allowFilter="true">
+      <header v="Mã phòng ban" e="Department"></header>
+    </field>
+
+    <field name="ten_bp%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên phòng ban" e = "Department Name"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

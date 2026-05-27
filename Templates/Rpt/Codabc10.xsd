@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsReport" targetNamespace="http://tempuri.org/dsReport.xsd" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/dsReport.xsd" xmlns:mstns="http://tempuri.org/dsReport.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsReport" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="d1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tu_ngay" type="xs:dateTime" minOccurs="0" />
+			  <xs:element name="den_ngay" type="xs:dateTime" minOccurs="0" /> 
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="d2">
+          <xs:complexType>
+            <xs:sequence>
+			  <xs:element name="sysorder" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="sysprint" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="systotal" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="tk" type="xs:string" minOccurs="0" />
+			  <xs:element name="ma_vv" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_vv" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_vv2" type="xs:string" minOccurs="0" />
+			  <xs:element name="ps00" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ps_nt00" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ps1" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ps_nt1" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ps" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ps_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ps20" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ps_nt20" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ps2" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="ps_nt2" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

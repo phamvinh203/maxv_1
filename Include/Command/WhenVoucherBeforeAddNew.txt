@@ -1,0 +1,7 @@
+﻿<![CDATA[
+if @@admin <> 1 begin
+  if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @@unit and r_new = 1) begin
+    select @message = @message + 'this._denyNew = true;'
+  end
+end
+]]>

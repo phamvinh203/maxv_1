@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<entity xmlns="urn:schemas-maxv-com">
+  <company>
+    <var line="0" value ="CÔNG TY CỔ PHẦN PHẦN MỀM MAXV VIỆT NAM"></var>
+    <var line="1" value ="Số 46, ngõ 100 Trần Duy Hưng, Phường Trung Hoà, Quận Cầu Giấy, Thành phố Hà Nội, Việt Nam"></var>
+    <var line="2" value =""></var>
+    <var line="3" value =""></var>
+    <var line="4" value =""></var>
+    <var line="5" value =""></var>
+    <var line="6" value =""></var>
+    <var line="7" value =""></var>
+    <var line="8" value =""></var>
+    <var line="9" value =""></var>
+  </company>
+
+  <license>
+    <user>
+      <var value="30"></var>
+    </user>
+    <database>
+      <var id ="0" dbid="5" name="MAXV_App" crdate="2012-05-18 08:30:11"></var>
+      <var id ="1" dbid="6" name="MAXV_Sys" crdate="2012-05-18 08:30:17"></var>
+    </database>
+  </license>
+</entity>

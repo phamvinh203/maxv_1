@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmloaicp" code="ma_loai" name="ten_loai%l" order="ma_loai" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục loại chi phí" e="Charge Type List"></header>
+
+  <fields>
+    <field name="ma_loai" allowSorting="true" allowFilter="true" >
+      <header v="Mã loại" e="Type Code"></header>
+    </field>
+
+    <field name="ten_loai%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên loại chi phí" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

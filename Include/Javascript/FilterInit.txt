@@ -1,0 +1,6 @@
+﻿<![CDATA[
+function init$VoucherFilter$(f) {
+  var g = f.grid, fields = f.grid._searchInfor.Fields;
+  if (g._dvUserFilterType != null) $func.findField('user_id0', fields).ClientDefault = g._dvUserFilterType;
+}
+]]>

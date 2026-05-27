@@ -1,0 +1,19 @@
+﻿<![CDATA[
+function initialize(f, contact, transactionCode, transactionType, handle) {
+  var g = f.grid, fields = f.grid._dirInfor.Fields;
+  if (g._dvContactType != null && contact) $func.findField(contact, fields).Disabled = (f.grid._dvContactType == 0);
+  if (g._dvTransactionCode != null && transactionCode) $func.findField(transactionCode, fields).DefaultValue = g._dvTransactionCode;
+  if (g._dvTransactionType != null && transactionType) $func.findField(transactionType, fields).DefaultValue = g._dvTransactionType;
+  if (g._dvHandle != null && handle) $func.findField(handle, fields).ClientDefault = g._dvHandle;
+}
+function udf$Detail$(g) {
+  var v = g.get_element().parentForm.grid;
+  if (!v._udfProduct) udf$Field$(g, 'ma_sp');
+  if (!v._udfDepartment) udf$Field$(g, 'ma_bp');
+  if (!v._udfMO) udf$Field$(g, 'so_lsx');
+  if (!v._udfContract) udf$Field$(g, 'ma_hd');
+  if (!v._udfLoanContract) udf$Field$(g, 'ma_ku');
+  if (!v._udfExpense) udf$Field$(g, 'ma_phi');
+}
+function udf$Field$(g, c) {var n = g._getColumnOrder(c); if (n > 0) try {g._setColumnVisible(n, false);} catch (ex) {}}
+]]>

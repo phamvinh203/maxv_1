@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="110" reportFile ="SObchd4_110" commandArgument="pdf" urlImage="&p;">
+      <header v="Báo cáo số dư hợp đồng" e="Contract Balance Summary"/>
+      <download>
+        <header v="Báo cáo số dư hợp đồng" e="Contract Balance Summary"/>
+      </download>&b;
+    </form>
+
+    <form id="020" reportFile ="SObchd4_210" commandArgument="pdf">
+      <header v="Báo cáo số dư hợp đồng ngoại tệ" e="Contract Balance Summary in Foreign Currency"/>
+      <download>
+        <header v="Báo cáo số dư hợp đồng ngoại tệ" e="Contract Balance Summary in Foreign Currency"/>
+      </download>&f;
+    </form>
+	&s; 
+	<form id="510" templateFile ="SObchd4_110" commandArgument="Excel" rowFilter="[2$sysprint = 1]" urlImage="&e;">
+		<header v="Báo cáo số dư hợp đồng" e="Contract Balance Summary"></header>
+		<download>
+			<header v="Báo cáo số dư hợp đồng" e="Contract Balance Summary"/>
+		</download>
+	</form>	
+	<form id="610" templateFile ="SObchd4_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Báo cáo số dư hợp đồng ngoại tệ" e="Contract Balance Summary in Foreign Currency"></header>
+		<download>
+			<header v="Báo cáo số dư hợp đồng ngoại tệ" e="Contract Balance Summary in Foreign Currency"/>
+		</download>
+	</form>	
+  </forms>
+
+  <fields>
+    <field name="title" type ="String">
+      <header v="BÁO CÁO SỐ DƯ HỢP ĐỒNG" e="CONTRACT BALANCE SUMMARY"/>
+    </field>
+    <field name="h_tk" type="String">
+      <header v="Tài khoản:" e="Account:"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_ma_hd" type="String">
+      <header v="Mã hợp đồng" e="Contract"/>
+    </field>
+    <field name="h_ten_hd" type="String">
+      <header v="Tên hợp đồng" e="Contract Name"/>
+    </field>
+    <field name="h_so_du" type="String">
+      <header v="Số dư" e="Balance"/>
+    </field>
+    <field name="h_du_no" type="String">
+      <header v="Nợ" e="Debit"/>
+    </field>
+    <field name="h_du_co" type="String">
+      <header v="Có" e="Credit"/>
+    </field>
+    <field name="h_nt" type="String">
+      <header v="nt" e="FC"/>
+    </field>
+  </fields>
+</report>

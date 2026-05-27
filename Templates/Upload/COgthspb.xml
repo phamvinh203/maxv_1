@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$COgthspbImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$COgthspbImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+        <field name="nam" column="A" type="Decimal" allowNulls="false" isPrimaryKey="true"/>
+		<field name="ky" column="B" type="Decimal" allowNulls="false" isPrimaryKey="true"/>
+		<field name="ma_yt" column="C" isPrimaryKey="true" allowNulls="false" maxLength="8" upperCase="true"/>
+		<field name="ma_sp" column="D" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+		<field name="ma_bp" column="E" isPrimaryKey="true" upperCase="true" maxLength="8"/>
+		<field name="so_lsx" column="F" isPrimaryKey="true" upperCase="true" maxLength="12"/>
+		<field name="ma_bp0" column="G" isPrimaryKey="true" upperCase="true" maxLength="8"/>
+		<field name="ma_vt" column="H" isPrimaryKey="true" upperCase="true" maxLength="16"/>
+		
+		<field name="he_so" column="I" type="Decimal" />
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin = 0 and @type = '1' begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'COgthspb', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+select @irregularChars = ]]>&IrregularValue;<![CDATA[
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+if @type = '0' delete @@table 
+	where rtrim(ltrim(str(nam))) + rtrim(ltrim(str(ky))) + rtrim(ltrim(ma_yt)) + rtrim(ltrim(ma_sp)) + rtrim(ltrim(ma_bp)) + rtrim(ltrim(so_lsx)) + rtrim(ltrim(ma_bp0))+rtrim(ltrim(ma_vt)) in (select rtrim(ltrim(str(nam))) + rtrim(ltrim(str(ky))) + rtrim(ltrim(ma_yt)) + rtrim(ltrim(ma_sp)) + rtrim(ltrim(ma_bp)) + rtrim(ltrim(so_lsx)) + rtrim(ltrim(ma_bp0))+rtrim(ltrim(ma_vt)) from xcthspb)
+
+select @field = 'ma_yt', @r = min(stt) from @@table where ma_yt <> '' and ma_yt not in (select ma_yt from xdmyt)]]>&Error;<![CDATA[
+select @field = 'ma_sp', @r = min(stt) from @@table where ma_sp <> '' and ma_sp not in (select ma_vt from vdmsp)]]>&Error;<![CDATA[
+select @field = 'ma_bp', @r = min(stt) from @@table where ma_bp <> '' and ma_bp not in (select ma_bp from dmbp)]]>&Error;<![CDATA[
+select @field = 'ma_bp0', @r = min(stt) from @@table where ma_bp0 <> '' and ma_bp0 not in (select ma_bp from dmbp)]]>&Error;<![CDATA[
+select @field = 'ma_vt', @r = min(stt) from @@table where ma_vt <> '' and ma_vt not in (select ma_vt from dmvt)]]>&Error;<![CDATA[
+select @field = 'so_lsx', @r = min(stt) from @@table where so_lsx <> '' and rtrim(ltrim(so_lsx)) not in (select rtrim(ltrim(so_lsx)) from phsx)]]>&Error;<![CDATA[
+-- Insert
+select @q = 'insert into xcthspb(ky, nam,ma_yt, ma_sp, ma_bp, so_lsx, ma_vt, ma_bp0, he_so, status, datetime0, datetime2)'
+select @q = @q + 'select ky, nam, ma_yt, ma_sp, ma_bp, so_lsx, ma_vt, ma_bp0, he_so, '''', getdate(), getdate() from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update xcthspb set he_so = b.he_so
+  from xcthspb a left join @@table b 
+	ON a.ky = b.ky and a.nam = b.nam and a.ma_yt = b.ma_yt and a.ma_sp = b.ma_sp and a.ma_bp = b.ma_bp and rtrim(ltrim(a.so_lsx)) = rtrim(ltrim(b.so_lsx)) and a.ma_vt = b.ma_vt and a.ma_bp0 = b.ma_bp0
+  where str(a.nam) + str(a.ky) + a.ma_yt + a.ma_sp + a.ma_bp + rtrim(ltrim(a.so_lsx)) + a.ma_bp0+a.ma_vt in (select str(nam) + str(ky) + ma_yt + ma_sp + ma_bp + rtrim(ltrim(so_lsx)) + ma_bp0+ma_vt from @@table)
+end
+
+]]>
+    </text>
+  </processing>
+
+</import>

@@ -1,0 +1,3 @@
+﻿declare @q1 nvarchar(4000)
+set @q1 = dbo.MaxvOnline$Function$Voucher$GetSQLUpdateCurrentVoucher(@stt_rec, @@id, @@action, '@@prime$partition$previous', @@userID, '@@sysDatabaseName')
+exec sp_executesql @q1

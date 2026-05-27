@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="Options" targetNamespace="urn:schemas-maxv-com:data-options" elementFormDefault="qualified" xmlns="urn:schemas-maxv-com:data-options" xmlns:a="urn:schemas-maxv-com:data-options" xmlns:mstns="urn:schemas-maxv-com:data-options" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="options" type ="optionsType">
+    <xs:key name="var">
+      <xs:selector xpath="a:variants/a:var" />
+      <xs:field xpath="@name"/>
+    </xs:key>
+  </xs:element>
+   
+  <xs:complexType name="optionsType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="variants">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="var" type="varType" minOccurs="1" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="varType">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="dataType" use="required"/>
+    <xs:attribute name="value" type="xs:string" use="required"/>
+    <xs:attribute name="description" type="xs:string" use="optional"/>
+  </xs:complexType>
+ 
+  <xs:simpleType name="dataType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="String"/>
+      <xs:enumeration value="Numeric"/>
+      <xs:enumeration value="DateTime"/>
+      <xs:enumeration value="Variant"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>

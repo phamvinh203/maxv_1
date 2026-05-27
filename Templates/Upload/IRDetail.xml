@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY CheckImportUserDefinedFields SYSTEM "..\..\Include\Command\CheckImportUserDefinedFields.txt">  
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$IRDetailImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$IRDetailImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+  </setting>
+
+  <fields identity="true" name="stt">
+	<field name="ma_vt" column="A" allowNulls="false" maxLength="16" upperCase="true"/>
+	<field name="dvt" column="C" maxLength="16" allowNulls="false"/>
+	<field name="ma_kho" column="D" maxLength="16" allowNulls="false" upperCase="true"/>
+	<field name="ma_vi_tri" column="E" maxLength="16" upperCase="true"/>
+	<field name="ma_lo" column="F" maxLength="16" upperCase="true"/>
+	<field name="so_luong" column="G" type="Decimal"/>
+	<field name="pn_gia_tb" column="H" type="Boolean"/>
+	<field name="gia_nt" column="I" type="Decimal"/>
+	<field name="tien_nt" column="J" type="Decimal"/>
+	<field name="tk_vt" column="K" maxLength="16" upperCase="true" allowNulls="false"/>
+
+	<field name="tk_du" column="L" maxLength="16" upperCase="true" allowNulls="false"/>
+	<field name="ma_vv" column="M" maxLength="16" upperCase="true"/>
+	<field name="ma_bp" column="N" maxLength="16" upperCase="true"/>
+	<field name="so_lsx" column="O" maxLength="16" upperCase="true"/>
+	<field name="ma_sp" column="P" maxLength="16" upperCase="true"/>
+	<field name="ma_hd" column="Q" maxLength="16" upperCase="true"/>
+	<field name="ma_phi" column="R" maxLength="16" upperCase="true"/>
+	<field name="ma_ku" column="S" maxLength="16" upperCase="true"/>
+
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @q nvarchar(4000), @message nvarchar(4000), @user int, @admin bit, @language char(1), @sys varchar(32), @m int
+select @m = character_maximum_length from information_schema.columns where table_name = 'phlsx' and column_name = 'so_lsx'
+select @admin = @@admin, @user = @@userID, @language = @@language, @sys = '@@sysDatabaseName'
+select @message = case @language when 'v' then N'Dữ liệu trong tệp không có hoặc không hợp lệ.' else N'The content of the data file is empty or invalid.' end
+
+update @@table set so_lsx = space(@m - len(rtrim(so_lsx))) + rtrim(so_lsx)
+
+create table #r (ma_vt varchar(32), ten_vt nvarchar(512), dvt nvarchar(10), he_so int, ma_kho varchar(8), ma_vi_tri varchar(8),
+  ma_lo varchar(32), so_luong numeric(15, 3), pn_gia_tb bit, gia_nt numeric(18, 4), tien_nt numeric(18, 2), tk_vt varchar(32),
+  ma_nx varchar(32), tk_du varchar(32), ma_vv varchar(32), ma_bp varchar(32), so_lsx varchar(32), ma_sp varchar(32), ma_hd varchar(32),
+  ma_phi varchar(32), ma_ku varchar(32), gia_ton int, vi_tri_yn bit, lo_yn bit, tao_lo bit, nhieu_dvt bit, sua_tk_vt bit, ref varchar(32), stt int)
+
+select @q = 'insert into #r(ma_vt, ten_vt, dvt, he_so, ma_kho, ma_vi_tri, ma_lo, so_luong, pn_gia_tb, gia_nt, tien_nt, tk_vt, ma_nx, tk_du,'
+select @q = @q + 'ma_vv, ma_bp, so_lsx, ma_sp, ma_hd, ma_phi, ma_ku, gia_ton, vi_tri_yn, lo_yn, tao_lo, nhieu_dvt, sua_tk_vt, ref, stt)'
+select @q = @q + ' select a.ma_vt, b.ten_vt%l, case when isnull(a.dvt, '''') <> '''' then a.dvt else b.dvt end as dvt, 1 as he_so,'
+select @q = @q + 'case when isnull(a.ma_kho, '''') <> '''' then a.ma_kho else b.ma_kho end as ma_kho,'
+select @q = @q + 'case when isnull(a.ma_vi_tri, '''') <> '''' then a.ma_vi_tri else b.ma_vi_tri end as ma_vi_tri, a.ma_lo, so_luong, pn_gia_tb, gia_nt, tien_nt,'
+select @q = @q + 'case when isnull(a.tk_vt, '''') <> '''' then a.tk_vt else b.tk_vt end, a.tk_du,'
+select @q = @q + ' a.tk_du, ma_vv, ma_bp, so_lsx, ma_sp, ma_hd,'
+select @q = @q + 'ma_phi, ma_ku, b.gia_ton, cast(0 as bit) as vi_tri_yn, b.lo_yn, b.tao_lo, b.nhieu_dvt, b.sua_tk_vt, '''', stt '
+select @q = @q + 'from @@table a left join dmvt b on a.ma_vt = b.ma_vt left join dmkho c on b.ma_kho = c.ma_kho '
+exec sp_executesql @q
+
+update #r set he_so = b.he_so from #r a join vdmvtqddvt b on (a.ma_vt = b.ma_vt or b.ma_vt = '*') and a.dvt = b.dvt where a.nhieu_dvt = 1
+update #r set vi_tri_yn = 1 from #r a join dmvitri b on a.ma_kho = b.ma_kho
+update #r set tk_vt = c.tk_dl from #r a join dmkho b on a.ma_kho = b.ma_kho join dmvt c on a.ma_vt = c.ma_vt where b.dai_ly_yn = 1 and b.ma_dvcs = @ma_dvcs and c.tk_dl <> ''
+
+if not exists(select 1 from #r where dvt <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.dvt = '' or b.dvt is not null or c.dvt is not null then '1' else '0' end from #r a left join vdmvtqddvt b on a.dvt = b.dvt and (a.ma_vt = b.ma_vt or b.ma_vt = '*') left join dmvt c on a.ma_vt = c.ma_vt and a.dvt = c.dvt
+if not exists(select 1 from #r where ma_kho <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.ma_kho = '' or b.ma_kho is not null then '1' else '0' end from #r a left join dmkho b on a.ma_kho = b.ma_kho and b.ma_dvcs = @ma_dvcs
+if not exists(select 1 from #r where ma_vi_tri <> '') update #r set ref = ref + '1'
+ else update #r set ref = ref + case when a.ma_vi_tri = '' or b.ma_vi_tri is not null then '1' else '0' end from #r a left join dmvitri b on a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri
+if not exists(select 1 from #r where ma_lo <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.ma_lo = '' or b.ma_lo is not null then '1' else '0' end from #r a left join dmlo b on a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo
+
+if not exists(select 1 from #r where tk_vt <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.tk_vt = '' or b.tk is not null then '1' else '0' end from #r a left join dmtk b on a.tk_vt = b.tk and b.loai_tk = 1
+
+if not exists(select 1 from #r where tk_du <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.tk_du = '' or b.tk is not null then '1' else '0' end from #r a left join dmtk b on a.tk_du = b.tk and b.loai_tk = 1
+
+]]>&CheckImportUserDefinedFields;<![CDATA[
+
+select '' as message, 'this.frameElement.result = @@result;parent.set$Grid$ImportResult(this.frameElement);' as script
+select ma_vt, ten_vt, rtrim(dvt) as dvt, he_so, rtrim(ma_kho) as ma_kho, rtrim(ma_vi_tri) as ma_vi_tri, ma_lo, 
+    so_luong, pn_gia_tb, gia_nt, tien_nt, rtrim(tk_vt) as tk_vt, ma_nx, rtrim(tk_du) as tk_du, ma_vv, ma_bp, so_lsx, ma_sp, ma_hd, 
+    ma_phi, ma_ku, gia_ton, vi_tri_yn, lo_yn, tao_lo, nhieu_dvt, sua_tk_vt, ref
+  from #r
+  order by stt
+  
+return
+]]>
+    </text>
+  </processing>
+
+</import>

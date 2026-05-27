@@ -1,0 +1,10 @@
+﻿<action id="Suggestion">
+  <text>
+    <![CDATA[
+declare @execute nvarchar(4000)
+select @execute = 'select top 1 rtrim(%s1) as %s1 from %s2 where right(rtrim(%s1), 1) between ''0'' and ''9'' and %s1 like ''%s3%'' order by len(rtrim(%s1)), %s1 desc'
+select @execute = replace(replace(replace(@execute, '%s1', @suggestionCode), '%s2', @suggestionTable), '%s3', replace(rtrim(@suggestionValue), '''', ''''''))
+exec sp_executesql @execute        
+]]>
+  </text>
+</action>

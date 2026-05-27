@@ -1,0 +1,11 @@
+﻿<![CDATA[
+if exists(select 1 from options where name = 'm_kthd_tdv' and val = '1') begin
+  declare @verifyInvoice varchar(128), @$verifyMessage nvarchar(512), @verifyText varchar(128), @verifyIDNumber varchar(32)
+  select @verifyIDNumber = case when @@action = 'New' then '' else @stt_rec end, @$verifyMessage = case when @@language = 'v' then N'Số hóa đơn <span class="Highlight">%s</span> đã được cập nhật trong phần thuế đầu vào.' else N'The invoice number <span class="Highlight">%s</span> already exists in Input VAT data.' end
+  select @verifyInvoice = so_ct0, @verifyText = convert(varchar(8), ngay_ct0, 112) +  rtrim(ltrim(ma_so_thue)) + char(255) + rtrim(ltrim(so_seri0)) + char(255) + rtrim(ltrim(so_ct0)) from (select top 1 a.ma_so_thue, a.ngay_ct0, a.so_seri0, a.so_ct0 from @r30 a join ctgt30 b with (index(c)) on a.ma_so_thue = b.ma_so_thue and a.ngay_ct0 = b.ngay_ct0 and a.so_seri0 = b.so_seri0 and a.so_ct0 = b.so_ct0 where b.stt_rec <> @verifyIDNumber) a
+  if isnull(@verifyInvoice, '') <> '' begin
+    select '' as field, replace(@$verifyMessage, '%s', rtrim(@verifyInvoice)) as message, 'verify$InputVAT$InvoiceNumber(this, "' + replace(replace(isnull(@verifyText, ''), '\', '\\'), '"', '\"') + '");' as script
+    return
+  end
+end
+]]>

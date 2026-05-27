@@ -1,0 +1,42 @@
+﻿<field name="h_gia_han" type="String">
+  <header v="L. Gia hạn nộp thuế (nếu có)" e="L . Extend tax-paying time (if any)"/>
+</field>
+<field name="h_h1" type="String">
+  <header v="[L1] Đối tượng được gia hạn [ ]" e="[L1] Subject to be extended [ ]"/>
+</field>
+<field name="h_h2" type="String">
+  <header v="[L2] Trường hợp được gia hạn nộp thuế TNDN theo: ......................................................................................................................................."
+          e="[L2] Reason for extending paying CIT: ................................................................................................................................................................"/>
+</field>
+<field name="h_h3" type="String">
+  <header v="[L3] Thời hạn được gia hạn: ..................................................................................................................................................................................."
+          e="[L3] Extended Time: .................................................................................................................................................................................................."/>
+</field>
+<field name="h_h4" type="String">
+  <header v="[L4] Số thuế TNDN được gia hạn: ........................................................................................................................................................................."
+          e="[L4] Extended CIT: ...................................................................................................................................................................................................."/>
+</field>
+<field name="h_h5" type="String">
+  <header v="[L5] Số thuế TNDN không được gia hạn: ............................................................................................................................................................"
+          e="[L5] Unextended CIT: ..............................................................................................................................................................................................."/>
+</field>
+<field name="h_m" type="String">
+  <header v="M. Tiền chậm nộp của khoản chênh lệch từ 20% trở lên đến ngày hết hạn nộp hồ sơ quyết toán thuế TNDN
+(trường hợp kê khai quyết toán và nộp thuế theo quyết toán trước thời hạn thì tính đến ngày nộp thuế)"
+          e="M. Late payment of the difference between remaining CIT and 20% or more of CIT payable till the deadline for submission of CIT finalization
+(in case of early submission and payment, late payment CIT will be calculated till the payment date)"/>
+</field>
+<field name="h_m1" type="String">
+  <header v="[M1] Số ngày chậm nộp ............................. ngày, từ ngày ........................ đến ngày ........................"
+          e="[M1] Days of late payment .............................. from ........................ to ........................"/>
+</field>
+<field name="h_m2" type="String">
+  <header v="[M2] Số tiền chậm nộp: ................................................"
+          e="[M2] Late payment penalty amount: ................................................"/>
+</field>
+<field name="h_reportDate" type="String">
+  <header v="Ngày ........ tháng ........ năm ................" e="Dated ......../......../................"/>
+</field>
+<field name="h_nguoi_dai_dien" type="String">
+  <header v="ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ" e="LEGAL REPRESENTATIVE"/>
+</field>

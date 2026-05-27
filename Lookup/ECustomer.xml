@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmncchddt" code="ma_ncc" name="ten_ncc%l" order="ma_ncc" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục nhà cung cấp hóa đơn điện tử" e="Electronic Invoice Supplier"></header>
+
+  <fields>
+    <field name="ma_ncc" allowSorting="true" allowFilter="true">
+      <header v="Mã nhà cung cấp" e="Supplier"></header>
+    </field>
+
+    <field name="ten_ncc%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên nhà cung cấp" e = "Supplier Name"></header>
+    </field>
+
+  </fields>
+
+</lookup>

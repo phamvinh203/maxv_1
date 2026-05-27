@@ -1,0 +1,7 @@
+﻿  	<field name="upload" external="true" defaultValue="''" disabled="true" inactivate="true">
+      <header v="Tên tệp" e="File Name"></header>
+      <footer v="&lt;form id=&quot;uploadForm&quot; method=&quot;post&quot; target=&quot;&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;input type=&quot;hidden&quot; name=&quot;query&quot; id=&quot;query&quot;/&gt;&lt;div class=&quot;divUpload&quot;&gt;&lt;div align=&quot;center&quot; class=&quot;divButton&quot; &gt;Chọn...&lt;/div&gt;&lt;input type=&quot;file&quot; name=&quot;fileupload&quot; id=&quot;fileupload&quot; tabIndex=&quot;999&quot; class=&quot;divInput&quot; onchange=&quot;set$&Identity;FileName();&quot; /&gt;&lt;/div&gt;&lt;/form&gt;" e="&lt;form id=&quot;uploadForm&quot; method=&quot;post&quot; target=&quot;uploadIFrame&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;input type=&quot;hidden&quot; name=&quot;query&quot; id=&quot;query&quot;/&gt;&lt;div class=&quot;divUpload&quot;&gt;&lt;div align=&quot;center&quot; class=&quot;divButton&quot; &gt;Select...&lt;/div&gt;&lt;input type=&quot;file&quot; name=&quot;fileupload&quot; id=&quot;fileupload&quot; tabIndex=&quot;999&quot; class=&quot;divInput&quot; onchange=&quot;set$&Identity;FileName();&quot; /&gt;&lt;/div&gt;&lt;/form&gt;"></footer>
+    </field>
+    <field name="filename" hidden="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>

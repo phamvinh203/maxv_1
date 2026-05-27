@@ -1,0 +1,17 @@
+﻿<![CDATA[
+function verify$InputVAT$InvoiceNumber(f, s) {
+  var c = String.fromCharCode(255), name = 'r30', z = f.getItem(name)._controlBehavior, l0 = z._getColumnOrder('ngay_ct0'), l1 = z._getColumnOrder('ma_so_thue'), l2 = z._getColumnOrder('so_seri0'), l3 = z._getColumnOrder('so_ct0');
+  f._errorWarningObject = null;
+  for (var i = 0; i < z._rowCount; i++) {
+    var row = i + 1;
+    if ($func.formatDateOrder(z._getItemValue(row, l0)) + $func.trim(z._getItemValue(row, l1)) + c + $func.trim(z._getItemValue(row, l2)) + c + $func.trim(z._getItemValue(row, l3)) == s) {
+      f._errorWarningObject = z._getItem(row, l3);
+      break;
+    }
+  }
+  if (f._errorWarningObject) {
+    f.focus(name);
+    f._errorWarningObject.focus();
+  }
+}
+]]>

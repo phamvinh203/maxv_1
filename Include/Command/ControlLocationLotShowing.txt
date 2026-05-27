@@ -1,0 +1,17 @@
+﻿<![CDATA[
+declare @$tracked bit, @$location bit, @$lot bit
+
+if exists(select 1 from options where name = 'm_instock_split' and val = '1') begin
+  if @@id <> '' and object_id('dmctvtrlo') is not null begin
+    exec sp_executesql N'select @location = vi_tri_yn, @lot = lo_yn from dmctvtrlo where ma_ct = '@@id'', N'@location bit output, @lot bit output', @location = @$location output, @lot = @$lot output
+  end
+  select @$tracked = 1
+  if @$location is null select @$location = cast(rtrim(val) as bit) from options where name = 'm_kt_td_vitri_yn'
+  if @$lot is null select @$lot = cast(rtrim(val) as bit) from options where name = 'm_kt_td_lo_yn'
+end else select @$location = 1, @$lot = 1, @$tracked = 0
+
+select @message = @message + 'this._tracked = ' + rtrim(@$tracked) + ';this._tracked$Location = ' + rtrim(@$location) + ';this._tracked$Lot = ' + rtrim(@$lot) + ';'
+
+if @$location = 0 select @message = @message + 'this._fields[this._getColumnOrder(''ma_vi_tri'') - 1].Visible = false;'
+if @$lot = 0 select @message = @message + 'this._fields[this._getColumnOrder(''ma_lo'') - 1].Visible = false;'
+]]>

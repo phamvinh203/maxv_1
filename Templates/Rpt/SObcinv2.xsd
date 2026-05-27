@@ -1,0 +1,58 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="vi-VN">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="d1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="date_from" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="date_to" type="xs:dateTime" minOccurs="0" />			  
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		<xs:element name="d2">
+          <xs:complexType>
+            <xs:sequence>              
+              <xs:element name="sysorder" type="xs:int" minOccurs="0" />
+              <xs:element name="sysprint" type="xs:int" minOccurs="0" />
+              <xs:element name="systotal" type="xs:int" minOccurs="0" />
+			  <xs:element name="stt_rec" type="xs:string" minOccurs="0" />
+              <xs:element name="stt_rec_order" type="xs:string" minOccurs="0" />
+              <xs:element name="stt_rec_tt" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_ct" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_ct" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ngay_ct0" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="so_ct" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_kh" type="xs:string" minOccurs="0" />
+              <xs:element name="tk" type="xs:string" minOccurs="0" />
+              <xs:element name="dien_giai" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_nt" type="xs:string" minOccurs="0" />
+              <xs:element name="ty_gia" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tt_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_tt_nt1" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt1" type="xs:decimal" minOccurs="0" />   
+			  <xs:element name="con_pt_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="con_pt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ma_tt" type="xs:string" minOccurs="0" />
+              <xs:element name="status" type="xs:int" minOccurs="0" />              
+              <xs:element name="ma_ct1" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_ct1" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="so_ct1" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_ct0" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_kh" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_kh2" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_tt0" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="han_tt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="loai_tt" type="xs:int" minOccurs="0" />
+			  <xs:element name="xgroup" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

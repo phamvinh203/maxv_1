@@ -1,0 +1,48 @@
+<![CDATA[
+declare @vcID varchar(32), @vcNumber varchar(32), @vcFields nvarchar(512), @retrieveID char(13), @i int, @l int, @c smalldatetime, @d smalldatetime, @t varchar(128), @s nvarchar(4000), @unit varchar(128)
+select @vcNumber = ltrim(rtrim(@so_ct)), @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end
+select @i = len(@vcNumber), @l = character_maximum_length from information_schema.columns where table_name = '@@table' and column_name = 'so_ct'
+select @vcNumber = space(@l - @i) + @vcNumber, @c = @ngay_ct1
+
+if @stt_rec_ct <> '' begin
+  select @retrieveID = @stt_rec_ct
+  goto Retrieve
+end
+else begin
+  select top 0 stt_rec into #t from i]]>&ext;<![CDATA[$000000
+  while (month(@c) + year(@c)*12) <= (month(@ngay_ct2) + year(@ngay_ct2)*12) begin
+    select @t = 'i]]>&ext;<![CDATA[$' + convert(char(6), @c, 112), @c = dateadd(month, 1, @c)
+    if exists(select 1 from information_schema.tables where table_name = @t) begin
+      set @s = 'insert into #t select top 1 stt_rec from ' + rtrim(@t)
+      set @s = @s + char(13) + 'where ngay_ct between ''' + convert(char(8), @ngay_ct1, 112) + ''' and ''' + convert(char(8), @ngay_ct2, 112) + ''''
+      set @s = @s + char(13) + 'and so_ct = ''' + replace(@vcNumber, '''', '''''') + ''' and ma_dvcs = ''' + replace(@unit, '''', '''''') + ''''
+      if @keyFlow <> '' set @s = @s + ' and (' + @keyFlow + ')'
+      if @keyMaster <> '' set @s = @s + char(13) + 'and m$ like N''' + replace(@keyMaster, '''', '''''') + ''''
+      set @s = @s + char(13) + 'order by stt_rec'
+      exec sp_executesql @s
+    end
+    if exists(select 1 from #t where (isnull(stt_rec, '') <> '')) begin
+	    select @retrieveID = stt_rec from #t
+	    drop table #t
+      goto Retrieve
+    end
+  end
+  drop table #t
+  select 'so_ct' as field, @$none as message
+  return
+end
+
+Retrieve:
+select @vcID = @retrieveID, @d = ngay_ct from c]]>&ext;<![CDATA[$000000 where stt_rec = @retrieveID
+select cast('' as nvarchar(512)) as fields into #r from m]]>&ext;<![CDATA[$000000
+select @t = 'm]]>&ext;<![CDATA[$'+ convert(varchar(6), (select ngay_ct from c]]>&ext;<![CDATA[$000000 where stt_rec = @retrieveID), 112)
+if exists(select 1 from information_schema.tables where table_name = @t) begin
+  select @s = 'insert into #r select ' + @fields + ' as fields from ' + rtrim(@t) + ' where stt_rec = ''' + @retrieveID + ''''
+  exec sp_executesql @s
+end
+select @vcFields = fields from #r
+drop table #r
+ 
+select '' as field, '' as message, 'on$]]>&Identity;<![CDATA[Filter$Retrieve$QueryComplete(this, ''' + replace(replace(@vcNumber, '\', '\\'), '''', '\''') + ''', ''' + @vcID + ''', ''' + replace(replace(@vcFields, '\', '\\'), '''', '\''') + ''', ''' + convert(char(8), @d, 112) + ''');' as script
+return
+]]>

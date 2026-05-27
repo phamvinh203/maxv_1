@@ -1,0 +1,16 @@
+﻿<![CDATA[
+if not exists(select 1 from #r where ma_vv <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.ma_vv = '' or b.ma_vv is not null then '1' else '0' end from #r a left join dmvv b on a.ma_vv = b.ma_vv
+if not exists(select 1 from #r where ma_bp <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.ma_bp = '' or b.ma_bp is not null then '1' else '0' end from #r a left join dmbp b on a.ma_bp = b.ma_bp
+if not exists(select 1 from #r where so_lsx <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.so_lsx = '' or b.so_lsx is not null then '1' else '0' end from #r a left join phlsx b on a.so_lsx = b.so_lsx
+if not exists(select 1 from #r where ma_sp <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.ma_sp = '' or b.ma_vt is not null then '1' else '0' end from #r a left join vdmsp b on a.ma_sp = b.ma_vt
+if not exists(select 1 from #r where ma_hd <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.ma_hd = '' or b.ma_hd is not null then '1' else '0' end from #r a left join dmhd b on a.ma_hd = b.ma_hd
+if not exists(select 1 from #r where ma_phi <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.ma_phi = '' or b.ma_phi is not null then '1' else '0' end from #r a left join dmphi b on a.ma_phi = b.ma_phi
+if not exists(select 1 from #r where ma_ku <> '') update #r set ref = ref + '1'
+  else update #r set ref = ref + case when a.ma_ku = '' or b.ma_ku is not null then '1' else '0' end from #r a left join dmku b on a.ma_ku = b.ma_ku
+]]>

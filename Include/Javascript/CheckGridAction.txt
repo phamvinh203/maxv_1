@@ -1,0 +1,8 @@
+﻿<![CDATA[
+    case 'BeforeCloneRow':
+      if (g._getItem(g._activeRow, 1)._customerIdentity) e.type.cancelEvent = true;
+      break;
+    case 'BeforeMoveRow':
+      if (g._getItem(g._activeRow, 1)._customerIdentity || g._getItem(e.type.Value[1], 1)._customerIdentity) e.type.cancelEvent = true;
+      break;
+]]>

@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="110" reportFile="CAbcku4_110" commandArgument="pdf" urlImage="&p;">
+      <header v="Bảng kê tính lãi chi tiết theo khế ước" e="Interest Sheet Detail by Loan Contract"></header>
+      <download>
+        <header v="Bảng kê tính lãi chi tiết theo khế ước" e="Interest Sheet Detail by Loan Contract"/>
+      </download>&b;
+    </form>
+
+    <form id="210" reportFile="CAbcku4_110" commandArgument="pdf">
+      <header v="Bảng kê tính lãi chi tiết theo khế ước ngoại tệ" e="Interest Sheet Detail by Loan Contract in Foreign Currency"/>
+      <download>
+        <header v="Bảng kê tính lãi chi tiết theo khế ước ngoại tệ" e="Interest Sheet Detail by Loan Contract in Foreign Currency"/>
+      </download>&f;
+    </form>
+	&s;
+    <form id="510" reportFile="" templateFile="CAbcku4_110" commandArgument="Excel" urlImage="&e;" rowFilter="[2$sysprint = 1]">
+      <header v="Bảng kê tính lãi chi tiết theo khế ước (Excel)" e="Interest Sheet Detail by Loan Contract (Excel)"></header>
+      <download>
+        <header  v="Bảng kê tính lãi chi tiết theo khế ước" e="Interest Sheet Detail by Loan Contract"/>
+      </download>&b;
+    </form>
+    <form id="610" reportFile="" templateFile="CAbcku4_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+      <header v="Bảng kê tính lãi chi tiết theo khế ước ngoại tệ (Excel)" e="Interest Sheet Detail by Loan Contract in Foreign Currency (Excel)"/>
+      <download>
+        <header  v="Bảng kê tính lãi chi tiết theo khế ước ngoại tệ" e="Interest Sheet Detail by Loan Contract in Foreign Currency"/>
+      </download>&f;
+    </form>
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="BẢNG KÊ TÍNH LÃI CHI TIẾT THEO KHẾ ƯỚC" e="INTEREST SHEET DETAILED BY LOAN CONTRACT"/>
+    </field>
+    <field name="c_ku" type="String">
+      <header v="Khế ước" e="Loan Contract:"/>
+    </field>
+    <field name="c_ma_hd" type="String">
+      <header v="Hợp đồng" e="Contract:"/>
+    </field>
+    <field name="c_ma_vv" type="String">
+      <header v="Dự án" e="Project"/>
+    </field>
+    <field name="c_ngay_dh" type="String">
+      <header v="ngày đáo hạn:" e="loan payment:"/>
+    </field>
+    <field name="c_ngay_vay" type="String">
+      <header v="ngày vay:" e="Loan Date"/>
+    </field>
+    <field name="c_so_ku" type="String">
+      <header v="số khế ước" e="Loan Contract No."/>
+    </field>
+    <field name="c_tien_vay" type="String">
+      <header v="tiền vay" e="Amount:"/>
+    </field>
+    <field name="c_tong" type="String">
+      <header v="Tổng" e="Total"/>
+    </field>
+    <field name="h_da_tra" type="String">
+      <header v="Đã trả" e="Paid"/>
+    </field>
+    <field name="h_lai_suat" type="String">
+      <header v="Lãi suất (% tháng)" e="Interest Rate (% Month)"/>
+    </field>
+    <field name="h_ls_qh" type="String">
+      <header v="Quá hạn" e="Over Due"/>
+    </field>
+    <field name="h_ls_th" type="String">
+      <header v="Trong hạn" e="In Due"/>
+    </field>
+    <field name="h_ma_ku" type="String">
+      <header v="Mã khế ước" e="Loan Contract Code"/>
+    </field>
+    <field name="h_sn_qh" type="String">
+      <header v="Quá hạn" e="Over Due"/>
+    </field>
+    <field name="h_sn_th" type="String">
+      <header v="Trong hạn" e="In Due"/>
+    </field>
+    <field name="h_sn_tong" type="String">
+      <header v="Tổng" e="Total"/>
+    </field>
+    <field name="h_so_du" type="String">
+      <header v="Số dư" e="Balance"/>
+    </field>
+    <field name="h_so_ngay" type="String">
+      <header v="Số ngày" e="Days"/>
+    </field>
+    <field name="h_ten_ku" type="String">
+      <header v="Tên khế ước" e="Loan Contract Name"/>
+    </field>
+    <field name="h_tinh_lai" type="String">
+      <header v="Ngày tính lãi" e="Interested Date"/>
+    </field>
+    <field name="h_tl" type="String">
+      <header v="Tiền lãi" e="Amount"/>
+    </field>
+    <field name="h_tl_qh" type="String">
+      <header v="Quá hạn" e="Over Due"/>
+    </field>
+    <field name="h_tl_th" type="String">
+      <header v="Trong hạn" e="In Due"/>
+    </field>
+    <field name="h_tl_tong" type="String">
+      <header v="Tổng" e="Total"/>
+    </field>
+    <field name="h_tong_cong" type="String">
+      <header v="Tổng cộng:" e="Total:"/>
+    </field>
+    <field name="h_tu" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_tu2" type="String">
+      <header v="Từ" e="From"/>
+    </field>
+    <field name="h_den" type="String">
+      <header v="Đến" e="To"/>
+    </field>
+    <field name="h_tk" type="String">
+      <header v="Tài khoản:" e="Account:"/>
+    </field>
+  </fields>
+</report>

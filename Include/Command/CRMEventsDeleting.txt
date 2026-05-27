@@ -1,0 +1,11 @@
+﻿<![CDATA[
+declare @userRef varchar(128)
+select @userRef = user_ref from vsysuserinfo where id = @@userID
+
+if @@admin = 0 and not exists(select 1 from sysevents where id = @id and user_id0 in (select id from vsysuserinfo where user_ref like @userRef + '%')) begin
+  select '$NotAuthorized' as message
+  return
+end
+delete sysevents where id = @id
+delete syseventsuser where id_event = @id
+]]>

@@ -1,0 +1,23 @@
+<![CDATA[
+function active$]]>&Identity;<![CDATA[Form$(f) {
+  f.setReadOnlyFields('ma_kh, so_ct, ngay_ct');
+  f.add_onResponseComplete(on$]]>&Identity;<![CDATA[Form$ResponseComplete);
+}
+function init$]]>&Identity;<![CDATA[Form$(f) {
+  var g = f.grid;
+  f._denyFocus = true;
+  f.setItemValues('stt_rec, ma_kh, ten_kh%l, so_ct, ngay_ct', [g._voucher$Retrieve$ID, g._custID, g._custName, g._voucher$Retrieve$Number, g._voucher$Retrieve$Date]);
+}
+function close$]]>&Identity;<![CDATA[Form$(f) {try {f.remove_onResponseComplete(on$]]>&Identity;<![CDATA[Form$ResponseComplete);} catch (ex) {}}
+function on$]]>&Identity;<![CDATA[Form$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      set$]]>&Identity;<![CDATA[Form$FlowScript(f);
+      break;
+    default:
+      break;
+  }
+}
+function set$]]>&Identity;<![CDATA[Form$FlowScript(f) {f._flowScript = 'insert$]]>&Identity;<![CDATA[Form$Retrieve$Data(this)';}
+]]>

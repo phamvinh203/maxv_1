@@ -1,0 +1,9 @@
+﻿<queries>
+  <query event="Loading">
+    <text>
+      <![CDATA[
+select @@fieldExternal from @@prime$partition$current a left join dmcp b on a.ma_cp = b.ma_loai where @@whereClause order by @@orderByClause
+]]>
+    </text>
+  </query>
+</queries>

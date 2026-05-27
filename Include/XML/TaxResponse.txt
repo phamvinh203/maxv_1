@@ -1,0 +1,31 @@
+﻿    <action id="GetTaxRate">
+      <text>
+        <![CDATA[
+if exists(select 1 from dmthue where ma_thue = @ma_thue) begin
+  select a.thue_suat, rtrim(a.tk_thue_no3) as tk_thue_no, b.tk_cn from dmthue a left join dmtk b on a.tk_thue_no3 = b.tk where a.ma_thue = @ma_thue
+  return
+end
+]]>
+      </text>
+    </action>
+
+    <action id="GetAccountType">
+      <text>
+        <![CDATA[
+if exists(select 1 from dmtk where tk = @tk_thue_no and loai_tk = 1) select tk_cn from dmtk where tk = @tk_thue_no
+  else select 0 as tk_cn
+return
+]]>
+      </text>
+    </action>
+
+    <action id="Supplier">
+      <text>
+        <![CDATA[
+if exists(select 1 from dmkh where ma_kh = @ma_kh and cc_yn = 1) begin
+  select rtrim(dia_chi) as dia_chi, rtrim(ma_so_thue) as ma_so_thue from dmkh where ma_kh = @ma_kh
+  return
+end
+]]>
+      </text>
+    </action>

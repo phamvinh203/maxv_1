@@ -1,0 +1,12 @@
+﻿<![CDATA[
+declare @owner nvarchar(128), @startTime varchar(8), @endTime varchar(8), @ma_nhom varchar(32), @ten_nhom nvarchar(512), @share_group int
+select @owner = comment from vsysuserinfo a join @@table b on a.id = b.user_id0 where b.id = @id
+select @startTime = convert(varchar(5), start_date, 108) from @@table where id = @id
+select @endTime = convert(varchar(5), end_date, 108) from @@table where id = @id
+
+select @share_group = share_group from @@table where id = @id
+if exists(select 1 from @@table where id = @id)
+  select @ma_nhom = ma_nhom, @ten_nhom = ten_nhom from crgroupshare where id = @share_group
+select rtrim(@owner) as owner, @startTime as start_time, @endTime as end_time, rtrim(@ma_nhom) as ma_nhom, rtrim(@ten_nhom) as ten_nhom, assigned_name, share_user, datetime0, 0 as share_group, private from @@table where id = @id
+return
+]]>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmmauunc" code="ma_nh" name="ten_mau%l" order="ma_nh" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục mẫu Ủy nhiệm chi" e="Form bank"></header>
+  <fields>
+    <field name="ma_nh" allowSorting="true" allowFilter="true">
+      <header v="Ngân hàng" e="Bank Code"></header>
+    </field>
+
+    <field name="ten_mau%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên mẫu UNC" e = "Description"></header>
+    </field>
+  </fields>
+
+</lookup>

@@ -1,0 +1,14 @@
+﻿<![CDATA[
+declare @$lockedDate nvarchar(512)
+select @$lockedDate = case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày giới hạn hoặc ngày khóa sổ.' else N'Data is locked, you must modify system locked date.' end
+if not exists(select 1 from dmstt where @ngay_ct between ngay_gh1 and ngay_gh2) begin
+  select 'ngay_ct' as field, @$lockedDate as message
+  return
+end
+create table #lockedDate (r int)
+insert into #lockedDate exec fs20_CheckLockedDateOnVoucher @@id, @ngay_ct, @@userID, @@unit, 1
+if not exists(select * from #lockedDate where r = 1) begin
+  select 'ngay_ct' as field, @$lockedDate as message
+  return
+end
+]]>

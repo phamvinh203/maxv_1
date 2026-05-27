@@ -1,0 +1,95 @@
+﻿<field name="id" isPrimaryKey="true" type="Decimal" disabled="true" hidden="true" inactivate="true">
+  <items style="Numeric"></items>
+</field>
+<field name="event_yn" type="Decimal" dataFormatString="0, 1" clientDefault="0" defaultValue="0" align="right">
+  <header v="Loại" e="Type"></header>
+  <footer v="0 - Công việc, 1 - Sự kiện" e="0 - Task, 1 - Event"></footer>
+  <items style="Mask"/>
+  <clientScript><![CDATA[onchange=onChange$Type(this);]]></clientScript>
+</field>
+<field name="text" allowNulls="false">
+  <header v="Tên" e="Name"></header>
+</field>
+<field name="assigned_name" dataFormatString="X" allowContain="true">
+  <header v="Người nhận" e="Assigned to"></header>
+  <items style="Lookup" controller="crUser" reference="assigned_comment" key="(status = '1' and user_yn = 1 and (@@admin = 1 or (user_ref like (select user_ref + '&#37;' from vsysuserinfo where id = @@userID))))" check="(status = 1 and user_yn = 1 and (@@admin = 1 or (user_ref like (select user_ref + '&#37;' from vsysuserinfo where id = @@userID))))" information="name$vsysuserinfo.comment"/>
+</field>
+<field name="assigned_comment" external="true" defaultValue="''" readOnly="true">
+  <header v="" e=""></header>
+</field>
+<field name="muc_do" clientDefault="2">
+  <header v="Mức độ ưu tiên" e="Priority"></header>
+  <items style="DropDownList">
+    <item value="1">
+      <text v="Cao" e="High"/>
+    </item>
+    <item value="2">
+      <text v="Bình thường" e="Normal"/>
+    </item>
+    <item value="3">
+      <text v="Thấp" e="Low"/>
+    </item>
+  </items>
+  <clientScript>&OnSelectionOutline;</clientScript>
+</field>
+<field name="start_date" type="DateTime" dataFormatString="dd/MM/yyyy" align="left" allowNulls="false" defaultValue="null">
+  <header v="Bắt đầu" e="Start"></header>
+</field>
+<field name="start_time" type="String" dataFormatString="HH:mm" align="left" allowNulls="true" external="true" defaultValue="null" allowContain="true">
+  <header v="" e=""></header>
+</field>
+<field name="end_date" type="DateTime" dataFormatString="dd/MM/yyyy" align="left" allowNulls="false" defaultValue="null">
+  <header v="Kết thúc" e="End"></header>
+</field>
+<field name="end_time" type="String" dataFormatString="HH:mm" align="left" allowNulls="true" external="true" defaultValue="null" allowContain="true">
+  <header v="" e=""></header>
+</field>
+<field name="full_day" type="Boolean" defaultValue="0">
+  <header v="Cả ngày" e="All-Day"></header>
+  <clientScript><![CDATA[onchange="setAllDayEvent(this);"]]></clientScript>
+</field>
+<field name="details" rows="4" defaultValue="''">
+  <header v="Chi tiết" e="Detail"></header>
+</field>
+<field name="private" type="Boolean">
+  <header v="Không chia sẻ" e="Private"></header>
+  <clientScript><![CDATA[onchange="setPrivateOption(this);"]]></clientScript>
+</field>
+<field name="share_user" dataFormatString="X" defaultValue="''">
+  <header v="Chia sẻ cho nsd" e="Share to user(s)"></header>
+  <items style="Lookup" controller="crUser" reference="fullname_to" key="(status = '1' and user_yn = 1 and (@@admin = 1 or (user_ref like (select user_ref + '&#37;' from vsysuserinfo where id = @@userID))))" check="(status = 1 and user_yn = 1 and (@@admin = 1 or (user_ref like (select user_ref + '&#37;' from vsysuserinfo where id = @@userID))))" information="name$vsysuserinfo.comment"/>
+</field>
+<field name="share_group" hidden="true" readOnly="true" type="Int32">
+  <header v="" e=""></header>
+</field>
+<field name="ma_nhom" dataFormatString="X" external="true" defaultValue="''" allowContain="true">
+  <header v="Chia sẻ cho nhóm" e="Share to Group"></header>
+  <items style="AutoComplete" controller="crGroupShare" reference="ten_nhom" key="user_id0 = @@userID" check="user_id0 = @@userID" information="ma_nhom$crgroupshare.ten_nhom"/>
+</field>
+<field name="ten_nhom" external="true" defaultValue="''" readOnly="true" inactivate="true">
+  <header v="" e=""></header>
+</field>
+<field name="owner" external="true" defaultValue="''" disabled="true" inactivate="true">
+  <header v="Người tạo" e="Owner"></header>
+</field>
+<field name="datetime0" type="DateTime" dataFormatString="dd/MM/yyyy HH:mm:ss" external="true" defaultValue="null" disabled="true">
+  <header v="Thời gian tạo" e="Datetime"></header>
+</field>
+<field name="status" clientDefault="0">
+  <header v="Trạng thái" e="Status"></header>
+  <items style="DropDownList">
+    <item value="0">
+      <text v="Chưa thực hiện" e="No Action"/>
+    </item>
+    <item value="1">
+      <text v="Đang thực hiện" e="In Progress"/>
+    </item>
+    <item value="2">
+      <text v="Hoàn thành" e="Completed"/>
+    </item>
+    <item value="3">
+      <text v="Tạm dừng" e="Pending"/>
+    </item>
+  </items>
+  <clientScript>&OnSelectionOutline;</clientScript>
+</field>

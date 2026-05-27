@@ -1,0 +1,17 @@
+﻿<![CDATA[
+declare @notAuthorized nvarchar(512), @duplicate$Unit nvarchar(512), @check$Unit varchar(1)
+select @notAuthorized = case when @@language = 'v' then N'Chưa có <span class="Highlight">quyền thực hiện chức năng này</span> hoặc <span class="Highlight">truy cập bị từ chối</span>. Liên hệ với người quản trị hệ thống nếu bạn có thể được truy cập vào chức năng này.'
+else N'You are <span class="Highlight">not authorized</span> or you <span class="Highlight">do not have permission</span> to execute this action. Contact the System administrator if you believe you should be able to execute this action.' end
+
+if @@admin <> 1 and exists(select 1 from dmttct where ma_ct = ']]>&Code;<![CDATA[' and status = @status and right_yn = 1) begin
+  if not exists(select 1 from @@sysDatabaseName..sysactionrights where user_id = @@userID and ma_ct = ']]>&Code;<![CDATA[' and action_id = @status and right_yn = 1) begin
+    select @notAuthorized as message
+    return
+  end
+end
+
+select @check$Unit = rtrim(val) from options where rtrim(name) = 'c_003'
+select @check$Unit = isnull(@check$Unit, '0')
+select @duplicate$Unit = case when @@language = 'v' then N'Chứng từ số <span class="Highlight">%s1</span> ngày <span class="Highlight">%s2</span> đơn vị <span class="Highlight">%s3</span> tại dòng <span class="Highlight">%s4</span> đã tồn tại.'
+  else 'The voucher number <span class="Highlight">%s1</span> dated <span class="Highlight">%s2</span> and unit <span class="Highlight">%s3</span> at row <span class="Highlight">%s4</span> already exists.' end
+]]>

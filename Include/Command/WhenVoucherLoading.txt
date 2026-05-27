@@ -1,0 +1,5 @@
+﻿<![CDATA[
+declare @baseCurrency varchar(32), @isVoucherBook varchar(1)
+select @baseCurrency = rtrim(val), @isVoucherBook = '1' from options where name = 'm_ma_nt0'
+if not exists(select 1 from v20dmctnk where ma_ct = @@id and (lstuser = '' or charindex(rtrim(@@userName) + ',', replace(lstuser, ' ', '') + ',') > 0)) select @isVoucherBook = '0'
+]]>

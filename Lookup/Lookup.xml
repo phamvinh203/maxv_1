@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="lookup" code="code" name="name%l" order="code" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Lookup" e="Lookup"></header>
+
+  <fields>
+    <field name="code" allowSorting="true" allowFilter="true" align="right">
+      <header v="Mã" e="Code"></header>
+    </field>
+    <field name="name%l" allowFilter="true">
+      <header v ="Tên" e = "Name"></header>
+    </field>
+  </fields>
+
+</lookup>

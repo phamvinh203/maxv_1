@@ -1,0 +1,1 @@
+﻿<![CDATA[select @voucherBook as ma_nk, @currentNumber as so_ct0$, @minNumber as so_ct1$, @maxNumber as so_ct2$, @defaultExchangeRate as ty_gia, @cookie as cookie]]>

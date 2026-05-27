@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<css xmlns="urn:schemas-maxv-com:data-css">
+  <!-- Attributes of Report: fontName, fontSize, TextColor-->
+  <report></report>
+  <font>
+    <!-- Attributes of var: name (not null), fontName, fontSize, fontStyle (not null, two style separated by commas), textColor, suppress-->
+    <var name="Entity_Line1" textColor="Black" fontName="Times New Roman"/>
+    <var name="Entity_Line2" textColor="Black" fontName="Times New Roman"/>
+    <var name="Entity_Line3" textColor="Black" fontName="Times New Roman"/>
+    <var name="Entity_Line4" textColor="Black" fontName="Times New Roman"/>
+
+    <var name="Form1" textColor="Black"/>
+    <var name="Form2" textColor="Black"/>
+
+    <var name="Form3" textColor="Black"/>
+    <var name="Form4" textColor="Black"/>
+    <var name="Form5" textColor="Black"/>
+
+    <var name="Title" textColor="Black"/>
+    <var name="SubTitle" textColor="Black"/>
+
+    <var name="GroupHeader1" textColor="Black"/>
+    <var name="GroupHeader2" textColor="Black"/>
+
+    <var name="GroupFooter1" textColor="Black"/>
+    <var name="GroupFooter2" textColor="Black"/>
+
+    <var name="Header" textColor="Black"/>
+    <var name="Detail" textColor="Black"/>
+
+    <var name="Total" textColor="Black"/>
+
+    <var name="SignDated" textColor="Black"/>
+    <var name="Position" textColor="Black"/>
+    <var name="Signature" textColor="Black"/>
+    <var name="FullName" textColor="Black"/>
+
+    <var name="Page"/>
+    <var name="PageFooter1" textColor="Black"/>
+    <var name="PageFooter2" textColor="Black"/>
+    <var name="PageFooter3" textColor="Black"/>
+  </font>
+  <!-- Attributes of line: name (not null), controlColor (not null), color, suppress-->
+  <line controlColor="Fuchsia" color="Gray" suppress="true"/>
+  <!-- Attributes of box: name (not null), color,  suppress-->
+  <box controlColor="Fuchsia" color="Gray" suppress="true"/>
+</css>

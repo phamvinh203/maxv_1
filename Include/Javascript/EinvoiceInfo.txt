@@ -1,0 +1,11 @@
+﻿<![CDATA[
+  f.setItemValue('mau_hddt', f._mau_hddt);
+  f.setItemValue('so_seri_hddt', f._so_seri_hddt);
+  f.setItemValue('so_hd_hddt', f._so_hd_hddt);
+  
+  var inv_signed = new Date(f._ngay_ky_hddt);
+  f.setItemValue('ngay_ky_hddt', inv_signed);
+  
+  f.setItemValue('status_hddt', f._status_hddt);
+  
+]]>

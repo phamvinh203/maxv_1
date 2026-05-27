@@ -1,0 +1,22 @@
+﻿<![CDATA[
+    v.init();
+    v.setFormLayout(0);
+    this.init(f);
+  },
+  onCurrencyChanged: function(sender, e) {
+    this.onCurrencySelected(sender, e);
+    var c = e.object, f = c._currency.parentForm;
+    if (c._baseCurrency == e.type) {
+      c._exchangeRate._controlBehavior._set_number(1);
+      c.onExchangeRateChanged();
+    } 
+    else {
+      var d = f.getItemValue('ngay_lct');
+      if (d) f.request('GetExchangeRate', 'GetExchangeRate', ['ma_nt', 'ngay_lct']);
+    }
+  },
+  onDateChanged: function(sender, e) {
+    var c = e.object, f = c._currency.parentForm;
+    if (e.type && (c._currency.value != c._baseCurrency)) f.request('GetExchangeRate', 'DateChanged', ['ma_nt', 'ngay_lct']);
+  },
+]]>

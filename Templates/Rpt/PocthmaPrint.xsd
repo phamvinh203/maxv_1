@@ -1,0 +1,70 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="en-GB">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="d1">
+          <xs:complexType>
+            <xs:sequence>			
+			  <xs:element name="stt_rec" type="xs:string" minOccurs="0" />
+              <xs:element name="ong_ba" type="xs:string" minOccurs="0" />
+			  <xs:element name="ma_kh" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_kh" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_kh2" type="xs:string" minOccurs="0" />
+			  <xs:element name="dia_chi" type="xs:string" minOccurs="0" />
+			  <xs:element name="ngay_ct" type="xs:dateTime" minOccurs="0" />
+			  <xs:element name="tk" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_tk" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_tk2" type="xs:string" minOccurs="0" />
+              <xs:element name="t_tien0" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_tien" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tien_nt0" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_cp" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_cp_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_thue" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_thue_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="t_tt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tt_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_tien_in_word" type="xs:string" minOccurs="0" />
+              <xs:element name="t_tien_nt_in_word" type="xs:string" minOccurs="0" />
+              <xs:element name="t_tien_in_word2" type="xs:string" minOccurs="0" />
+              <xs:element name="t_tien_nt_in_word2" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay" type="xs:string" minOccurs="0" />
+              <xs:element name="thang" type="xs:string" minOccurs="0" />
+              <xs:element name="nam" type="xs:string" minOccurs="0" />
+			  <xs:element name="xGroup" type="xs:string" minOccurs="0" />
+			  <xs:element name="ma_vt" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_vt" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_vt2" type="xs:string" minOccurs="0" />
+			  <xs:element name="dvt" type="xs:string" minOccurs="0" />
+			  <xs:element name="ma_kho" type="xs:string" minOccurs="0" />
+			  <xs:element name="tk_vt" type="xs:string" minOccurs="0" />
+			  <xs:element name="so_luong" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="gia" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="tien" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="line_nbr" type="xs:int" minOccurs="0" />
+			  <xs:element name="so_seri0" type="xs:string" minOccurs="0" />
+			  <xs:element name="so_ct0" type="xs:string" minOccurs="0" />
+			  <xs:element name="ngay_ct0" type="xs:dateTime" minOccurs="0" />
+			  <xs:element name="stt" type="xs:int" minOccurs="0"/>
+			  <xs:element name="dien_giai" type="xs:string" minOccurs="0" />
+              <xs:element name="so_ct" type="xs:string" minOccurs="0" />
+			  <xs:element name="t_nk" type="xs:decimal" minOccurs="0" />
+              <xs:element name="t_nk_nt" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="gia_nt0" type="xs:decimal" minOccurs="0" />
+              <xs:element name="gia0" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="tien_nt0" type="xs:decimal" minOccurs="0" />
+              <xs:element name="tien0" type="xs:decimal" minOccurs="0" />
+			  <xs:element name="so_tt" type="xs:string" minOccurs="0" />
+			  <xs:element name="so_tt2" type="xs:string" minOccurs="0" />
+			  <xs:element name="ngay_tt" type="xs:string" minOccurs="0" />
+			  <xs:element name="ngay_tt2" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_bc" type="xs:string" minOccurs="0" />
+			  <xs:element name="ten_bc2" type="xs:string" minOccurs="0" />	
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>        
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

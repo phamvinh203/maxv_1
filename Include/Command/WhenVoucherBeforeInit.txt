@@ -1,0 +1,15 @@
+﻿<![CDATA[
+declare @message nvarchar(4000), @defaultCurrency varchar(32), @defaultExchangeRate numeric(24, 12), @defaultTransactionCode varchar(32), @defaultTransactionType varchar(32), @defaultContactType tinyint, @defaultHandle char(1), @defaultUserFilterType tinyint, @udfProduct bit, @udfDepartment bit, @udfMO bit, @udfContract bit, @udfLoanContract bit, @udfExpense bit, @hide varchar(1024)
+select @hide = ',' + replace(rtrim(ltrim(hide)), ' ', '') + ',' from @@sysDatabaseName..voucherinfo where ma_ct = @@id
+select @udfProduct = case when charindex(',ma_sp,', @hide ) = 0 then 1 else 0 end, @udfDepartment = case when charindex(',ma_bp,', @hide ) = 0 then 1 else 0 end, @udfMO = case when charindex(',so_lsx,', @hide ) = 0 then 1 else 0 end, @udfContract = case when charindex(',ma_hd,', @hide ) = 0 then 1 else 0 end, @udfLoanContract = case when charindex(',ma_ku,', @hide ) = 0 then 1 else 0 end, @udfExpense = case when charindex(',ma_phi,', @hide ) = 0 then 1 else 0 end
+select @defaultCurrency = rtrim(ma_nt), @defaultTransactionCode = rtrim(m_ma_gd), @defaultTransactionType = rtrim(m_loai_ct), @defaultContactType = m_ong_ba, @defaultHandle = m_status, @defaultUserFilterType = m_loc_nsd from dmct where ma_ct = @@id
+select @defaultExchangeRate = ty_gia from (select top 1 ty_gia from dmtgnt where ma_nt = @defaultCurrency and ngay_ct <= getdate() order by ngay_ct desc) a
+select @message = '$Currency=[' + @defaultCurrency + '];$ExchangeRate=' + ltrim(rtrim(@defaultExchangeRate)) + ';$TransactionCode=[' + @defaultTransactionCode + '];$TransactionType=[' + @defaultTransactionType + '];$ContactType=' + rtrim(@defaultContactType) + ';$Handle=[' + @defaultHandle + '];$UserFilterType=' + rtrim(@defaultUserFilterType) + ';'
+select @message = replace(replace(replace(@message, '[', ''''), ']', ''''), '$', 'this._dv')
+if @udfProduct = 1 select @message = @message +  'this._udfProduct=true;'
+if @udfDepartment = 1 select @message = @message +  'this._udfDepartment=true;'
+if @udfMO = 1 select @message = @message +  'this._udfMO=true;'
+if @udfContract = 1 select @message = @message +  'this._udfContract=true;'
+if @udfLoanContract = 1 select @message = @message +  'this._udfLoanContract=true;'
+if @udfExpense = 1 select @message = @message +  'this._udfExpense=true;'
+]]>

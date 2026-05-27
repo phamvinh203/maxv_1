@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vcthddt" code="so_hoa_don" name="so_seri" order="so_hoa_don" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Hóa đơn điện tử" e="EInvoice List"></header>
+
+  <fields>
+    <field name="so_hoa_don" allowSorting="true" allowFilter="true">
+      <header v="Số hóa đơn" e="Invoice No"></header>
+    </field>
+    <field name="so_seri" allowSorting="true" allowFilter="true">
+      <header v ="Ký hiệu" e = "Seri No."></header>
+    </field>
+    <field name="ngay_ct" allowSorting="true" allowFilter="true" type="DateTime" dataFormatString="dd/MM/yyyy">
+      <header v ="Ngày hóa đơn" e = "Invoice Date"></header>
+    </field>	
+    <field name="ma_so_thue" allowSorting="true" allowFilter="true">
+      <header v ="Mã số thuế" e = "Tax Code"></header>
+    </field>
+	<field name="ten_kh" allowSorting="true" allowFilter="true">
+      <header v ="Tên khách hàng" e = "Name Customer"></header>
+    </field>
+    <field name="stt_rec_hd" allowSorting="true" allowFilter="true" >
+      <header v ="Stt_rec" e = "Stt_rec"></header>
+    </field>	
+  </fields>
+
+</lookup>

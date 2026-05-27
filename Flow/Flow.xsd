@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="Flow" targetNamespace="urn:schemas-maxv-com:data-flow" elementFormDefault="qualified" xmlns="urn:schemas-maxv-com:data-flow" xmlns:a="urn:schemas-maxv-com:data-flow" xmlns:mstns="urn:schemas-maxv-com:data-flow" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="flow" type ="flowType">
+    <xs:key name="field">
+      <xs:selector xpath="a:fields/a:field" />
+      <xs:field xpath="@name"/>
+    </xs:key>
+  </xs:element>
+
+  <xs:complexType name="flowType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="views">
+        <xs:annotation>
+          <xs:documentation>A collection of data presentation views.</xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+          <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="view" minOccurs="1" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>Defines the visual presentation of the data.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="item" type ="viewType" minOccurs="0" maxOccurs="unbounded">
+                  </xs:element>
+                </xs:sequence>
+
+                <xs:attribute name="id" type="xs:string" use="required">
+                  <xs:annotation>
+                    <xs:documentation>The unique id of the view.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:int" use="optional">
+                </xs:attribute>
+              </xs:complexType>
+              <xs:key name="name">
+                <xs:selector xpath="a:field"/>
+                <xs:field xpath="@name"/>
+              </xs:key>
+
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="viewIdUnique">
+          <xs:selector xpath="a:view"/>
+          <xs:field xpath="@id"/>
+        </xs:unique>
+      </xs:element>
+
+      <xs:element name="fields">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="field" type="fieldType" minOccurs="1" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="border" type="xs:int" use="required"/>
+    <xs:attribute name="target" type="targetType" use="required">
+      <xs:annotation>
+        <xs:documentation>Specifies the data type of the base column of this field.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+
+  </xs:complexType>
+
+  <xs:complexType name="fieldType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="header" type="headerType"  minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Specifies a default caption displayed in the flow.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="tooltip" type="headerType"  minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Specifies a default caption displayed in the flow.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="items" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="menu" type="itemType" minOccurs="1" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="name" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>Matches the name of the column in the result set returned by query.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    
+    <xs:attribute name="shapesType" type="shapesType" use="required">
+      <xs:annotation>
+        <xs:documentation>Specifies the data type of the base column of this field.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="arrowType" type="arrowType" use="optional">
+      <xs:annotation>
+        <xs:documentation>Specifies the data type of the base column of this field.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="plusType" type="plusType" use="optional">
+      <xs:annotation>
+        <xs:documentation>Specifies the data type of the base column of this field.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="valign" type="valignType" use="optional">
+      <xs:annotation>
+        <xs:documentation>Specifies the data type of the base column of this field.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="link" type="xs:string" use="optional"/>
+    <xs:attribute name="height" type="xs:string" use="optional"/>
+    <xs:attribute name="rowSpan" type="xs:string" use="optional"/>
+    <xs:attribute name="vertical" type="xs:boolean" use="optional"/>
+    <xs:attribute name="disabled" type="xs:boolean" use="optional"/>
+    <xs:attribute name="css" type="xs:string" use="optional"/>
+    <xs:attribute name="dotLine" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="viewType">
+    <xs:attribute name="value" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="targetType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="_blank"/>
+      <xs:enumeration value="_self"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="headerType">
+    <xs:attribute name="v" type="xs:string" use="required"/>
+    <xs:attribute name="e" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="itemType">
+    <xs:attribute name="v" type="xs:string" use="required"/>
+    <xs:attribute name="e" type="xs:string" use="required"/>
+    <xs:attribute name="link" type="xs:string" use="required"/>
+    <xs:attribute name="css" type="xs:string" use="optional"/>
+  </xs:complexType>
+  
+  <xs:simpleType name="shapesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Line"/>
+      <xs:enumeration value="Rectangle"/>
+      <xs:enumeration value="RoundedRectangle"/>
+      <xs:enumeration value="Document"/>
+      <xs:enumeration value="Plus"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="arrowType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Top"/>
+      <xs:enumeration value="Left"/>
+      <xs:enumeration value="Right"/>
+      <xs:enumeration value="Bottom"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="plusType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TopLeft"/>
+      <xs:enumeration value="TopRight"/>
+      <xs:enumeration value="BottomLeft"/>
+      <xs:enumeration value="BottomRight"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="valignType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Top"/>
+      <xs:enumeration value="Middle"/>
+      <xs:enumeration value="Bottom"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="actionType">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string" minOccurs="1" maxOccurs="1">
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required">
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="textType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="text" type="xs:string" minOccurs="1" maxOccurs="1">
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+
+</xs:schema>

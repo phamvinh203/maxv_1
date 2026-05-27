@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="m64$000000" code="so_ct" name="stt_rec" order="ngay_ct, so_ct, stt_rec" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Chọn đơn hàng bán" e="Select Sales Order"></header>
+  <fields>
+    <field name="so_ct" align="right">
+      <header v="Số đơn hàng bán/HĐ" e="Order No."></header>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy">
+      <header v="Ngày đơn hàng/HĐ" e="Date"></header>
+    </field>
+    <field name="dien_giai">
+      <header v="Diễn giải" e="Description"></header>
+    </field>
+    <field name="t_tien_nt2" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right">
+      <header v="Tiền hàng" e="FC Amount"></header>
+    </field>
+    <field name="ma_nt">
+      <header v="Mã nt" e="Currency Code"></header>
+    </field>
+    <field name="status">
+      <header v="Trạng thái" e="Status"></header>
+    </field>
+    <field name="statusname%l">
+      <header v="Tên trạng thái" e="Status Name"></header>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @unit varchar(128), @status nvarchar(8), @custID nvarchar(64)
+select @custID = '%' + rtrim(@ma_kh) + '%', @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end
+
+exec MaxvOnline$App$Voucher$Finding 'SO1', 'c64$000000', 'm64$', 'i64$', 'ngay_ct', 'convert(char(6), {0}, 112)', 'dateadd(month, 1, {0})', '000000', 
+  @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem, 
+  @custID, '', 'stt_rec',
+  'so_ct,stt_rec,ngay_ct, dien_giai,t_tien_nt2,ma_nt,status',
+  'so_ct,stt_rec,ngay_ct, dien_giai,t_tien_nt2,ma_nt,a.status,b.statusname%l',
+  'a left join dmttct b on a.status = b.status where b.ma_ct = ''SO1''',
+  'ngay_ct, so_ct', 1, @@userID, 1, 
+  @ngay_ct1, @ngay_ct2, '', '', '1, 3', '0', @unit]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

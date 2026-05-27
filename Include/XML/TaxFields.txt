@@ -1,0 +1,129 @@
+﻿    <field name="mau_bc" width="50" allowNulls="false" clientDefault="Default" defaultValue="'3'" aliasName="a">
+      <header v="Mẫu bc" e="Report Form"></header>
+      <items style="AutoComplete" controller="VATForm" reference="ten_bc%l" key="1=1" check="1=1"/>
+    </field>
+    <field name="ten_bc%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_tc" width="50" allowNulls="false" clientDefault="Default">
+      <header v="Mã tc" e="Tax Type"></header>
+      <items style="AutoComplete" controller="TaxType" reference="ten_tc%l" key="status = '1'" check="1=1" />
+    </field>
+    <field name="ten_tc%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="so_ct0" width="80" clientDefault="Default" dataFormatString="@upperCaseFormat" align="right" allowNulls="false">
+      <header v="Số hóa đơn" e="Invoice Number"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="so_seri0" width="80" clientDefault="Default" dataFormatString="@upperCaseFormat" align="right">
+      <header v="Ký hiệu" e="Serial Number"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ngay_ct0" width="100" type="DateTime" clientDefault="Default" dataFormatString="@datetimeFormat" align="left" allowNulls="false">
+      <header v="Ngày hóa đơn" e="Invoice Date"></header>
+    </field>
+
+    <field name="ma_kh" width="100" allowNulls="true" aliasName="a" clientDefault="Default">
+      <header v="Mã ncc" e="Supplier ID"></header>
+      <items style="AutoComplete" controller="Supplier" reference="ten_kh" key="cc_yn = 1 and status = '1'" check="cc_yn = 1" information="ma_kh$dmkh.ten_kh" new="Customer"/>
+      <clientScript><![CDATA[onchange="onChange$GridVoucherTax$Supplier(this);"]]></clientScript>
+    </field>
+    <field name="ten_kh" defaultValue="''" width="300" clientDefault="Default" allowNulls="false">
+      <header v="Tên nhà cung cấp" e="Supplier Name"></header>
+    </field>
+    <field name="dia_chi" width="300" clientDefault="Default" aliasName="a" onDemand="true">
+      <header v="Địa chỉ" e="Address"></header>
+    </field>
+    <field name="ma_so_thue" width="150" clientDefault="Default" aliasName="a" onDemand="true">
+      <header v="Mã số thuế" e="Supplier Tax Code"></header>
+    </field>
+
+    <field name="ten_vt" width="300" clientDefault="Default">
+      <header v="Tên hàng hóa - dịch vụ" e="Goods-Services"></header>
+    </field>
+    <field name="ma_kho" width="80" aliasName="a" hidden="true">
+      <header v="Mã kho" e="Site"></header>
+      <items style="AutoComplete" controller="Site" reference="ten_kho%l" key="(('{[$ma_dvcs]}' = '' and ma_dvcs = @@unit) or (ma_dvcs = '{[$ma_dvcs]}')) and status = '1'" check="(('{[$ma_dvcs]}' = '' and ma_dvcs = @@unit) or (ma_dvcs = '{[$ma_dvcs]}'))" information="ma_kho$dmkho.ten_kho%l"/>
+    </field>
+    <field name="ten_kho%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="t_tien_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Tiền hàng nt" e="FC Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="t_tien" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Tiền hàng" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="ma_thue" width="80" clientDefault="Default" allowNulls="false">
+      <header v="Mã thuế" e="Tax Code"></header>
+      <items style="AutoComplete" controller="Tax" reference="ten_thue%l" key="status = '1'" check="1 = 1" information="ma_thue$dmthue.ten_thue%l"/>
+      <clientScript><![CDATA[onchange="onChange$GridVoucherTax$TaxCode(this);"]]></clientScript>
+    </field>
+    <field name="ten_thue%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="thue_suat" type="Decimal" clientDefault="Default" dataFormatString="@exchangeRateInputFormat" inactivate="true" readOnly="true" width="60">
+      <header v="Thuế suất" e="Tax Rate"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tk_thue_no" width="80" clientDefault="Default" aliasName="a" allowNulls="false">
+      <header v="Tk thuế" e="Tax Account"></header>
+      <items style="AutoComplete" controller="Account" reference="ten_tk_thue_no%l" key="loai_tk = 1 and status = '1'" check="loai_tk = 1" information="tk$dmtk.ten_tk%l" new="Default"/>
+      <handle key="[ma_thue] != ''" field="ma_thue"/>
+      <clientScript><![CDATA[onchange="onChange$GridVoucherTax$TaxAccount(this);"]]></clientScript>
+    </field>
+    <field name="ten_tk_thue_no%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="t_thue_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Thuế nt" e="FC Tax"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="t_thue" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Thuế" e="Tax"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="ma_kh2" onDemand="true" width="80" clientDefault="Default">
+      <header v="Cục thuế" e="Tax Authority"></header>
+      <items style="AutoComplete" controller="Customer" reference="ten_kh2%l" key="status = '1'" check="1 = 1" information="ma_kh$dmkh.ten_kh%l" new="Default"/>
+      <handle key="[tk_cn]"/>
+    </field>
+    <field name="ten_kh2%l" readOnly="true" external="true" defaultValue="''" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ma_tt" width="80" allowNulls="true" aliasName="a">
+      <header v="Mã thanh toán" e="Debit Term"></header>
+      <items style="AutoComplete" controller="Term" reference="ten_tt%l" key="status = '1'" check="1 = 1" information="ma_tt$dmtt.ten_tt%l"/>
+    </field>
+    <field name="ten_tt%l" readOnly="true" external="true" defaultValue="''" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="ghi_chu" width="300" clientDefault="Default" aliasName="a">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+
+    <field name="tk_cn" type="Decimal" readOnly="true" defaultValue="''" external="true" hidden="true" aliasName="b">
+      <header v="Tk cong no" e=""></header>
+      <items style="Numeric"/>
+    </field>
+
+    &XMLUserDefinedFields;
+
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+      <header v="" e=""></header>
+    </field>

@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<options xmlns="urn:schemas-maxv-com:data-options">
+  <variants>
+    <var name="corporationLine" type="String">
+      <header v="2" e="2" />
+    </var>
+    <var name="companyLine" type="String">
+      <header v="1" e="1" />
+    </var>
+    <var name="address" type="String">
+      <header v="[Địa chỉ công ty]" e="" />
+    </var>
+    <var name="phone" type="String">
+      <header v="Điện thoại: (08)3 771365. Fax: (08)3 771365. MST: 2564897689-012" e="Phone: (08)3 771365. Fax: (08)3 771365. Tax Code: 2564897689-012" />
+    </var>
+    <var name="email" type="String" description="Địa chỉ e-mail">
+      <header v="" e="" />
+    </var>
+    <var name="phoneNumber" type="String" description="Số điện thoại">
+      <header v="" e="" />
+    </var>
+    <var name="fax" type="String" description="Số fax">
+      <header v="" e="" />
+    </var>
+    <var name="companyTaxCode" type="String" description="Mã số thuế của doanh nghiệp">
+      <header v="" e="" />
+    </var>
+    <var name="logo" type="String">
+      <header v="~/Images/Report/logo.png" e="~/Images/Report/logo.png" />
+    </var>
+    <var name="handoverDelegate" type="String">
+      <header v="ĐẠI DIỆN ĐƠN VỊ GIAO" e="HAND-OVER DELEGATE" />
+    </var>
+    <var name="acceptedDelegate" type="String">
+      <header v="ĐẠI DIỆN ĐƠN VỊ NHẬN" e="ACCEPTED DELEGATE" />
+    </var>
+    <var name="director" type="String">
+      <header v="GIÁM ĐỐC" e="DIRECTOR" />
+    </var>
+    <var name="director2" type="String">
+      <header v="DIRECTOR" e="DIRECTOR" />
+    </var>
+    <var name="bookKeeper" type="String">
+      <header v="NGƯỜI GHI SỔ" e="BOOKKEEPER" />
+    </var>
+    <var name="chiefAccountant" type="String">
+      <header v="KẾ TOÁN" e="CHIEF ACCOUNTANT" />
+    </var>
+    <var name="chiefAccountant2" type="String">
+      <header v="ACCOUNTANT" e="CHIEF ACCOUNTANT" />
+    </var>
+    <var name="preparedBy" type="String">
+      <header v="NGƯỜI LẬP" e="PREPARED BY" />
+    </var>
+    <var name="preparedBy2" type="String">
+      <header v="PREPARED BY" e="PREPARED BY" />
+    </var>
+    <var name="employee" type="String">
+      <header v="NHÂN VIÊN" e="EMPLOYEE" />
+    </var>
+    <var name="accountingManager" type="String">
+      <header v="PHỤ TRÁCH KẾ TOÁN" e="ACCOUNTING MANAGER" />
+    </var>
+    <var name="liquidationDeptManager" type="String">
+      <header v="TRƯỞNG BAN THANH LÝ" e="LIQUIDATION DEPT. MANAGER" />
+    </var>
+    <var name="storeKeeper" type="String">
+      <header v="THỦ KHO" e="STOREKEEPER" />
+    </var>
+    <var name="departmentManager" type="String">
+      <header v="TRƯỞNG PHÒNG" e="MANAGER" />
+    </var>
+    <var name="cashier" type="String">
+      <header v="THỦ QUỸ" e="CASHIER" />
+    </var>
+    <var name="cashier2" type="String">
+      <header v="CASHIER" e="CASHIER" />
+    </var>
+    <var name="unitManager" type="String">
+      <header v="THỦ TRƯỞNG ĐƠN VỊ" e="MANAGER" />
+    </var>
+    <var name="deliverer" type="String">
+      <header v="NGƯỜI GIAO HÀNG" e="DELIVERER" />
+    </var>
+    <var name="receiver" type="String">
+      <header v="NGƯỜI NHẬN HÀNG" e="RECEIVER" />
+    </var>
+    <var name="signatureFullname" type="String">
+      <header v="(Ký, họ tên)" e="(Signature, full name)" />
+    </var>
+    <var name="signatureFullname2" type="String">
+      <header v="(Signature, full name)" e="(Signature, full name)" />
+    </var>
+    <var name="signatureFullnameSeal" type="String">
+      <header v="(Ký, họ tên, đóng dấu)" e="(Signature, full name, seal)" />
+    </var>
+    <var name="signatureFullnameSeal2" type="String">
+      <header v="(Signature, full name, seal)" e="(Signature, full name, seal)" />
+    </var>
+    <var name="reportDate" type="String">
+      <header v="Ngày........tháng........năm................" e="Dated......../......../................" />
+    </var>
+    <var name="reportDate2" type="String">
+      <header v="Ngày (day)......tháng (month)......năm (year)............." e="Dated......../......../................" />
+    </var>
+    <var name="roundNumber" type="Numeric" description="Làm tròn trường số nguyên">
+      <header v="0" e="0" />
+    </var>
+    <var name="roundEvent" type="Numeric" description="Làm tròn trường số chẵn">
+      <header v="0" e="0" />
+    </var>
+    <var name="roundCapacity" type="Numeric" description="Làm tròn trường công suất">
+      <header v="3" e="3" />
+    </var>
+    <var name="roundPrice" type="Numeric" description="Làm tròn trường giá">
+      <header v="2" e="2" />
+    </var>
+    <var name="roundFCPrice" type="Numeric" description="Làm tròn trường giá ngoại tệ">
+      <header v="2" e="2" />
+    </var>
+    <var name="roundHour" type="Numeric" description="Làm tròn trường giờ">
+      <header v="2" e="2" />
+    </var>
+    <var name="roundCoefficient" type="Numeric" description="Làm tròn trường hệ số lương">
+      <header v="2" e="2" />
+    </var>
+    <var name="roundWorkday" type="Numeric" description="Làm tròn trường ngày công">
+      <header v="1" e="1" />
+    </var>
+    <var name="roundQuantity" type="Numeric" description="Làm tròn trường số lượng">
+      <header v="2" e="2" />
+    </var>
+    <var name="roundFinancialNumber" type="Numeric" description="Làm tròn trường số trong báo cáo phân tích tài chính">
+      <header v="2" e="2" />
+    </var>
+    <var name="roundExchangeRate" type="Numeric" description="Làm tròn trường tỷ giá">
+      <header v="2" e="2" />
+    </var>
+    <var name="roundAmount" type="Numeric" description="Làm tròn trường tiền">
+      <header v="0" e="0" />
+    </var>
+    <var name="roundFCAmount" type="Numeric" description="Làm tròn trường tiền ngoại tệ">
+      <header v="2" e="2" />
+    </var>
+    <var name="roundRate" type="Numeric" description="Làm tròn trường tỷ lệ">
+      <header v="4" e="4" />
+    </var>
+    <var name="decimalSeparator" type="String" description="Ký tự ngăn cách số thập phân">
+      <header v="." e="." />
+    </var>
+    <var name="thousandsSeparator" type="String" description="Ký tự ngăn cách hàng nghìn">
+      <header v="," e="," />
+    </var>
+    <var name="negativeType" type="Numeric" description="Ký hiệu số âm">
+      <header v="1" e="1" />
+    </var>
+    <var name="dateFormatString" type="String" description="Chuỗi format trường ngày tháng năm trên báo cáo">
+      <header v="dd/MM/yyyy" e="dd/MM/yyyy" />
+    </var>
+    <var name="dateFormat" type="Numeric" description="Format trường ngày tháng năm trên báo cáo">
+      <header v="1" e="1" />
+    </var>
+    <var name="dayFormat" type="Numeric" description="Format trường ngày trên báo cáo">
+      <header v="1" e="1" />
+    </var>
+    <var name="monthFormat" type="Numeric" description="Format trường tháng trên báo cáo">
+      <header v="1" e="1" />
+    </var>
+    <var name="yearFormat" type="Numeric" description="Format trường năm trên báo cáo">
+      <header v="1" e="1" />
+    </var>
+    <var name="page" type="String">
+      <header v="Trang" e="Page" />
+    </var>
+    <var name="total" type="String">
+      <header v="Tổng cộng" e="Total" />
+    </var>
+    <var name="pageFooterOthers" type="String">
+      <header v="" e="" />
+    </var>
+    <var name="ma_nt0" type="String" description="Mã đồng tiền hạch toán">
+      <header v="VND" e="VND" />
+    </var>
+    <var name="day" type="String">
+      <header v="Ngày " e="Date: " />
+    </var>
+    <var name="month" type="String">
+      <header v=" tháng " e="/" />
+    </var>
+    <var name="year" type="String">
+      <header v=" năm " e="/" />
+    </var>
+    <var name="directorName" type="String" description="Họ và tên của giám đốc">
+      <header v="" e="" />
+    </var>
+    <var name="chiefAccountantName" type="String" description="Họ và tên của kế toán trưởng">
+      <header v="" e="" />
+    </var>
+    <var name="cashierName" type="String" description="Họ và tên của thủ quỹ">
+      <header v="" e="[Cashier]" />
+    </var>
+    <var name="storeKeeperName" type="String" description="Họ và tên của thủ kho">
+      <header v="" e="[store Keeper]" />
+    </var>
+    <var name="district" type="String" description="Quận huyện">
+      <header v="[Quận huyện]" e="[District]" />
+    </var>
+    <var name="province" type="String" description="Tỉnh thành">
+      <header v="[Tỉnh thành]" e="[Province]" />
+    </var>
+    <var name="unitCode" type="String" description="Mã đơn vị">
+      <header v="[Mã đơn vị]" e="[Unit Code]" />
+    </var>
+    <var name="unitName" type="String" description="Tên đơn vị">
+      <header v="[CTY ...]" e="[Unit Name]" />
+    </var>
+    <var name="bankName" type="String" description="Ngân hàng">
+      <header v="[Techcombank]" e="[Bank_Techcombank]" />
+    </var>
+    <var name="bankAccountNo" type="String" description="Số tài khoản">
+      <header v="[_42324324223]" e="[No._42324324223]" />
+    </var>
+    <var name="bankInfoInvoice" type="String" description="Thông tin tài khoản ngân hàng khi in hoá đơn">
+      <header v="[Số tài khoản ngân hàng - tên ngân hàng]" e="[Số tài khoản ngân hàng - tên ngân hàng]" />
+    </var>
+    <var name="taxSigner" type="String" description="Người ký báo cáo thuế">
+      <header v="[Người k:]" e="[Người k:]" />
+    </var>
+    <var name="roundAnalysis" type="Numeric" description="Làm tròn cho báo cáo phân tích">
+      <header v="2" e="2" />
+    </var>
+    <var name="nguoiLap" type="String">
+      <header v="Người lập phiếu" e="PREPARED BY" />
+    </var>
+    <var name="nguoiGiao" type="String">
+      <header v="Người giao hàng" e="DELIVERER" />
+    </var>
+    <var name="thuKho" type="String">
+      <header v="Thủ kho" e="STOREKEEPER" />
+    </var>
+    <var name="keToanTruong" type="String">
+      <header v="Kế toán trưởng" e="CHIEF ACCOUNTANT" />
+    </var>
+    <var name="nguoiNhan" type="String">
+      <header v="Người nhận hàng" e="PREPARED BY" />
+    </var>
+    <var name="giamDoc" type="String">
+      <header v="Giám đốc" e="Manager" />
+    </var>
+    <var name="nguoilapbieu" type="String">
+      <header v="NGƯỜI LẬP BIỂU" e="PREPARED BY" />
+    </var>
+  </variants>
+</options>

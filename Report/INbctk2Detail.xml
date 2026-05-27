@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="100" reportFile="INbctk1_100" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Thẻ kho" e="Stock Card"></header>
+      <download>
+        <header  v="Thẻ kho" e="Stock Card"/>
+      </download>
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="False" e="False"/>
+        </field>
+        <field name="title" type="String">
+          <header v="THẺ KHO" e="STOCK CARD"/>
+        </field>
+        <field name="h_ky_xn_kt" type="String">
+          <header v="Ký xác nhận của kế toán" e="Accountant Confirm"/>
+        </field>
+      </fields>
+    </form>
+
+    <form id="110" reportFile="INbctk1_110" templateFile="" commandArgument="Pdf">
+      <header v="Sổ chi tiết vật tư" e="Inventory Item Ledger"></header>
+      <download>
+        <header v="Sổ chi tiết vật tư" e="Inventory Item Ledger"/>
+      </download>
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="False" e="False"/>
+        </field>
+        <field name="title" type="String">
+          <header v="SỔ CHI TIẾT VẬT TƯ" e="INVENTORY ITEM LEDGER"/>
+        </field>
+        <field name="h_kh" type="String">
+          <header v="Khách hàng" e="Customer"/>
+        </field>
+        <field name="h_gia_tri" type="String">
+          <header v="Giá trị" e="Amount"/>
+        </field>
+        <field name="h_nhap" type="String">
+          <header v="Nhập" e="Receipts"/>
+        </field>
+        <field name="h_xuat" type="String">
+          <header v="Xuất" e="Issues"/>
+        </field>
+      </fields>
+    </form>
+
+    <form id="210" reportFile="INbctk1_210" templateFile="" commandArgument="Pdf">
+      <header v="Sổ chi tiết vật tư ngoại tệ" e="Inventory Item Ledger in Foreign Currency"/>
+      <download>
+        <header  v="Sổ chi tiết vật tư ngoại tệ" e="Inventory Item Ledger in Foreign Currency"/>
+      </download>
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="True" e="True"/>
+        </field>
+        <field name="title" type="String">
+          <header v="SỔ CHI TIẾT VẬT TƯ" e="INVENTORY ITEM LEDGER"/>
+        </field>
+        <field name="h_tien" type="String">
+          <header v="Tiền" e="Amount"/>
+        </field>
+        <field name="h_nt" type="String">
+          <header v="Nt" e="FC"/>
+        </field>
+        <field name="h_nt1" type="String">
+          <header v="nt" e="FC"/>
+        </field>
+        <field name="h_nhap" type="String">
+          <header v="Nhập" e="Receipts"/>
+        </field>
+        <field name="h_xuat" type="String">
+          <header v="Xuất" e="Issues"/>
+        </field>
+      </fields>
+    </form>
+	 &s;
+	<form id="500" reportFile="" templateFile="INbctk1_100" commandArgument="Excel" urlImage="&e;">
+      <header v="Thẻ kho (Excel)" e="Stock card (Excel)"></header>
+      <download>
+        <header  v="Thẻ kho (Excel)" e="Stock card (Excel)"/>
+      </download>&b;
+	    <fields>
+        <field name="isFC" type="Boolean">
+          <header v="False" e="False"/>
+        </field>
+        <field name="title" type="String">
+          <header v="THẺ KHO" e="STOCK CARD"/>
+        </field>
+        <field name="h_ky_xn_kt" type="String">
+          <header v="Ký xác nhận của kế toán" e="Accountant Confirm"/>
+        </field>
+      </fields>
+    </form>
+	
+	<form id="510" reportFile="" templateFile="INbctk1_110" commandArgument="Excel" >
+      <header v="Sổ chi tiết vật tư (Excel)" e="Inventory Item Ledger (Excel)"></header>
+      <download>
+        <header  v="Sổ chi tiết vật tư (Excel)" e="Inventory Item Ledger (Excel)"/>
+      </download>&b;
+	    <fields>
+        <field name="isFC" type="Boolean">
+          <header v="False" e="False"/>
+        </field>
+        <field name="title" type="String">
+          <header v="SỔ CHI TIẾT VẬT TƯ" e="INVENTORY ITEM LEDGER"/>
+        </field>
+        <field name="h_kh" type="String">
+          <header v="Khách hàng" e="Customer"/>
+        </field>
+        <field name="h_gia_tri" type="String">
+          <header v="Giá trị" e="Amount"/>
+        </field>
+        <field name="h_nhap" type="String">
+          <header v="Nhập" e="Receipts"/>
+        </field>
+        <field name="h_xuat" type="String">
+          <header v="Xuất" e="Issues"/>
+        </field>
+      </fields>
+    </form>
+	<form id="610" reportFile="" templateFile="INbctk1_210" commandArgument="Excel" >
+      <header v="Sổ chi tiết vật tư ngoại tệ (Excel)" e="Inventory Item Ledger in Foreign Currency(Excel)"></header>
+      <download>
+        <header  v="Sổ chi tiết vật tư ngoại tệ (Excel)" e="Inventory Item Ledger in Foreign Currency(Excel)"/>
+      </download>&b;
+	       <fields>
+        <field name="isFC" type="Boolean">
+          <header v="True" e="True"/>
+        </field>
+        <field name="title" type="String">
+          <header v="SỔ CHI TIẾT VẬT TƯ" e="INVENTORY ITEM LEDGER"/>
+        </field>
+        <field name="h_tien" type="String">
+          <header v="Tiền" e="Amount"/>
+        </field>
+        <field name="h_nt" type="String">
+          <header v="Nt" e="FC"/>
+        </field>
+        <field name="h_nt1" type="String">
+          <header v="nt" e="FC"/>
+        </field>
+        <field name="h_nhap" type="String">
+          <header v="Nhập" e="Receipts"/>
+        </field>
+        <field name="h_xuat" type="String">
+          <header v="Xuất" e="Issues"/>
+        </field>
+      </fields>
+    </form>
+  </forms>
+
+  <fields>
+ 
+    <field name="h_quyen" type="String">
+      <header v="Quyển số:" e="Book No.:"/>
+    </field>
+    <field name="h_so_ct" type="String">
+      <header v="Số:" e="Voucher No.:"></header>
+    </field>
+    <field name="h_bang_chu" type="String">
+      <header v="Bằng chữ:" e="In Words:"></header>
+    </field>
+    <field name="h_dien_giai" type="String">
+      <header v="Diễn giải" e="Description"/>
+    </field>
+    <field name="h_tien" type="String">
+      <header v="Tiền" e="Amount"/>
+    </field>
+    <field name="h_chung_tu" type="String">
+      <header v="Chứng từ" e="Voucher"/>
+    </field>
+    <field name="h_ngay" type="String">
+      <header v="Ngày" e="Date"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_so" type="String">
+      <header v="Số" e="Number"/>
+    </field>
+    <field name="h_vt" type="String">
+      <header v="Vật tư:" e="Item:"/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="đvt:" e="UOM:"/>
+    </field>
+    <field name="h_tk" type="String">
+      <header v="TK:" e="Account:"/>
+    </field>
+    <field name="h_ma_nx" type="String">
+      <header v="Tài khoản" e="Account"/>
+    </field>
+    <field name="h_ton_dau" type="String">
+      <header v="Tồn đầu" e="Opening Balance"/>
+    </field>
+    <field name="h_ton_cuoi" type="String">
+      <header v="Tồn cuối" e="Closing Balance"/>
+    </field>
+    <field name="h_don_gia" type="String">
+      <header v="Đơn giá" e="Unit Cost"/>
+    </field>
+    <field name="h_sl" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_sl_nhap" type="String">
+      <header v="Số lượng nhập" e="Receipts"/>
+    </field>
+    <field name="h_sl_xuat" type="String">
+      <header v="Số lượng xuất" e="Issues"/>
+    </field>
+    <field name="h_sl_ton" type="String">
+      <header v="Số lượng tồn kho" e="Closing Balance"/>
+    </field>
+    <field name="h_kho" type="String">
+      <header v="Kho:" e="Site:"/>
+    </field>
+    <field name="h_separator1" type="String">
+      <header v="-" e="-"/>
+    </field>
+	<field name="h_separator" type="String">
+      <header v="-" e="-"/>
+    </field>
+  </fields>
+</report>

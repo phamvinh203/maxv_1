@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vdmvtqddvt" code="dvt" name="ten_dvt%l" order="dvt" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục đơn vị tính" e="Unit of Measures"></header>
+
+  <fields>
+    <field name="dvt" allowSorting="true" allowFilter="true" >
+      <header v="Đvt" e="UOM"></header>
+    </field>
+
+    <field name="ten_dvt%l" allowSorting="true" allowFilter="true">
+      <header v ="Diễn giải" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

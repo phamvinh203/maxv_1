@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$WhsdkhoImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$WhsdkhoImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_vt" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+    <field name="ma_kho" column="C" isPrimaryKey="true" allowNulls="false" maxLength="8" upperCase="true"/>
+    <field name="ma_vi_tri" column="D" isPrimaryKey="true" maxLength="8" upperCase="true"/>
+    <field name="ma_lo" column="E" isPrimaryKey="true" maxLength="16" upperCase="true"/>
+    <field name="ton00" column="F" type="Decimal"/>
+
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @q nvarchar(4000), @message nvarchar(4000), @field varchar(32), @user int, @admin bit, @year int, @r int
+select @admin = @@admin, @user = @@userID, @year = nam_bd from dmstt
+
+select @field = 'ma_vt', @r = min(stt) from @@table where ma_vt not in (select ma_vt from dmvt)]]>&Error;<![CDATA[
+select @field = 'ma_kho', @r = min(stt) from @@table where ma_kho not in (select ma_kho from dmkho)]]>&Error;<![CDATA[
+
+select @field = 'ma_vi_tri', @r = min(stt) from @@table a where a.ma_vi_tri = '' and exists(select 1 from dmvitri b where a.ma_kho = b.ma_kho)]]>&Error;<![CDATA[
+select @field = 'ma_vi_tri', @r = min(stt) from @@table a where a.ma_vi_tri <> '' and not exists(select 1 from dmvitri b where a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri)]]>&Error;<![CDATA[
+
+select @field = 'ma_lo', @r = min(stt) from @@table a where a.ma_lo = '' and exists(select 1 from dmvt b where a.ma_vt = b.ma_vt and b.lo_yn = 1)]]>&Error;<![CDATA[
+select @field = 'ma_lo', @r = min(stt) from @@table a where a.ma_lo <> '' and not exists(select 1 from dmvt b where a.ma_vt = b.ma_vt and b.lo_yn = 1)]]>&Error;<![CDATA[
+select @field = 'ma_lo', @r = min(stt) from @@table a where ma_lo <> '' and not exists(select 1 from dmlo b where a.ma_lo = b.ma_lo)]]>&Error;<![CDATA[
+select @field = 'ma_kho'
+
+if @admin <> 1 begin
+  if @type = '1' begin
+    if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@admin, @user, 'LotStockBalance', 'Edit') = 0 select @type = '0'
+  end
+
+  select @r = min(a.stt) from @@table a where not exists(select 1 from cdlo2 b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo and b.nam = @year)
+    and not exists(select 1 from dmkho c where a.ma_kho = c.ma_kho and c.ma_dvcs in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_new = 1))]]>&Error;<![CDATA[
+
+  if @type = '1' begin
+      select @r = min(a.stt) from @@table a where exists(select 1 from cdlo2 b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo and b.nam = @year)
+        and not exists(select 1 from dmkho c where a.ma_kho = c.ma_kho and c.ma_dvcs in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_edit= 1))]]>&Error;<![CDATA[
+  end
+end
+
+if @type = '0' delete @@table from @@table a where exists(select 1 from cdlo2 b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo and b.nam = @year)
+select @r = min(a.stt) from @@table a join dmkho b on a.ma_kho = b.ma_kho join dmdvcsks c on b.ma_dvcs = c.ma_dvcs where year(c.ngay_ks) >= @year]]>&Error;<![CDATA[
+
+select a.* into #k from @@table a join cdlo2 b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo and b.nam = @year
+delete @@table from @@table a where exists(select 1 from #k b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo)
+
+insert into cdlo2 select @year, ma_kho, ma_vi_tri, ma_vt, ma_lo, ton00, 0, 0, '', getdate(), getdate(), @user, @user, '1', '', '', '', 0, 0, 0,
+  getdate(), getdate(), getdate(), '', '', '', '', '', '', 0, 0, 0, getdate(), getdate(), getdate() from @@table
+
+insert into cdvitri2(nam, ma_kho, ma_vi_tri, ma_vt, ton00, du00, du_nt00, status, datetime0, datetime2, user_id0, user_id2)
+  select distinct @year, ma_kho, ma_vi_tri, ma_vt, 0, 0, 0, '1', getdate(), getdate(), @user, @user
+    from @@table a where not exists(select 1 from cdvitri2 b where a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_vt = b.ma_vt and b.nam = @year)
+
+insert into cdvt2(nam, ma_kho, ma_vt, ton00, du00, du_nt00, status, datetime0, datetime2, user_id0, user_id2)  
+  select distinct @year, ma_kho, ma_vt, 0, 0, 0, '1', getdate(), getdate(), @user, @user
+    from @@table a where not exists(select 1 from cdvt2 b where a.ma_kho = b.ma_kho and a.ma_vt = b.ma_vt and b.nam = @year)
+    
+if @type = '1' begin
+  select a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo, sum(a.ton00) as ton00 into #cd1
+    from cdlo2 a join #k b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo
+    where a.nam = @year
+    group by a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo
+
+  update cdlo2 set ton00 = b.ton00, datetime2 = getdate(), user_id2 = @user
+    from cdlo2 a join #k b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo where a.nam = @year
+
+  update cdvitri2 set ton00 = b.ton00
+    from cdvitri2 a join (select ma_vt, ma_kho, ma_vi_tri, sum(ton00) as ton00 from #k group by ma_vt, ma_kho, ma_vi_tri) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri where a.nam = @year
+
+  update cdvt2 set ton00 = b.ton00
+    from cdvt2 a join (select ma_vt, ma_kho, sum(ton00) as ton00 from #k group by ma_vt, ma_kho) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho where a.nam = @year
+    
+  select a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo, sum(a.ton00) as ton00 into #cd2
+    from cdlo2 a join #k b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo
+    where a.nam = @year
+    group by a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo
+
+  update cdvt213 set ton13 = ton13 + b.ton00 - c.ton00
+    from cdvt213 a join (select ma_vt, ma_kho, sum(ton00) as ton00 from #cd2 group by ma_vt, ma_kho) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho
+      join (select ma_vt, ma_kho, sum(ton00) as ton00 from #cd1 group by ma_vt, ma_kho) c on a.ma_vt = c.ma_vt and a.ma_kho = c.ma_kho
+  
+  update cdvitri213 set ton13 = ton13 + b.ton00 - c.ton00
+    from cdvitri213 a join (select ma_vt, ma_kho, ma_vi_tri, sum(ton00) as ton00 from #cd2 group by ma_vt, ma_kho, ma_vi_tri) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri
+      join (select ma_vt, ma_kho, ma_vi_tri, sum(ton00) as ton00 from #cd1 group by ma_vt, ma_kho, ma_vi_tri) c on a.ma_vt = c.ma_vt and a.ma_kho = c.ma_kho and a.ma_vi_tri = c.ma_vi_tri
+      
+  update cdlo213 set ton13 = ton13 + b.ton00 - c.ton00
+    from cdlo213 a join #cd2 b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo
+      join #cd1 c on a.ma_vt = c.ma_vt and a.ma_kho = c.ma_kho and a.ma_vi_tri = c.ma_vi_tri and a.ma_lo = c.ma_lo
+  
+  update dmlo set sl_nhap = sl_nhap + b.ton00 - c.ton00 from dmlo a join #cd2 b on a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo join #cd1 c on a.ma_vt = c.ma_vt and a.ma_lo = c.ma_lo
+end
+
+update cdvt2 set ton00 = b.ton00
+  from cdvt2 a join (
+    select ma_vt, ma_kho, sum(ton00) as ton00
+      from @@table
+      group by ma_vt, ma_kho
+  ) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho
+  where a.nam = @year
+
+update cdvitri2 set ton00 = b.ton00
+  from cdvitri2 a join (
+    select ma_vt, ma_kho, ma_vi_tri, sum(ton00) as ton00
+      from @@table
+      group by ma_vt, ma_kho, ma_vi_tri
+  ) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri
+  where a.nam = @year
+  
+update cdlo2 set ton00 = b.ton00
+  from cdlo2 a join @@table b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo
+  where a.nam = @year  
+
+insert into cdvt213(ma_vt, ma_kho, ton13, du13, du_nt13) select distinct ma_vt, ma_kho, 0, 0, 0 from @@table a where not exists(select 1 from cdvt213 b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho)
+insert into cdvitri213(ma_vt, ma_kho, ma_vi_tri, ton13, du13, du_nt13) select distinct ma_vt, ma_kho, ma_vi_tri, 0, 0, 0 from @@table a where not exists(select 1 from cdvitri213 b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri)
+insert into cdlo213(ma_vt, ma_kho, ma_vi_tri, ma_lo, ton13, du13, du_nt13) select distinct ma_vt, ma_kho, ma_vi_tri, ma_lo, 0, 0, 0 from @@table a where not exists(select 1 from cdlo213 b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo)
+
+update cdvt213 set ton13 = ton13 + b.ton00 from cdvt213 a join (select ma_vt, ma_kho, sum(ton00) as ton00 from @@table group by ma_vt, ma_kho) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho
+update cdvitri213 set ton13 = ton13 + b.ton00 from cdvitri213 a join (select ma_vt, ma_kho, ma_vi_tri, sum(ton00) as ton00 from @@table group by ma_vt, ma_kho, ma_vi_tri) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri
+update cdlo213 set ton13 = ton13 + b.ton00 from cdlo213 a join (select ma_vt, ma_kho, ma_vi_tri, ma_lo, sum(ton00) as ton00 from @@table group by ma_vt, ma_kho, ma_vi_tri, ma_lo) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo
+
+update dmlo set sl_nhap = sl_nhap + b.ton00 from dmlo a join (select ma_vt, ma_lo, sum(ton00) as ton00 from @@table group by ma_vt, ma_lo) b on a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo
+]]>
+    </text>
+  </processing>
+
+</import>

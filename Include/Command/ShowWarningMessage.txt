@@ -1,0 +1,2 @@
+﻿<![CDATA[
+if @$warning <> '' select '' as field, '' as message, 'objectBehavior$Voucher$Number.warning(this, ''' + @$warning + ''');' as script]]>

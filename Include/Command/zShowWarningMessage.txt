@@ -1,0 +1,3 @@
+﻿<![CDATA[
+set @$warning = @$warning + case when @$warning = '' then '' else char(13) end + @$zItemCheck
+if @$warning <> '' select '' as field, '' as message, 'objectBehavior$Voucher$Number.warning(this, ''' + @$warning + ''');' as script]]>

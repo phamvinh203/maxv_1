@@ -1,0 +1,12 @@
+<css>
+<text>
+<![CDATA[
+.divUpload:hover{color:#3171c6;text-decoration:underline}
+.divUpload2:hover{color:#3171c6;text-decoration:underline}
+.divUpload{position:relative;width:64px!important;height:22px!important;overflow:hidden}
+.divUpload2{position:relative;width:72px!important;height:22px!important;overflow:hidden}
+.divButton{color:#3171c6;font-family:verdana;font-size:8.5pt;height:22px!important;margin-left:0!important}
+.divInput{cursor:pointer;position:absolute;-moz-opacity:0;opacity:0;filter:alpha(opacity:0);top:0;right:0;padding:0}
+]]>
+</text>
+</css>

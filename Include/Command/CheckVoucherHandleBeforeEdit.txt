@@ -1,0 +1,22 @@
+﻿<![CDATA[
+if @@view = 0 begin
+  if @@action = 'Edit' and @@admin <> 1 begin
+    declare @$checkVoucherHandle varchar(32)
+    select @$checkVoucherHandle = status from @@inquiry$partition$current where stt_rec = @stt_rec
+    if exists(select 1 from dmttct where ma_ct = @@id and status = @$checkVoucherHandle and xedit = 1) begin
+      select @message as script, '$NotAuthorized' as message
+      return
+    end
+    if (@$checkVoucherHandle is not null) and exists(select 1 from dmttct where ma_ct = @@id and status = @$checkVoucherHandle and right_yn = 1) begin
+      if not exists(select 1 from @@sysDatabaseName..sysactionrights where user_id = @@userID and ma_ct = @@id and action_id = @$checkVoucherHandle and right_yn = 1) begin
+        select @message as script, '$NotAuthorized' as message
+        return
+      end
+      if exists(select 1 from @@sysDatabaseName..sysstatusrights where user_id = @@userID and ma_ct = @@id and status_id = @$checkVoucherHandle and r_edit = 1) begin
+        select @message as script, '$NotAuthorized' as message
+        return
+      end
+    end
+  end
+end
+]]>

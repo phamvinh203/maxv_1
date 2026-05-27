@@ -1,0 +1,47 @@
+﻿<![CDATA[
+function setAllDayEvent(o){
+  var f = o.parentForm;
+  f.getItem('start_time').disabled = o.checked;
+  f.getItem('end_time').disabled = o.checked;
+  //f.getItem('start_date').disabled = o.checked;
+  f.getItem('end_date').disabled = o.checked;
+  //$common.setVisible(f.getItem('start_date').a, !o.checked);
+  $common.setVisible(f.getItem('end_date').a, !o.checked);
+}
+function onChange$Type(o){
+  var f = o.parentForm;
+  var a = o.value == 1 ? true : false;
+  f.getItem('muc_do').disabled = a;
+  f.getItem('status').disabled = a;
+  if(a) f.setItemValues('muc_do, status', [2, 0]);
+}
+function setPrivateOption(o) {
+  var f = o.parentForm;
+  var b = o.checked;
+  f.getItem('assigned_name').disabled = b;
+  f.getItem('share_user').disabled = b;
+  f.getItem('ma_nhom').disabled = b;
+  $common.setVisible(f.getItem('assigned_name').a, !b);
+  $common.setVisible(f.getItem('share_user').a, !b);
+  $common.setVisible(f.getItem('ma_nhom').a, !b); 
+  changeLookupReadonly(f, 'assigned_name', true);
+  changeLookupReadonly(f, 'share_user', true);
+}
+function set$EventsForm$DefaultValue(f) {
+  var g = f.grid;
+  if (f._action == 'New') {
+    f.setItemValues('owner, datetime0, start_date, end_date, start_time, end_time', [f._owner, new Date(), new Date(f._startdate), new Date(f._startdate), f._starttime, f._endtime]);
+    if (g._viewPageMode)  {
+      f.setItemValues('stt_rec, type', [f._recordID, g._viewType]);
+    }
+    changeLookupReadonly(f, 'assigned_name', true);
+    changeLookupReadonly(f, 'share_user', true);
+  }
+  if (f._action != 'View') {
+    setPrivateOption(f.getItem('private'));
+    setAllDayEvent(f.getItem('full_day'));
+    onChange$Type(f.getItem('event_yn'));
+    f.getItem('text').focus();
+  }
+}
+]]>

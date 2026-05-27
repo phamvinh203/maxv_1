@@ -1,0 +1,11 @@
+﻿<![CDATA[
+declare @$denyAccess nvarchar(512), @$checkVoucherUnit varchar(32)
+select @$denyAccess = '$NotAuthorized'
+select @$checkVoucherUnit = ma_dvcs from @@inquiry$partition$current where stt_rec = @stt_rec
+if @@admin <> 1 begin
+  if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @$checkVoucherUnit and r_del = 1) begin
+    select @$denyAccess as message
+    return
+  end    
+end
+]]>

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="110" reportFile="GLthphi5_110" commandArgument="Pdf" urlImage="&p;">
+      <header v="Báo cáo tổng hợp chi phí trong kỳ theo đơn vị cơ sở" e="Expenses Arising Summary by Unit Report"/>
+      <download>
+        <header v="Báo cáo tổng hợp chi phí trong kỳ theo đơn vị cơ sở" e="Expenses Arising Summary by Unit Report"/>
+      </download>&b;
+    </form>
+
+    <form id="210" reportFile="GLthphi5_110" commandArgument="Pdf">
+      <header v="Báo cáo tổng hợp chi phí trong kỳ theo đơn vị cơ sở ngoại tệ" e="Expenses Arising Summary by Unit Report in Foreign Currency"/>
+      <download>
+        <header v="Báo cáo tổng hợp chi phí trong kỳ theo đơn vị cơ sở ngoại tệ" e="Expenses Arising Summary by Unit Report in Foreign Currency"/>
+      </download>&f;
+    </form>
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="BÁO CÁO TỔNG HỢP CHI PHÍ TRONG KỲ THEO ĐƠN VỊ CƠ SỞ" e="EXPENSES ARISING SUMMARY BY UNIT REPORT"/>
+    </field>
+    <field name="h_dien_giai" type="String">
+      <header v="Diễn giải" e="Description"/>
+    </field>
+    <field name="h_lk" type="String">
+      <header v="Lũy kế" e="Accumulate"/>
+    </field>
+    <field name="h_lk_nt" type="String">
+      <header v="Lũy kế nt" e="FC Accumulate"/>
+    </field>
+    <field name="h_ps" type="String">
+      <header v="Phát sinh" e="Arising"/>
+    </field>
+    <field name="h_ps_nt" type="String">
+      <header v="Phát sinh nt" e="FC Arising"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="s_Total" type="String">
+      <header v="Tổng cộng" e="Total"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+  </fields>
+</report>

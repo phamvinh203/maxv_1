@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+	<!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+	<!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+	<!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+    <!ENTITY p "../images/pdf.gif">
+    <!ENTITY e "../images/excel.gif">
+
+    <!ENTITY GLTranReport SYSTEM ".\Include\GLTranReport.xml">
+	<!ENTITY GLTranReportSql SYSTEM ".\Include\GLTranReportSql.txt">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+	<query>
+		<text>
+			<![CDATA[
+if dbo.MaxvOnline$Function$CheckSQLInjection(@stt_rec) = 0 return
+]]>&GLTranReportSql;<![CDATA[
+else begin
+    declare @m_ma_nt0 varchar(10), @key varchar(128),@dv_tien nvarchar(16), @bilingual tinyint, @l char(1)
+    select @m_ma_nt0 = val from options where name = N'm_ma_nt0'
+	
+	declare @ma_tt nvarchar(16), @so_tt nvarchar(255), @so_tt2 nvarchar(255), @ngay_tt nvarchar(255), @ngay_tt2 nvarchar(255), @ten_bc nvarchar(255), @ten_bc2 nvarchar(255)
+	select @ma_tt = rtrim(ltrim(val)) from options where name='r_cdkt'
+	select @so_tt=so_tt, @so_tt2 = so_tt2, @ngay_tt = ngay_tt, @ngay_tt2 = ngay_tt2 from report1 where ma_tt=@ma_tt 
+	select @ten_bc = ten_bc, @ten_bc2=ten_bc2 from report2 where ma_tt=@ma_tt and sysid='CBTran'
+	
+    select rtrim(a.ong_ba) as ong_ba,rtrim(b.ten_kh) as ten_kh ,rtrim(b.ten_kh2) as ten_kh2, a.dia_chi, a.dien_giai, a.t_tt, a.t_tt_nt, a.ma_nt, 
+		    dbo.MaxvOnline$Function$System$ReadCurrency(@m_ma_nt0, a.t_tt, @@language) as t_tt_in_word, 
+		    dbo.MaxvOnline$Function$System$ReadCurrency(a.ma_nt, a.t_tt_nt, @@language) as t_tt_nt_in_word,
+        dbo.MaxvOnline$Function$System$ReadCurrency(@m_ma_nt0, a.t_tt, 'E') as t_tt_in_word2, 
+		    dbo.MaxvOnline$Function$System$ReadCurrency(a.ma_nt, a.t_tt_nt, 'E') as t_tt_nt_in_word2,
+		    a.so_ct_goc as so_ct_goc, a.dien_giai_ct_goc, a.ma_nk, a.so_ct, a.tk, a.ty_gia,
+		    replace(str(day(ngay_ct),2),' ','0') ngay, replace(str(month(ngay_ct),2),' ','0') thang, str(year(ngay_ct),4) nam, stt_rec,
+			c.tknh, c.ten_nh as tennh, c.ten_nh2 as tennh2, c.tinh_thanh as tinhthanh, c.phone, c.fax, c.email, 
+			b.tk_nh as tk_nh, b.ngan_hang as ngan_hang, b.tinh_thanh as tinh_thanh,b.dia_chi as dia_chi
+	    from @@prime$partition$current a with(nolock)
+		    left join dmkh b with(nolock) on a.ma_kh = b.ma_kh
+			left join dmtknh c on a.tk=c.tk
+	    where stt_rec = @stt_rec
+		  select @key = 'a.stt_rec = ''' + @stt_rec + ''''
+			exec pr_PrintCDTran @@language, @key, 'd56$$partition$current', 'r30$$partition$current', @@id
+			
+		if @@form in ('110','210') begin 
+			declare  @mau_in varchar(511), @q nvarchar(4000), @ma_nh varchar(30)
+			select @ma_nh = b.ma_nh from @@prime$partition$current a with(nolock)
+				left join dmtknh b on a.tk=b.tk
+				where stt_rec = @stt_rec
+			select @mau_in = mau_ht
+					from dmmauunc where ma_nh = @ma_nh
+					
+			select  @mau_in = isnull(@mau_in, '')
+			if @mau_in <> '' begin
+				set @q = 'select '
+				set @q = @q + case when @mau_in <> '' then '''' + replace(replace(@mau_in, ' ', ''), '''', '') + ''' as reportFile' else '' end
+				exec sp_executesql @q
+			 end	
+
+		end	
+				  
+end
+
+]]>
+		</text>
+	</query>
+	<forms>
+		<form id="110" reportFile="CPTran_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+			<header v="Ủy nhiệm chi mẫu ngân hàng" e="Payment"></header>
+			<download>
+				<header  v="Ủy nhiệm chi" e="Payment"/>
+			</download>&b;
+		</form>
+		<form id="210" reportFile="CPTran_110" templateFile="" commandArgument="Pdf">
+			<header v="Ủy nhiệm chi ngoại tệ mẫu ngân hàng" e="Payment in Foreign Currency"/>
+			<download>
+				<header  v="Giấy báo nợ tiền ngoại tệ" e="Payment in Foreign Currency"/>
+			</download>&f;
+		</form>
+
+		&s;
+
+		<form id="070" reportFile="CDTran_03" templateFile="" commandArgument="Pdf" urlImage="&p;" controller="CDTRan" externalID="030">
+			<header v="Phiếu chi tiền mặt" e="Cash Disbursement - 2 Copies Per Sheet"/>
+			<download>
+				<header v="Phiếu chi tiền mặt" e="Cash Disbursement"/>
+			</download>&b;
+		</form>
+
+		<form id="080" reportFile="CDTran_03" templateFile="" commandArgument="Pdf" controller="CDTRan" externalID="040">
+			<header v="Phiếu chi tiền mặt ngoại tệ" e="Cash Disbursement in Foreign Currency - 2 Copies Per Sheet"/>
+			<download>
+				<header v="Phiếu chi tiền mặt ngoại tệ" e="Cash Disbursement in Foreign Currency"/>
+			</download>&f;
+		</form>
+
+		&s;
+
+		<form id="150" reportFile="" templateFile="CDTran" commandArgument="Excel" urlImage="&e;" controller="CDTRan" externalID="110">
+			<header v="Phiếu chi tiền mặt dạng tệp xlsx &lt;span style=&quot;color:#42842C;&quot;/&gt;(Excel)&lt;/span&gt;" e="Cash Disbursement as Spreadsheet"></header>
+			<download>
+				<header  v="Phiếu chi tiền mặt" e="Cash Disbursement"/>
+			</download>&b;
+		</form>
+		<form id="160" reportFile="" templateFile="CDTranFC" commandArgument="Excel" controller="CDTRan" externalID="120">
+			<header v="Phiếu chi tiền mặt tiền ngoại tệ" e="Cash Disbursement in Foreign Currency"/>
+			<download>
+				<header  v="Phiếu chi tiền mặt tiền ngoại tệ" e="Cash Disbursement in Foreign Currency"/>
+			</download>&f;
+		</form>
+		&s;
+
+		&GLTranReport;
+	</forms>
+
+	<fields>
+		<field name="title" type="String">
+			<header v="ỦY NHIỆM CHI" e="PAYMENT"/>
+		</field>
+		
+		<field name="h_so_ct" type="String">
+			<header v="Số: " e="Number:"></header>
+		</field>
+		<field name="h_mau_so" type="String">
+			<header v="Mẫu số: 01" e="Form: 01"></header>
+		</field>
+		<field name="h_tien_bang_so" type="String">
+			<header v="Số tiền bằng số" e="Amount (in Figure)"></header>
+		</field>
+		<field name="h_lien" type="String">
+			<header v="Liên: 01" e="Copy: 01"></header>
+		</field>
+		<field name="h_dv_nhan" type="String">
+			<header v="Đơn vị nhận tiền:" e="Customer:"></header>
+		</field>
+		<field name="h_so_tk" type="String">
+			<header v="Số tài khoản:" e="Account No.:"></header>
+		</field>
+		<field name="h_nh_ghi" type="String">
+			<header v="PHẦN DO NH GHI" e="FOR BANK"></header>
+		</field>
+		<field name="h_tk_co" type="String">
+			<header v="TÀI KHOẢN CÓ" e="CREDIT ACCOUNT"></header>
+		</field>
+		<field name="h_tk_no" type="String">
+			<header v="TÀI KHOẢN NỢ" e="DEBIT ACCOUNT"></header>
+		</field>
+		<field name="h_ngan_hang" type="String">
+			<header v="Tại ngân hàng:" e="Bank:"></header>
+		</field>
+		<field name="h_ngan_hang_a" type="String">
+			<header v="NGÂN HÀNG A" e="A BANK"></header>
+		</field>
+		<field name="h_ngan_hang_b" type="String">
+			<header v="NGÂN HÀNG B" e="B BANK"></header>
+		</field>
+		<field name="h_dv_tra_tien" type="String">
+			<header v="ĐƠN VỊ TRẢ TIỀN" e="COMPANY"></header>
+		</field>
+		<field name="h_ten_dv_tra_tien" type="String">
+			<header v="Tên đơn vị trả tiền:" e="Company:"></header>
+		</field>
+		<field name="h_ten_dv_nhan_tien" type="String">
+			<header v="Tên đơn vị nhận tiền:" e="Receiver:"></header>
+		</field>
+		<field name="h_tinh_tp" type="String">
+			<header v="Tỉnh, tp:" e="City:"></header>
+		</field>
+		<field name="h_dien_giai" type="String">
+			<header v="Nội dung thanh toán:" e="Memo:"></header>
+		</field>
+		<field name="h_ghi_so" type="String">
+			<header v="Ghi sổ ngày............................................. " e="Recorded Date............................................. "></header>
+		</field>
+		<field name="h_bang_chu" type="String">
+			<header v="Số tiền (viết bằng chữ): " e="Amount (in Words):"></header>
+		</field>
+		<field name="h_kt" type="String">
+			<header v="KẾ TOÁN" e="ACCOUNTANT"/>
+		</field>
+	</fields>
+</report>

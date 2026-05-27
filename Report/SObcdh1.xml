@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+   <form id="510" templateFile ="SObcdh1_110" commandArgument="Excel" urlImage="&e;">
+		<header v="Bảng kê đơn hàng bán (Excel)" e="Sales Order Listing"></header>
+		<download>
+			<header v="Bảng kê đơn hàng bán" e="Sales Order Listing"/>
+		</download>
+	</form>	
+	 &s;
+
+
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="BẢNG KÊ ĐƠN HÀNG BÁN" e="SALES ORDER LISTING"/>
+    </field>
+
+    <field name="h_dien_giai" type="String">
+      <header v="Diễn giải" e="Description"/>
+    </field>
+    <field name="h_chung_tu" type="String">
+      <header v="Đơn hàng" e="Voucher"/>
+    </field>
+	<field name="h_dvt" type="String">
+      <header v="Đvt" e="UOM"/>
+    </field>
+	<field name="h_kho" type="String">
+      <header v="Kho" e="Site"/>
+    </field>
+    <field name="h_ngay" type="String">
+      <header v="Ngày" e="Date"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_so" type="String">
+      <header v="Số" e="Number"/>
+    </field>
+    <field name="h_so_luong" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_don_gia" type="String">
+      <header v="Đơn giá" e="Price"/>
+    </field>
+    <field name="h_thanh_tien" type="String">
+      <header v="Thành tiền" e="Amount"/>
+    </field>
+    <field name="h_tien" type="String">
+      <header v="Tiền" e="Amount"/>
+    </field>
+    <field name="h_ty_gia" type="String">
+      <header v="Tỷ giá" e="Exchange Rate"/>
+    </field>
+    <field name="h_gia" type="String">
+      <header v="Giá" e="Price"/>
+    </field>
+    <field name="h_thue_nk" type="String">
+      <header v="Thuế nk" e="Import Tax"/>
+    </field>
+    <field name="h_cp" type="String">
+      <header v="Chi phí" e="Fee"/>
+    </field>
+    <field name="h_gia_mua" type="String">
+      <header v="Giá mua" e="Purchase Price"/>
+    </field>
+    <field name="h_tien_hang" type="String">
+      <header v="Tiền hàng" e="Amount"/>
+    </field>
+    <field name="h_nt" type="String">
+      <header v="nt" e="FC"/>
+    </field>
+    <field name="h_ma_nt" type="String">
+      <header v="Nt" e="FC"/>
+    </field>
+	<field name="h_ma_kh" type="String">
+      <header v="Mã khách hàng" e="Customer"/>
+    </field>
+	<field name="h_ten_kh" type="String">
+      <header v="Tên khách hàng" e="Customer Name"/>
+    </field>
+	<field name="h_ma_vt" type="String">
+      <header v="Mã hàng" e="Item"/>
+    </field>
+	<field name="h_ten_vt" type="String">
+      <header v="Tên mặt hàng" e="Item Name"/>
+    </field>
+	<field name="h_total" type="String">
+      <header v="Tổng cộng" e="Total"/>
+    </field>
+  </fields>
+</report>

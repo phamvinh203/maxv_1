@@ -1,0 +1,14 @@
+﻿<![CDATA[
+if @@view = 0 begin
+  if @@action = 'Edit' begin
+    if @@admin <> 1 begin
+      declare @$checkVoucherUnit varchar(32)
+      select @$checkVoucherUnit = b.ma_dvcs from @@table a join ]]>&FixedAssetTable;<![CDATA[ b on a.so_the_ts = b.so_the_ts where a.so_the_ts = @so_the_ts
+      if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @$checkVoucherUnit and r_edit = 1) begin
+        select @message as script, '$NotAuthorized' as message
+        return
+      end
+    end
+  end
+end
+]]>

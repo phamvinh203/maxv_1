@@ -1,0 +1,10 @@
+﻿<views>
+  <view id="Grid">
+    <field name="stt_rec_lh"/>
+    <field name="ho_ten_nlh"/>
+    <field name="dia_chi"/>
+    <field name="dien_thoai"/>
+    <field name="dien_thoai_dd"/>
+    <field name="email"/>
+  </view>
+</views>

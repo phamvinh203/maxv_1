@@ -1,0 +1,8 @@
+﻿<![CDATA[
+declare @wsID varchar(1)
+select @wsID = rtrim(val) from options where upper(name) = 'M_WS_ID'
+create table #idNumber (stt_rec varchar(32))
+insert into #idNumber exec fs_GetIdentityNumber @wsID, @@id, @@master
+select @stt_rec = stt_rec from #idNumber
+drop table #idNumber
+]]>

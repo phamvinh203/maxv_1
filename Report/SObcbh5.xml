@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+
+  <forms>
+    <form id="100" reportFile="SObcbh5_100" commandArgument="pdf" urlImage="&p;">
+      <header v="Báo cáo tổng hợp hàng bán trả lại (có số lượng)" e="Sales Return Summary Only Quantity"></header>
+      <download>
+        <header  v="Báo cáo tổng hợp hàng bán trả lại (có số lượng)" e="Sales Return Summary Only Quantity"/>
+      </download>&b;
+    </form>
+
+    <form id="110" reportFile="SObcbh5_110" commandArgument="pdf">
+      <header v="Báo cáo tổng hợp hàng bán trả lại (số lượng và giá trị)" e="Sales Return Summary Quantity and Values"></header>
+      <download>
+        <header  v="Báo cáo tổng hợp hàng bán trả lại (số lượng và giá trị)" e="Sales Return Summary Quantity and Values"/>
+      </download>&b;
+    </form>
+
+    <form id="210" reportFile="SObcbh5_210" commandArgument="pdf">
+      <header v="Báo cáo tổng hợp hàng bán trả lại ngoại tệ (số lượng và giá trị)" e="Sales Return Summary Quantity and Values in Foreign Currency"></header>
+      <download>
+        <header  v="Báo cáo tổng hợp hàng bán trả lại ngoại tệ (số lượng và giá trị)" e="Sales Return Summary Quantity and Values in Foreign Currency"/>
+      </download>&f;
+    </form>
+	&s; 
+	<form id="500" templateFile ="SObcbh5_100" commandArgument="Excel" urlImage="&e;" rowFilter="[2$sysprint = 1]">
+		<header v="Báo cáo tổng hợp hàng bán trả lại (số lượng)" e="Sales Return Summary (Quantity)"></header>
+		<download>
+			<header v="Báo cáo tổng hợp hàng bán trả lại (số lượng)" e="Sales Return Summary (Quantity)"/>
+		</download>
+	</form>		
+
+	<form id="510" templateFile ="SObcbh5_110" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Báo cáo tổng hợp hàng bán trả lại (số lượng và giá trị)" e="Sales Return Summary (Quantity and Values)"></header>
+		<download>
+			<header v="Báo cáo tổng hợp hàng bán trả lại (số lượng và giá trị)" e="Sales Return Summary (Quantity and Values)"/>
+		</download>
+	</form>	
+	<form id="610" templateFile ="SObcbh5_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Báo cáo tổng hợp hàng bán trả lại ngoại tệ (số lượng và giá trị)" e="Sales Return Summary in Foreign Currency (Quantity and Values)"></header>
+		<download>
+			<header v="Báo cáo tổng hợp hàng bán trả lại ngoại tệ(số lượng và giá trị)" e="Sales Return Summary in Foreign Currency (Quantity and Values)"/>
+		</download>
+	</form>	
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="BÁO CÁO TỔNG HỢP HÀNG BÁN TRẢ LẠI" e="SALES RETURN SUMMARY"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_ma_vt" type="String">
+      <header v="Mã hàng" e="Item Code"/>
+    </field>
+    <field name="h_ten_vt" type="String">
+      <header v="Tên mặt hàng" e="Item Name"/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="Đvt" e="UOM"/>
+    </field>
+    <field name="h_so_luong" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_doanh_thu" type="String">
+      <header v="Doanh thu" e="Turnover"/>
+    </field>
+    <field name="h_doanh_thu_nt" type="String">
+      <header v="Doanh thu nt" e="FC Turnover"/>
+    </field>
+    <field name="h_thue" type="">
+      <header v="Thuế" e="Tax Amount"/>
+    </field>
+    <field name="h_tong_cong" type="String">
+      <header v="Tổng cộng" e="Total Amount"/>
+    </field>
+    <field name="h_kt_gs" type="String">
+      <header v="Kế toán ghi sổ" e="Book Keeper"/>
+    </field>
+  </fields>
+</report>

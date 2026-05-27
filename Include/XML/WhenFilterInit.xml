@@ -1,0 +1,8 @@
+﻿<command event="Initialize">
+  <text>
+    <![CDATA[
+select 'init$VoucherFilter$(this);' as message
+return
+]]>
+  </text>
+</command>

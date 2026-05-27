@@ -1,0 +1,44 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:Locale="en-GB">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="d1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="date_from" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="date_to" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="in_sl" type="xs:int" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="d2">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="stt" type="xs:decimal" minOccurs="0" />
+							<xs:element name="ma" type="xs:string" minOccurs="0" />
+							<xs:element name="ten" type="xs:string" minOccurs="0" />
+							<xs:element name="ten2" type="xs:string" minOccurs="0" />
+							<xs:element name="dvt" type="xs:string" minOccurs="0" />
+							<xs:element name="ton_dau" type="xs:decimal" minOccurs="0" />
+							<xs:element name="du_dau" type="xs:decimal" minOccurs="0" />
+							<xs:element name="du_dau_nt" type="xs:decimal" minOccurs="0" />
+							<xs:element name="sl_nhap" type="xs:decimal" minOccurs="0" />
+							<xs:element name="tien_nhap" type="xs:decimal" minOccurs="0" />
+							<xs:element name="tien_nt_n" type="xs:decimal" minOccurs="0" />
+							<xs:element name="sl_xuat" type="xs:decimal" minOccurs="0" />
+							<xs:element name="tien_xuat" type="xs:decimal" minOccurs="0" />
+							<xs:element name="tien_nt_x" type="xs:decimal" minOccurs="0" />
+							<xs:element name="ton_cuoi" type="xs:decimal" minOccurs="0" />
+							<xs:element name="du_cuoi" type="xs:decimal" minOccurs="0" />
+							<xs:element name="du_cuoi_nt" type="xs:decimal" minOccurs="0" />
+							<xs:element name="sysorder" type="xs:decimal" minOccurs="0" />
+							<xs:element name="sysprint" type="xs:decimal" minOccurs="0" />
+							<xs:element name="systotal" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

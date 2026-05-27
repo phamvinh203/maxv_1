@@ -1,0 +1,13 @@
+﻿<form id="610" reportFile ="IRTran_TT200" templateFile ="" commandArgument="Pdf" urlImage="&p;" controller="IRTran" externalID="010">
+  <header v="Phiếu nhập kho TT200/2014" e="Receiving Transaction" />
+</form>
+<form id="650" reportFile ="" templateFile ="IRTran_TT200" commandArgument="Excel" urlImage="&e;" controller="IRTran" externalID="011">
+  <header v="Phiếu nhập kho dạng tệp xlsx TT200/2014 &lt;span style=&quot;color:#42842C;&quot;/&gt;(Excel)&lt;/span&gt;" e="Receiving Transaction as Spreadsheet"></header>
+</form>
+
+<form id="710" reportFile ="IRTran_TT133" templateFile ="" commandArgument="Pdf" urlImage="&p;" controller="IRTran" externalID="020">
+  <header v="Phiếu nhập kho TT133/2016" e="Receiving Transaction" />
+</form>
+<form id="750" reportFile ="" templateFile ="IRTran_TT133" commandArgument="Excel" urlImage="&e;" controller="IRTran" externalID="021">
+  <header v="Phiếu nhập kho dạng tệp xlsx TT133/2016 &lt;span style=&quot;color:#42842C;&quot;/&gt;(Excel)&lt;/span&gt;" e="Receiving Transaction as Spreadsheet"></header>
+</form>

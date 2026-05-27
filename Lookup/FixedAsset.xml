@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmts" code="so_the_ts" name="ten_ts%l" order="so_the_ts" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục TSCĐ" e="Fixed Asset List"></header>
+
+  <fields>
+    <field name="so_the_ts" allowSorting="true" allowFilter="true">
+      <header v="Số thẻ ts" e="FA Code"></header>
+    </field>
+
+    <field name="ten_ts%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên tài sản" e = "FA Name"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

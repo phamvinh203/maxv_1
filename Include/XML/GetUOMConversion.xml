@@ -1,0 +1,12 @@
+﻿<action id="UOM">
+  <text>
+    <![CDATA[
+declare @rate numeric(16, 5)
+if exists (select 1 from vdmvtqddvt where dvt = @dvt and (ma_vt = @ma_vt or ma_vt = '*')) begin
+  select @rate = he_so from vdmvtqddvt where dvt = @dvt and (ma_vt = @ma_vt or ma_vt = '*')
+  select isnull(@rate, 1) as he_so
+  return
+end
+]]>
+  </text>
+</action>

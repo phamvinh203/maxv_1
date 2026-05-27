@@ -1,0 +1,12 @@
+﻿<![CDATA[
+declare @$exists nvarchar(512), @$warning nvarchar(4000)
+select @$warning = ''
+select @$exists = case when @@language = 'v' then N'Số chứng từ <span class="Highlight">%s</span> không đúng hoặc đã có trong chứng từ.' else N'The invoice number <span class="Highlight">%s</span> is invalid or already exists.' end
+create table #checkNumber (r int)
+select @so_ct = space(datalength(@so_ct) - len(rtrim(@so_ct))) + rtrim(@so_ct)
+insert into #checkNumber exec MaxvOnline$App$CheckVoucherNumber @ma_nk, @@id, @ngay_ct, @so_ct, @@master, @stt_rec
+if exists(select * from #checkNumber where r = 0) begin
+  select 'so_ct' as field, replace(@$exists, '%s', rtrim(@so_ct)) as message
+  return
+end else begin if exists(select * from #checkNumber where r = -1) select @$warning = @$warning + replace(@$exists, '%s', rtrim(@so_ct)) end
+]]>

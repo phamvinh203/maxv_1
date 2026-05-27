@@ -1,0 +1,9 @@
+﻿<![CDATA[
+function insert$Retrieve$Items(g, r1, z, r2, columns, c1, c2) {
+  var a1 = (columns + (c1 ? ',' + c1 : '')).split(','), a2 = (columns + (c2 ? ',' + c2 : '')).split(',');
+  for (var i = 0; i < a1.length; i++) {
+    var l1 = g._getColumnOrder($func.trim(a1[i])), l2 = z._getColumnOrder($func.trim(a2[i]));
+    z._setItemValue(r2, l2, g._getItemValue(r1, l1));
+  }
+}
+]]>

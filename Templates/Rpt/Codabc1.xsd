@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsReport" targetNamespace="http://tempuri.org/dsReport.xsd" xmlns:mstns="http://tempuri.org/dsReport.xsd" xmlns="http://tempuri.org/dsReport.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:element name="dsReport" msdata:IsDataSet="true" msdata:Locale="en-US" msprop:Generator_UserDSName="dsReport" msprop:Generator_DataSetName="dsReport">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="d1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tu_ngay" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="den_ngay" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="d2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="sysorder" type="xs:int" minOccurs="0" />
+              <xs:element name="sysprint" type="xs:int" minOccurs="0" />
+              <xs:element name="systotal" type="xs:int" minOccurs="0" />
+              <xs:element name="stt_rec" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_dvcs" type="xs:string" minOccurs="0" />
+              <xs:element name="loai_ct" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_ct" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_kh" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_ct" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ngay_lct" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="so_ct" type="xs:string" minOccurs="0" />
+              <xs:element name="so_ctgs_" type="xs:string" minOccurs="0" />
+              <xs:element name="so_lo" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_lo" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ong_ba" type="xs:string" minOccurs="0" />
+              <xs:element name="head_item" type="xs:string" minOccurs="0" />
+              <xs:element name="dien_giai_h" type="xs:string" minOccurs="0" />
+              <xs:element name="dien_giai" type="xs:string" minOccurs="0" />
+              <xs:element name="nh_dk" type="xs:string" minOccurs="0" />
+              <xs:element name="tk" type="xs:string" minOccurs="0" />
+              <xs:element name="tk_du" type="xs:string" minOccurs="0" />
+              <xs:element name="ps_no_nt" type="xs:decimal" minOccurs="0"  />
+              <xs:element name="ps_co_nt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ma_nt" type="xs:string" minOccurs="0" />
+              <xs:element name="ty_gia" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ps_no" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ps_co" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ma_vv" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_nk" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_sp" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_bp" type="xs:string" minOccurs="0" />
+              <xs:element name="so_lsx" type="xs:string" minOccurs="0" />
+              <xs:element name="so_ct0" type="xs:string" minOccurs="0" />
+              <xs:element name="ngay_ct0" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ct_nxt" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_gd" type="xs:string" minOccurs="0" />
+              <xs:element name="nam" type="xs:int" minOccurs="0" />
+              <xs:element name="ky" type="xs:int" minOccurs="0" />
+              <xs:element name="line_nbr" type="xs:int" minOccurs="0" />
+              <xs:element name="status" type="xs:int" minOccurs="0" />
+              <xs:element name="date_time0" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="date_time2" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ma_hd" type="xs:string" minOccurs="0" />
+              <xs:element name="ma_ku" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_kh" type="xs:string" minOccurs="0" />
+              <xs:element name="ten_kh2" type="xs:string" minOccurs="0" />
+              <xs:element name="stt_ct_nkc" type="xs:int" minOccurs="0" />
+              <xs:element name="ma_ct0" type="xs:string" minOccurs="0" />
+              <xs:element name="ma" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

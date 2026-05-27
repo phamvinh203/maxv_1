@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY SalesPriceFields SYSTEM "Include\SalesPriceFields.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$SalesPriceImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$SalesPriceImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_vt" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+    <field name="ngay_ban" column="B" isPrimaryKey="true" allowNulls="false" type="DateTime"/>
+    <field name="ma_nt" column="C" isPrimaryKey="true" allowNulls="false" maxLength="3" upperCase="true"/>
+    <field name="gia_nt2" column="D" type="Decimal"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin <> 1 and @type = 1 begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'SalesPrice', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @duplicate nvarchar(4000), @field varchar(32), @r int
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có hoặc lồng nhau.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+
+alter table @@table alter column ma_vt char(32)
+alter table @@table alter column ma_nt char(32)
+create index i on @@table (ma_vt, ngay_ban, ma_nt)
+
+if @type = '0' delete @@table from @@table a join dmgia2 b on a.ma_vt = b.ma_vt and a.ngay_ban = b.ngay_ban and a.ma_nt = b.ma_nt
+
+select @field = 'ma_vt', @r = min(stt) from @@table where ma_vt not in (select ma_vt from dmvt)]]>&Error;<![CDATA[
+select @field = 'ma_nt', @r = min(stt) from @@table where ma_nt not in (select ma_nt from dmnt)]]>&Error;<![CDATA[
+ 
+select a.* into #k from @@table a join dmgia2 b on a.ma_vt = b.ma_vt and a.ngay_ban = b.ngay_ban and a.ma_nt = b.ma_nt
+delete @@table from @@table a join #k b on a.ma_vt = b.ma_vt and a.ngay_ban = b.ngay_ban and a.ma_nt = b.ma_nt
+
+set @q = 'insert into dmgia2 (ma_vt, ngay_ban, ma_nt, gia_nt2, gia2, ma_gia, datetime0, datetime2, user_id0, user_id2'
+set @q = @q + ', ma_td1, ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6, s7, s8, s9)'
+set @q = @q + 'select ma_vt, ngay_ban, ma_nt, gia_nt2, 0, '''', getdate(), getdate(), rtrim(@@userID), rtrim(@@userID), '
+set @q = @q + ''''', '''', '''', 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0, null, null, null from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update dmgia2 set gia_nt2 = b.gia_nt2, datetime2 = getdate(), user_id2 = @@userID
+    from dmgia2 a, #k b where a.ma_vt = b.ma_vt and a.ngay_ban = b.ngay_ban and a.ma_nt = b.ma_nt
+end
+]]>
+    </text>
+  </processing>
+</import>

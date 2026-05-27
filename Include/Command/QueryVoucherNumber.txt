@@ -1,0 +1,1 @@
+﻿<![CDATA[select @message = 'this._voucherCode='@@id';this._baseCurrency=''' + @baseCurrency + ''';this._isVoucherBook=' + @isVoucherBook + ';this._voucherNumber=''' + @voucherNumber + '''']]>

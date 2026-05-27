@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmttct" code="status" name="statusname%l" order="status" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục trạng thái chứng từ" e="Voucher Status List"></header>
+
+  <fields>
+    <field name="status" allowSorting="true" allowFilter="true" >
+      <header v="Trạng thái" e="Status"></header>
+    </field>
+
+    <field name="statusname%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên trạng thái" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

@@ -1,0 +1,8 @@
+<![CDATA[
+function load$]]>&Identity;<![CDATA[Grid$(g) {
+  var f = g.get_element().parentForm;
+  if (g._rowCount > 0) g._focusWhenTabChanged();
+    else try {$get(String.format('{0}_updateDlgCancel', f._id)).focus();} catch (ex) {}
+}
+function scatter$]]>&Identity;<![CDATA[Grid$(g) {g._memvars = [];}
+]]>

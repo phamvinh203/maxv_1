@@ -1,0 +1,28 @@
+﻿<commands>
+  <command event="Loading">
+    <text>
+      &CreateTicket;<![CDATA[
+select 'this._authorize = ' + rtrim(@@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'crLead', 'Edit')) + ';this._key = ''' + @ticket + ''';load$]]>&GridID;<![CDATA[(this);' as message
+return
+]]>
+    </text>
+  </command>
+
+  <command event="Scattering">
+    <text>
+      <![CDATA[
+select 'scatter$]]>&GridID;<![CDATA[(this);' as message
+return
+]]>
+    </text>
+  </command>
+
+  <command event="Closing">
+    <text>
+      <![CDATA[
+select 'dispose$]]>&GridID;<![CDATA[(this);' as message
+return
+]]>
+    </text>
+  </command>
+</commands>

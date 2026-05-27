@@ -1,0 +1,12 @@
+﻿<command event="Checking">
+  <text>
+    <![CDATA[
+var k1 = this.getItemValue('ky1'), k2 = this.getItemValue('ky2'), e = 'ky1';
+if (k1 > k2) {
+  this._checked = false;
+  $func.hideWait(this.get_id());
+  $message.show(String.format($df.getResources(this._language, 'Message.RequiredField'), this.getItem(e).field.Label), String.format('$find(\'{0}\').getItem(\'{1}\').focus()', this.get_id(), e));
+}
+]]>
+  </text>
+</command>

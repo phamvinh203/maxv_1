@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="Filter" targetNamespace="urn:schemas-maxv-com:data-filter" elementFormDefault="qualified" xmlns="urn:schemas-maxv-com:data-filter" xmlns:a="urn:schemas-maxv-com:data-filter" xmlns:mstns="urn:schemas-maxv-com:data-filter" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="config" type ="configType">
+    <xs:key name="controller">
+      <xs:selector xpath="a:controllers/a:controller" />
+      <xs:field xpath="@name"/>
+    </xs:key>
+  </xs:element>
+
+  <xs:complexType name="configType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="controllers">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="controller" type="controllerType" minOccurs="1" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="controllerType">
+    <xs:attribute name="name" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>Matches the name of the column in the result set returned by query.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="pattern" type="xs:string" use="required"/>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,25 @@
+﻿	<field name="statusname"  external="true" hidden="true" readOnly="true" defaultValue="''" >
+      <header v="Trạng thái" e="Unit"></header>
+    </field>
+    <field name="comment"  external="true" hidden="true" readOnly="true" defaultValue="''" >
+      <header v="Người lập" e="Unit"></header>
+    </field>
+    <field name="comment2" external="true" hidden="true" readOnly="true" defaultValue="''" >
+      <header v="Người sửa" e="Unit"></header>
+    </field>
+    <field name="ma_ct" hidden="true" readOnly="true" defaultValue="''" >
+      <header v="" e="Unit"></header>
+    </field>
+    <field name="user_id0" hidden="true" readOnly="true" defaultValue="''" >
+      <header v="" e="Unit"></header>
+    </field>
+    <field name="user_id2" hidden="true" readOnly="true" defaultValue="''" >
+      <header v="" e="Unit"></header>
+    </field>
+    <field name="datetime0" hidden="true" readOnly="true" defaultValue="''" >
+      <header v="" e="Unit"></header>
+    </field>
+    <field name="datetime2" hidden="true" readOnly="true" defaultValue="''" >
+      <header v="" e="Unit"></header>
+    </field>
+    

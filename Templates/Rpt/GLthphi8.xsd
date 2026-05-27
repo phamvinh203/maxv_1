@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema id="dsReport" targetNamespace="http://tempuri.org/dsReport.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/dsReport.xsd" xmlns:mstns="http://tempuri.org/dsReport.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="dsReport" msdata:IsDataSet="true">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="d1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="nam" type="xs:integer" minOccurs="0"/>
+              <xs:element name="ky" type="xs:integer" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="d2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="sysorder" type="xs:integer" minOccurs="0"/>
+              <xs:element name="sysprint" type="xs:integer" minOccurs="0"/>
+              <xs:element name="systotal" type="xs:integer" minOccurs="0"/>
+              <xs:element name="tk" type="xs:string" minOccurs="0"/>
+              <xs:element name="ten_tk" type="xs:string" minOccurs="0"/>
+              <xs:element name="ten_tk2" type="xs:string" minOccurs="0"/>
+              <xs:element name="t_tien0" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="t_tien_nt0" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="t_tien" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="t_tien_nt" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="tien" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="tien_nt" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="tien0" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="tien_nt0" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="tien_cl" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="tien_cl_nt" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="t_tien_cl" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="t_tien_cl_nt" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="pt" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="pt_nt" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="t_pt" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="t_pt_nt" type="xs:decimal" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

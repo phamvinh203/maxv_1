@@ -1,0 +1,10 @@
+﻿<action id="Reason">
+  <text>
+    <![CDATA[
+if exists(select 1 from dmnx a join dmtk b on a.tk = b.tk where a.ma_nx = @ma_nx and b.loai_tk = 1) begin
+  select tk from dmnx where ma_nx = @ma_nx
+  return
+end
+]]>
+  </text>
+</action>

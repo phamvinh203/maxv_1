@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsReport" targetNamespace="http://tempuri.org/dsReport.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/dsReport.xsd" xmlns:mstns="http://tempuri.org/dsReport.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsReport" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="d1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="so_the_ts" type="xs:string" minOccurs="0"/>
+							<xs:element name="ten_ts" type="xs:string" minOccurs="0"/>
+							<xs:element name="ten_ts2" type="xs:string" minOccurs="0"/>						
+							<xs:element name="nuoc_sx" type="xs:string" minOccurs="0"/>
+							<xs:element name="nam_sx" type="xs:integer" minOccurs="0"/>
+							<xs:element name="ten_bp" type="xs:string" minOccurs="0"/>
+							<xs:element name="ten_bp2" type="xs:string" minOccurs="0"/>
+							<xs:element name="ts_kt" type="xs:string" minOccurs="0"/>
+							<xs:element name="so_hieu_ts" type="xs:string" minOccurs="0"/>						
+							<xs:element name="ngay_ct" type="xs:dateTime" minOccurs="0"/>
+							<xs:element name="ngay_mua" type="xs:dateTime" minOccurs="0"/>
+							<xs:element name="ngay_giam" type="xs:dateTime" minOccurs="0"/>
+							<xs:element name="ngay_dc" type="xs:dateTime" minOccurs="0"/>	
+							<xs:element name="ly_do_dc" type="xs:string" minOccurs="0" />
+							<xs:element name="ly_do_giam" type="xs:string" minOccurs="0" />
+							<xs:element name="so_ct" type="xs:string" minOccurs="0"/>		
+							<xs:element name="so_ct_giam" type="xs:string" minOccurs="0"/>	
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="d2">
+					<xs:complexType>
+						<xs:sequence>
+							  <xs:element name="so_ct" type="xs:string" minOccurs="0" />
+							  <xs:element name="ngay_ct" type="xs:dateTime" minOccurs="0" />
+							  <xs:element name="nguyen_gia" type="xs:decimal" minOccurs="0" />
+							  <xs:element name="nguyen_gia_nt" type="xs:decimal" minOccurs="0" />
+							  <xs:element name="dien_giai" type="xs:string" minOccurs="0" />
+							  <xs:element name="nam" type="xs:integer" minOccurs="0"/>
+							  <xs:element name="gt_kh_nam" type="xs:decimal" minOccurs="0" />
+							  <xs:element name="gt_kh_nam_nt" type="xs:decimal" minOccurs="0" />
+							  <xs:element name="gt_kh_lk" type="xs:decimal" minOccurs="0" />
+							  <xs:element name="gt_kh_lk_nt" type="xs:decimal" minOccurs="0" />			  
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="d3">
+					<xs:complexType>
+						<xs:sequence>				
+							  <xs:element name="line_nbr" type="xs:decimal" minOccurs="0" />
+							  <xs:element name="ten_ptkt" type="xs:string" minOccurs="0" />
+							  <xs:element name="dvt" type="xs:string" minOccurs="0" />
+							  <xs:element name="so_luong" type="xs:decimal" minOccurs="0" />
+							  <xs:element name="gia_tri" type="xs:decimal" minOccurs="0" />
+							  <xs:element name="gia_tri_nt" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

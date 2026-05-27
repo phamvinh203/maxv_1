@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE report [
+    <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+	<!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+	<!ENTITY p "../images/pdf.gif">
+	<!ENTITY e "../images/excel.gif">
+	<!ENTITY s SYSTEM ".\Include\Separate.xml">
+	
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+	<forms>
+		<form id="110" reportFile="INbcxk4_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+			<header v="Tổng hợp số phát sinh NVL theo sản phẩm" e="Material summary report by product"></header>
+			<download>
+				<header v="Tổng hợp số phát sinh NVL theo sản phẩm" e="Material summary report by product"/>
+			</download>&b;
+		</form>
+		<form id="210" reportFile="INbcxk4_110" templateFile="" commandArgument="Pdf">
+			<header v="Tổng hợp số phát sinh NVL theo sản phẩm ngoại tệ " e="Material summary report by product in Foreign Currency"/>
+			<download>
+				<header v="Tổng hợp số phát sinh NVL theo sản phẩm ngoại tệ" e="Material summary report by product in Foreign Currency"/>
+			</download>&f;
+
+		</form>
+	 &s;
+	<form id="510" reportFile="" templateFile="INbcxk4_110" commandArgument="Excel" urlImage="&e;" rowFilter="[2$sysprint = 1]">
+      <header v="Tổng hợp số phát sinh NVL theo sản phẩm (Excel)" e="Material summary report by product (Excel)"></header>
+      <download>
+        <header  v="Tổng hợp số phát sinh NVL theo sản phẩm (Excel)" e="Material summary report by product (Excel)"/>
+      </download>&b;
+    </form>
+	<form id="610" reportFile="" templateFile="INbcxk4_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+      <header v="Tổng hợp số phát sinh NVL theo sản phẩm ngoại tệ (Excel)" e="Material summary report by product in Foreign Currency(Excel)"></header>
+      <download>
+        <header  v="Tổng hợp số phát sinh NVL theo sản phẩm ngoại tệ (Excel)" e="Material summary report by product in Foreign Currency(Excel)"/>
+      </download>&f;
+    </form>
+	</forms>
+
+	<fields>
+		<field name="title" type="String">
+			<header v="TỔNG HỢP PHÁT SINH NVL THEO SẢN PHẨM" e="MATERIAL SUMARY REPORT BY PRODUCT"/>
+		</field>
+
+		<field name="h_quyen" type="String">
+			<header v="Quyển số:" e="Book No.:"/>
+		</field>
+		<field name="h_so_ct" type="String">
+			<header v="Số:" e="Voucher No.:"></header>
+		</field>
+		<field name="h_bang_chu" type="String">
+			<header v="Bằng chữ:" e="In Words:"></header>
+		</field>
+		<field name="h_ten_vt" type="String">
+			<header v="Tên sản phẩm" e="Item Name"/>
+		</field>
+		<field name="h_ma_vt" type="String">
+			<header v="Mã sản phẩm" e="Product Code"/>
+		</field>
+		<field name="h_stt" type="String">
+			<header v="Stt" e="No."/>
+		</field>
+		<field name="h_tien" type="String">
+			<header v="Tiền" e="Amount"/>
+		</field>
+		<field name="h_tien_nt" type="String">
+			<header v="Tiền nt" e="FC Amount"/>
+		</field>
+		<field name="h_dvt" type="String">
+			<header v="Đvt" e="UOM"/>
+		</field>
+		<field name="h_so_luong" type="String">
+			<header v="Số lượng" e="Quantity"/>
+		</field>
+		<field name="h_gia_tri" type="String">
+			<header v="Tiền " e="Unit Cost"/>
+		</field>
+		<field name="h_tu_ngay" type="String">
+			<header v="Từ ngày" e="Date from"/>
+		</field>
+		<field name="h_den_ngay" type="String">
+			<header v="đến ngày" e="to"/>
+		</field>
+		<field name="total" type="String">
+			<header v="Tổng cộng" e="Total"/>
+		</field>
+	</fields>
+</report>

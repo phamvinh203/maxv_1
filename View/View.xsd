@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="View" targetNamespace="urn:schemas-maxv-com:data-view" elementFormDefault="qualified" xmlns="urn:schemas-maxv-com:data-view" xmlns:a="urn:schemas-maxv-com:data-view" xmlns:mstns="urn:schemas-maxv-com:data-view" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="view" type ="viewType">
+    <xs:key name="field">
+      <xs:selector xpath="a:fields/a:field" />
+      <xs:field xpath="@name"/>
+    </xs:key>
+    <xs:key name="command">
+      <xs:selector xpath="a:commands/a:command" />
+      <xs:field xpath="@event" />
+    </xs:key>
+    <xs:key name="query">
+      <xs:selector xpath="a:queries/a:query" />
+      <xs:field xpath="@event" />
+    </xs:key>
+    <xs:key name="action">
+      <xs:selector xpath="a:response/a:action" />
+      <xs:field xpath="@id" />
+    </xs:key>
+  </xs:element>
+
+  <xs:complexType name="viewType">
+    <xs:all minOccurs="1" maxOccurs="1">
+      <xs:element name="title" type="headerType">
+      </xs:element>
+      <xs:element name="commands" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="command" type="commandType">
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="response" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="action" type="actionType">
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="queries" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="query" type="queryType">
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="script" type="textType" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="css" type="textType" minOccurs="0" maxOccurs="1">
+      </xs:element>
+
+      <xs:element name="views">
+        <xs:complexType>
+          <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="view" minOccurs="1" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="item" type ="viewsType" minOccurs="0" maxOccurs="unbounded">
+                  </xs:element>
+                  <xs:element name="categories" type="categoriesType" minOccurs="0" maxOccurs="1">
+                    <xs:unique name="category">
+                      <xs:selector xpath="a:category"/>
+                      <xs:field xpath="@index"/>
+                    </xs:unique>
+                  </xs:element>
+                </xs:sequence>
+
+                <xs:attribute name="id" type="xs:string" use="required">
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:int" use="optional">
+                </xs:attribute>
+                <xs:attribute name="anchor" type="xs:int" use="optional">
+                </xs:attribute>
+                <xs:attribute name="split" type="xs:int" use="optional">
+                </xs:attribute>
+              </xs:complexType>
+              <xs:key name="name">
+                <xs:selector xpath="a:field"/>
+                <xs:field xpath="@name"/>
+              </xs:key>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="viewIdUnique">
+          <xs:selector xpath="a:view"/>
+          <xs:field xpath="@id"/>
+        </xs:unique>
+      </xs:element>
+
+      <xs:element name="fields">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="field" type="fieldType" minOccurs="1" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+
+    <xs:attribute name="table" type="xs:string" use="optional">
+    </xs:attribute>
+    <xs:attribute name="code" type="xs:string" use="optional"/>
+    <xs:attribute name="order" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="fieldType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="header" type="headerType"  minOccurs="0" maxOccurs="1">
+      </xs:element>
+
+      <xs:element name="footer" type="headerType" minOccurs="0" maxOccurs="1">
+      </xs:element>
+
+      <xs:element name="label" type="headerType" minOccurs="0" maxOccurs="1">
+      </xs:element>
+
+      <xs:element name="items" type="itemsType" minOccurs="0" maxOccurs="1"/>
+    </xs:all>
+
+    <xs:attribute name="name" type="xs:string" use="required">
+    </xs:attribute>
+
+    <xs:attribute name="reference" type="xs:string" use="optional"/>
+    <xs:attribute name="key" type="xs:string" use="optional"/>
+    <xs:attribute name="information" type="xs:string" use="optional"/>
+    <xs:attribute name="aliasName" type="xs:string" use="optional"/>
+    <xs:attribute name="type" type="dataType" use="optional"/>
+    <xs:attribute name="isPrimaryKey" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="row" type="xs:int" use="optional"/>
+    <xs:attribute name="dataFormatString" type="xs:string" use="optional"/>
+    <xs:attribute name="defaultValue" type="xs:string" use="optional"/>
+    <xs:attribute name="external" type="xs:boolean" use="optional" />
+	<xs:attribute name="hyperlinkFormatString" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="commandType">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string" minOccurs="1" maxOccurs="1">
+      </xs:element>
+    </xs:sequence>
+
+    <xs:attribute name="event" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">		  
+		  <xs:enumeration value="InitExternalFields"/>
+          <xs:enumeration value="Loading"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+
+  <xs:complexType name="actionType">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string" minOccurs="1" maxOccurs="1">
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required">
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="textType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="text" type="xs:string" minOccurs="1" maxOccurs="1">
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="itemsType">
+    <xs:sequence>
+      <xs:element name="item" type ="itemType" minOccurs="0" maxOccurs="unbounded">
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="style" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Numeric"/>
+          <xs:enumeration value="Mask"/>
+          <xs:enumeration value="AutoComplete"/>
+          <xs:enumeration value="Lookup"/>
+          <xs:enumeration value="Grid"/>
+		  <xs:enumeration value="Post"/>
+          <xs:enumeration value="CheckBox"/>
+          <xs:enumeration value="DropDownList"/>
+          <xs:enumeration value="ListBox"/>
+          <xs:enumeration value="RadioButtonList"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="controller" type="xs:string" use="required"/>
+	<xs:attribute name="initialize" type="xs:string" use="optional"/>
+    <xs:attribute name="anchor" type="xs:string" use="optional"/>
+    <xs:attribute name="index" type="xs:string" use="optional"/>
+    <xs:attribute name="height" type="xs:string" use="optional"/>
+    <xs:attribute name="reference" type="xs:string" use="optional"/>
+    <xs:attribute name="key" type="xs:string" use="optional"/>
+    <xs:attribute name="check" type="xs:string" use="optional"/>
+    <xs:attribute name="new" type="xs:string" use="optional"/>
+    <xs:attribute name="row" type="xs:int" use="optional"/>
+    <xs:attribute name="information" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="itemType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="text" type="headerType"/>
+    </xs:all>
+    <xs:attribute name="value" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="queryType">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string" minOccurs="1" maxOccurs="1">
+      </xs:element>
+    </xs:sequence>
+
+    <xs:attribute name="event" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Loading"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="viewsType">
+    <xs:attribute name="value" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="categoriesType">
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element name="category">
+        <xs:complexType>
+          <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="header" type="headerType"  minOccurs="1" maxOccurs="1">
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="index" type="xs:int" use="required"/>
+          <xs:attribute name="anchor" type="xs:int" use="optional"/>
+          <xs:attribute name="split" type="xs:int" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="headerType">
+    <xs:attribute name="v" type="xs:string" use="required"/>
+    <xs:attribute name="e" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="handleType">
+    <xs:attribute name="foreward" type="xs:boolean" use="optional"/>
+    <xs:attribute name="backward" type="xs:boolean" use="optional"/>
+    <xs:attribute name="source" type="xs:string" use="optional"/>
+    <xs:attribute name="field" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:simpleType name="dataType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Image"/>
+      <xs:enumeration value="Byte"/>
+      <xs:enumeration value="Boolean"/>
+      <xs:enumeration value="Currency"/>
+      <xs:enumeration value="DateTime"/>
+      <xs:enumeration value="Decimal"/>
+      <xs:enumeration value="Double"/>
+      <xs:enumeration value="Int16"/>
+      <xs:enumeration value="Int32"/>
+      <xs:enumeration value="Int64"/>
+      <xs:enumeration value="Object"/>
+      <xs:enumeration value="String"/>
+      <xs:enumeration value="Time"/>
+      <xs:enumeration value="VarNumeric"/>
+      <xs:enumeration value="Xml"/>
+      <xs:enumeration value="DateTimeOffset"/>
+      <xs:enumeration value="Byte[]"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="databaseName">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="App"/>
+      <xs:enumeration value="Sys"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

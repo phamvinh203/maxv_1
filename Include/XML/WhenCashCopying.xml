@@ -1,0 +1,15 @@
+﻿<command event="Copying">
+  <text>
+    <![CDATA[
+declare @voucherUnit varchar(32), @voucherTransactionType varchar(32)
+select @voucherUnit = ma_dvcs, @voucherTransactionType = loai_ct from @@prime$partition$current where stt_rec = @stt_rec
+if @voucherUnit <> @@unit begin
+  select case when @@language = 'V' then N'Đơn vị hiện thời không phải đơn vị ngầm định, không thể sao chép chứng từ được.' else N'Current unit is not default, data copy is not allowed.' end as message
+  return
+end else if @voucherTransactionType = '1' begin
+  select case when @@language = 'V' then N'Không thể chép chứng từ đối với loại chứng từ là 1.' else N'Data copy funtion does not apply to transaction type 1.' end as message
+  return
+end
+]]>
+  </text>
+</command>

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$CogtgtdddkImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$CogtgtdddkImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+		<field name="ma_sp" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+		<field name="ma_bp" column="C" isPrimaryKey="true" maxLength="8"/>
+		<field name="so_lsx" column="D" isPrimaryKey="true" maxLength="16"/>
+		<field name="ma_yt" column="E" isPrimaryKey="true" maxLength="8"/>
+		
+		<field name="dd_ck" column="F" type="Decimal"/>
+		
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin = 0 and @type = '1' begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'Cogtgtdddk', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+declare @startYear int
+select @startYear = nam_bd from dmstt
+
+select @irregularChars = ]]>&IrregularValue;<![CDATA[
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có hoặc lồng nhau.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+-- Check
+if @type = '0' delete @@table where ma_sp + ma_bp + rtrim(ltrim(so_lsx)) + ma_yt in (select ma_sp + ma_bp + rtrim(ltrim(so_lsx)) + ma_yt from xcdytdd)
+
+select @field = 'ma_yt', @r = min(stt) from @@table where ma_yt <> '' and ma_yt not in (select ma_yt from xdmyt)]]>&Error;<![CDATA[
+select @field = 'ma_sp', @r = min(stt) from @@table where ma_sp <> '' and ma_sp not in (select ma_vt from dmvt where loai_vt='51')]]>&Error;<![CDATA[
+select @field = 'ma_bp', @r = min(stt) from @@table where ma_bp <> '' and ma_bp not in (select ma_bp from dmbp)]]>&Error;<![CDATA[
+select @field = 'so_lsx', @r = min(stt) from @@table where so_lsx <> '' and rtrim(ltrim(so_lsx)) not in (select rtrim(ltrim(so_lsx)) from phlsx)]]>&Error;<![CDATA[
+
+select a.* into #k from @@table a join (select * from xcdytdd where ky=0 and nam = @startYear) b on a.ma_yt = b.ma_yt and a.ma_sp = b.ma_sp and a.ma_bp = b.ma_bp and rtrim(ltrim(a.so_lsx)) = rtrim(ltrim(b.so_lsx))
+delete @@table where ma_yt + ma_sp + ma_bp + rtrim(ltrim(so_lsx))  in (select ma_yt + ma_sp + ma_bp + rtrim(ltrim(so_lsx)) from #k) 
+-- Insert
+select @q = 'insert into xcdytdd(ky, nam, ma_yt, ma_sp, ma_bp, so_lsx, dd_ck) '
+select @q = @q + ' select 0, ' + str(@startYear) + ', ma_yt, ma_sp, ma_bp, rtrim(ltrim(so_lsx)), dd_ck from @@table'
+exec sp_executesql @q
+
+
+if @type = '1' begin
+  update xcdytdd set dd_ck = b.dd_ck
+  from xcdytdd a left join #k b on rtrim(ltrim(a.ma_yt)) = rtrim(ltrim(b.ma_yt)) and rtrim(ltrim(a.ma_sp)) = rtrim(ltrim(b.ma_sp)) and rtrim(ltrim(a.ma_bp)) = rtrim(ltrim(b.ma_bp)) and rtrim(ltrim(a.so_lsx)) = rtrim(ltrim(b.so_lsx))
+  where rtrim(ltrim(a.ma_yt)) + rtrim(ltrim(a.ma_sp)) + rtrim(ltrim(a.ma_bp)) + rtrim(ltrim(a.so_lsx))  in (select rtrim(ltrim(ma_yt)) + rtrim(ltrim(ma_sp)) + rtrim(ltrim(ma_bp)) + rtrim(ltrim(so_lsx)) from #k) and a.nam=@startYear and a.ky=0
+end
+
+]]>
+    </text>
+  </processing>
+
+</import>

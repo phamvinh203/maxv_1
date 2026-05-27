@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+declare @formTypePV tinyint
+
+if @@form in ('150','160') begin
+	exec pr_Pocthm1PCPrintExport @$ngay_ct1, @$ngay_ct2, @$ma_dvcs, '1', @@language, @@userID, @@admin
+	Update dmprint set stt_rec_key='' where ma_ct like 'HM1%'
+	end
+else
+	begin
+		exec pr_Pocthm1PrintExport @$ngay_ct1, @$ngay_ct2, @$ma_dvcs  , 0, 1, @@language, @@userID, @@admin, '@@sysDatabaseName'
+		Update dmprint set stt_rec_key='' where ma_ct like 'HM1%'
+	end
+
+]]>
+    </text>
+  </query>
+
+  <forms>
+     <form id="110" reportFile="Pocthm1Print_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Phiếu nhập mua" e="Domestic Purchase Order"></header>
+      <download>
+        <header v="Phiếu nhập mua " e="Domestic Purchase Order"/>
+      </download>&b;
+    </form>
+
+	<form id="210" reportFile ="Pocthm1Print_210" templateFile="" commandArgument="Pdf">
+      <header v="Phiếu nhập mua ngoại tệ" e="FC Domestic Purchase Order "/>
+      <download>
+        <header v="Phiếu nhập mua ngoại tệ" e="FC Domestic Purchase Order "/>
+      </download>&f;
+    </form>
+
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="PHIẾU NHẬP MUA" e="RECEIVING TRANSACTION"/>
+    </field>
+    <field name="title_chi" type="String">
+      <header v="PHIẾU CHI" e="CASH DISBURSEMENT"/>
+    </field>
+	<field name="h_day" type="String">
+      <header v="Ngày " e="Date: "/>
+    </field>
+    <field name="h_month" type="String">
+      <header v=" tháng " e="/"/>
+    </field>
+    <field name="h_year" type="String">
+      <header v=" năm " e="/"/>
+    </field>
+
+   
+    <field name="h_nguoi_giao_hang" type="String">
+      <header v="Họ và tên người giao hàng:" e="Deliverer's Full Name:"/>
+    </field>
+    <field name="h_theo" type="String">
+      <header v="Theo:............................................."
+              e="According to:....................................."/>
+    </field>
+    <field name="h_so" type="String">
+      <header v="số:................ "
+              e="No.:................ "/>
+    </field>
+    <field name="h_ngay" type ="String">
+      <header v="Ngày:" e="Date:"/>
+    </field>
+    <field name="h_nhap_tai_kho" type="String">
+      <header v="Nhập tại kho:" e="Receiving Site:"/>
+    </field>
+    <field name="h_dia_diem" type="String">
+      <header v="Địa điểm:" e="Location:"/>
+    </field>
+    <field name="h_so_ct" type="String">
+      <header v="Số:" e="No.:"/>
+    </field>
+    <field name="h_no" type="String">
+      <header v="Nợ:"
+              e="Debit:"/>
+    </field>
+    <field name="h_co" type="String">
+      <header v="Có:"
+              e="Credit:"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_ma_vt" type="String">
+      <header v="Mã vật tư" e="Item Code"/>
+    </field>
+    <field name="h_ten_vt" type="String">
+      <header v="Tên vật tư" e="Item Name"/>
+    </field>
+	<field name="h_vat_tu" type="String">
+      <header v="Tên hàng hóa, vật tư" e="Item Name"/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="Đvt" e="UOM"/>
+    </field>
+    <field name="h_so_luong" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+	<field name="ma_kho" type ="String">
+      <header v="Mã kho" e="SiteCode"/>
+    </field>
+    <field name="h_gia" type="String">
+      <header v="Đơn giá" e="Price"/>
+    </field>
+    <field name="h_tien" type="String">
+      <header v="Thành tiền" e="Amount"/>
+    </field>
+    <field name="h_chung_tu" type="String">
+      <header v="Chứng từ" e="In Voucher"/>
+    </field>
+    <field name="h_thuc_nhap" type="String">
+      <header v="Thực nhập" e="Receiving"/>
+    </field>
+	<field name="h_ct" type ="String">
+      <header v="Theo CT" e="No"/>
+    </field>
+    <field name="h_thuc" type ="String">
+      <header v="Thực nhập" e="No"/>
+    </field>
+    <field name="h_xac_nhan" type="String">
+      <header v="Số tiền viết bằng chữ:" e="Amount in Words:"/>
+    </field>
+    <field name="h_ct_goc" type="String">
+      <header v="Số chứng từ gốc kèm theo:" e="No. of Original Document(s)"/>
+    </field>
+	<field name="h_so_phieu" type ="String">
+      <header v="Số phiếu:" e="Voucher No.:"/>
+    </field>
+		<field name="h_ho_ten" type ="String">
+      <header v="Họ tên người giao hàng:" e="Deliverer:"/>
+    </field>
+    <field name="h_don_vi" type ="String">
+      <header v="Đơn vị:" e="Company:"/>
+    </field>
+	<field name="h_dia_chi" type="String">
+      <header v="Địa chỉ:" e="Address:"/>
+    </field>
+	<field name="h_dien_giai" type ="String">
+      <header v="Lý do:" e="Debit Account:"/>
+    </field>
+	<field name="h_co_tk" type ="String">
+      <header v="Có:" e="Credit Account:"/>
+    </field>
+    <field name="h_no_tk" type ="String">
+      <header v="Nợ:" e="Debit Account:"/>
+    </field>
+	<field name="h_tong_cong" type ="String">
+      <header v="Tổng cộng" e="Total"/>
+    </field>
+	<field name="h_so_ct_goc" type ="String">
+      <header v="Kèm theo:" e="Attach"/>
+    </field>
+	<field name="h_so_hoa_don" type ="String">
+      <header v="Số hóa đơn:" e="Invoice No.:"/>
+    </field>
+	<field name="h_so_seri0" type ="String">
+      <header v="Seri:" e="Voucher No.:"/>
+    </field>
+	<field name="h_t_tien" type ="String">
+      <header v="Tiền hàng" e="Total Amount"/>
+    </field>
+    <field name="h_t_cp" type ="String">
+      <header v="Chi phí" e="Charges"/>
+    </field>
+    <field name="h_t_thue" type ="String">
+      <header v="Thuế GTGT" e="VAT"/>
+    </field>
+    <field name="h_tong_cong" type ="String">
+      <header v="Tổng cộng" e="Total"/>
+    </field>
+    <field name="h_quyen" type="String">
+      <header v="Quyển số:" e="Book No.:"/>
+    </field>	
+    <field name="h_so_tien"  type="String">
+      <header  v="Số tiền:" e="Amount:"/>
+    </field>
+    <field name="h_nguoi_nhan" type="String">
+      <header v="Họ và tên người nhận tiền:" e="Customer:"></header>
+    </field>
+    <field name="h_dien_giai_chi" type="String">
+      <header v="Lý do chi:" e="Description:"></header>
+    </field>
+    <field name="h_kem_theo" type="String">
+      <header v="Kèm theo:" e="Enclosed:"></header>
+    </field>
+    <field name="h_xac_nhan" type="String">
+      <header v="Đã nhận đủ số tiền (viết bằng chữ):" e="Received Full(in Words):"></header>
+    </field>
+    <field name="h_bang_chu" type="String">
+      <header v="Bằng chữ:" e="In Words:"></header>
+    </field>
+    <field name="h_ct_goc_chi" type="String">
+      <header v=" Chứng từ gốc: " e=" Orginal voucher(s): "></header>
+    </field>
+    <field name="h_ty_gia" type="String">
+      <header v="Tỷ giá ngoại tệ:" e="Exchange Rate:"/>
+    </field>
+    <field name="h_tien_qd" type="String">
+      <header v="Số tiền qui đổi:" e="Equivalent Amount:"/>
+    </field>
+    <field name="h_nguoi_nhan_tien" type="String">
+      <header v="NGƯỜI NHẬN TIỀN" e="RECEIVER"></header>
+    </field>
+  </fields>
+</report>

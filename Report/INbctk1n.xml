@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+declare @name nvarchar(1023)
+select @name = case when @@language = 'V' then ten_kho else ten_kho2 end from dmkho where ma_kho = @$ma_kho
+	declare @ma_tt nvarchar(16), @so_tt nvarchar(255), @so_tt2 nvarchar(255), @ngay_tt nvarchar(255), @ngay_tt2 nvarchar(255), @ten_bc nvarchar(255), @ten_bc2 nvarchar(255)
+	select @ma_tt = rtrim(ltrim(val)) from options where name='r_cdkt'
+	select @so_tt=so_tt, @so_tt2 = so_tt2, @ngay_tt = ngay_tt, @ngay_tt2 = ngay_tt2 from report1 where ma_tt=@ma_tt 
+	select @ten_bc = ten_bc, @ten_bc2=ten_bc2 from report2 where ma_tt=@ma_tt and upper(sysid) = 'INBCTK1N'
+	
+select cast(@$tu_ngay as smalldatetime) as date_from, cast(@$den_ngay as smalldatetime) as date_to, @$ma_kho as ma_kho, @name as ten_kho,	
+	@so_tt as so_tt, @so_tt2 as so_tt2, @ngay_tt as ngay_tt, @ngay_tt2 as ngay_tt2, @ten_bc as ten_bc, @ten_bc2 as ten_bc2
+
+exec pr_INbctk1nExport @$tu_ngay, @$den_ngay, @$ma_kho, @$loai_du_lieu, @$ma_dvcs, @@language, @@userID, @@admin
+Update dmprint set stt_rec_key='' where ma_ct like 'INBCTK1N%'
+]]>
+    </text>
+  </query>
+
+  <forms>
+    <form id="010" reportFile="INbctk1n_100" templateFile="" commandArgument="pdf" urlImage="&p;">
+      <header v="Thẻ kho" e="Stock Card"></header>
+      <download>
+        <header v="Thẻ kho" e="Stock Card"/>
+      </download>
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="False" e="False"/>
+        </field>
+        <field name="title" type="String">
+          <header v="THẺ KHO LÊN CHO NHIỀU VẬT TƯ" e="STOCK CARD FOR ITEMS"/>
+        </field>
+      </fields>
+    </form>
+    <form id="020" reportFile="INbctk1n_100a" templateFile="" commandArgument="pdf" urlImage="&p;">
+      <header v="Thẻ kho lên cho nhiều vật tư" e="Stock Card for Items"></header>
+      <download>
+        <header v="Thẻ kho lên cho nhiều vật tư" e="Stock Card for Items"/>
+      </download>
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="False" e="False"/>
+        </field>
+        <field name="title" type="String">
+          <header v="THẺ KHO" e="STOCK CARD"/>
+        </field>
+      </fields>
+    </form>
+
+    &s;
+
+    <form id="030" reportFile="INbctk1n_110" templateFile="" commandArgument="pdf" urlImage="">
+      <header v="Sổ chi tiết vật tư" e="Inventory Item Ledger"></header>
+      <download>
+        <header v="Sổ chi tiết vật tư" e="Inventory Item Ledger"/>
+      </download>&b;
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="False" e="False"/>
+        </field>
+        <field name="title2" type="String">
+          <header v="SỔ CHI TIẾT LÊN CHO NHIỀU VẬT TƯ" e="INVENTORY ITEMS LEDGER"/>
+        </field>&b;
+      </fields>
+    </form>
+    <form id="040" reportFile="INbctk1n_110" templateFile="" commandArgument="pdf" urlImage="">
+      <header v="Sổ chi tiết vật tư tiền ngoại tệ" e="Inventory Item Ledger in Foreign Currency"></header>
+      <download>
+        <header v="Sổ chi tiết vật tư tiền ngoại tệ" e="Inventory Item Ledger in Foreign Currency"/>
+      </download>&f;
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="True" e="True"/>
+        </field>
+        <field name="title2" type="String">
+          <header v="SỔ CHI TIẾT LÊN CHO NHIỀU VẬT TƯ" e="INVENTORY ITEMS LEDGER"/>
+        </field>
+      </fields>
+    </form>
+
+    <form id="050" reportFile="INbctk1n_110a" templateFile="" commandArgument="pdf" urlImage="">
+      <header v="Sổ chi tiết lên cho nhiều vật tư" e="Inventory Items Ledger"></header>
+      <download>
+        <header v="Sổ chi tiết lên cho nhiều vật tư" e="Inventory Items Ledger"/>
+      </download>&b;
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="False" e="False"/>
+        </field>
+        <field name="title2" type="String">
+          <header v="SỔ CHI TIẾT VẬT TƯ" e="INVENTORY ITEM LEDGER"/>
+        </field>
+      </fields>
+    </form>
+    <form id="060" reportFile="INbctk1n_110a" templateFile="" commandArgument="pdf" urlImage="">
+      <header v="Sổ chi tiết lên cho nhiều vật tư tiền ngoại tệ" e="Inventory Items Ledger in Foreign Currency"></header>
+      <download>
+        <header v="Sổ chi tiết lên cho nhiều vật tư tiền ngoại tệ" e="Inventory Items Ledger in Foreign Currency"/>
+      </download>&f;
+      <fields>
+        <field name="isFC" type="Boolean">
+          <header v="True" e="True"/>
+        </field>
+        <field name="title2" type="String">
+          <header v="SỔ CHI TIẾT VẬT TƯ" e="INVENTORY ITEM LEDGER"/>
+        </field>
+      </fields>
+    </form>
+   &s;
+  	<form id="800" templateFile ="INbctk1n_100" commandArgument="Excel" urlImage="&e;">
+		<header v="Thẻ kho (Excel)" e="Stock Card"></header>
+		<download>
+			<header v="Thẻ kho" e="Stock Card"/>
+		</download>
+		<fields>
+        <field name="isFC" type="Boolean">
+          <header v="True" e="True"/>
+        </field>
+        <field name="title" type="String">
+          <header v="SỔ KHO" e="STOCK CARD"/>
+        </field>
+      </fields>
+	</form>
+	
+  	<form id="810" templateFile ="INbctk1n_110" commandArgument="Excel" urlImage="&e;">
+		<header v="Sổ chi tiết vật tư (Excel)" e="Inventory Items Ledger"></header>
+		<download>
+			<header v="Sổ chi tiết vật tư" e="Inventory Items Ledger"/>
+		</download>
+		<fields>
+        <field name="isFC" type="Boolean">
+          <header v="True" e="True"/>
+        </field>
+        <field name="title" type="String">
+          <header v="SỔ CHI TIẾT VẬT TƯ" e="INVENTORY ITEM LEDGER"/>
+        </field>
+      </fields>
+	</form>
+  </forms>
+
+  <fields>
+  
+    <field name="h_line1" type="String">
+      <header v="Mẫu số S12-DN" e="Form No. S12-DN"/>
+    </field>
+    <field name="h_line2" type="String">
+      <header v="(Ban hành theo quyết định số" e="(According to Decision No."/>
+    </field>
+    <field name="h_line3" type="String">
+      <header v="15/2006/QĐ-BTC ngày 20/03/2006" e="15/2006 QD-BTC Dated 26 March 2006"/>
+    </field>
+    <field name="h_line4" type="String">
+      <header v="của Bộ trưởng Bộ Tài Chính)" e="of the Ministry of Finance)"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_ct" type="String">
+      <header v="Chứng từ" e="Voucher"/>
+    </field>
+    <field name="h_ngay" type="String">
+      <header v="Ngày" e="Date"/>
+    </field>
+    <field name="h_so" type="String">
+      <header v="Số ct" e="Number"/>
+    </field>
+    <field name="h_dien_giai" type="String">
+      <header v="Diễn giải" e="Description"/>
+    </field>
+    <field name="h_tk_du" type="String">
+      <header v="Tk đối ứng" e="Reference Account"/>
+    </field>
+    <field name="h_nx" type="String">
+      <header v="Tài khoản" e="Account"/>
+    </field>
+    <field name="h_ky" type="String">
+      <header v="Ký xác nhận của kế toán" e="Accountant Confirm"/>
+    </field>
+    <field name="h_gia" type="String">
+      <header v="Đơn giá" e="Unit Cost"/>
+    </field>
+    <field name="h_gia_nt" type="String">
+      <header v="Giá nt" e="FC Cost"/>
+    </field>
+    <field name="h_sl_nhap" type="String">
+      <header v="Sl nhập" e="Receipts"/>
+    </field>
+    <field name="h_sl_xuat" type="String">
+      <header v="Sl xuất" e="Issues"/>
+    </field>
+    <field name="h_sl_ton" type="String">
+      <header v="Sl tồn kho" e="Closing Balance"/>
+    </field>
+    <field name="h_nhap" type="String">
+      <header v="Nhập" e="Receipts"/>
+    </field>
+    <field name="h_xuat" type="String">
+      <header v="Xuất" e="Issues"/>
+    </field>
+    <field name="h_sl" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_tien" type="String">
+      <header v="Giá trị" e="Amount"/>
+    </field>
+    <field name="h_tien_nt" type="String">
+      <header v="Tiền nt" e="FC Amount"/>
+    </field>
+    <field name="h_vt" type="String">
+      <header v="Vật tư:" e="Item:"/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="đvt:" e="UOM:"/>
+    </field>
+    <field name="h_tk" type="String">
+      <header v="tài khoản:" e="Account:"/>
+    </field>
+    <field name="h_kho" type="String">
+      <header v="Kho:" e="Site:"/>
+    </field>
+    <field name="h_ton_dau" type="String">
+      <header v="Tồn đầu" e="Opening Balance"/>
+    </field>
+    <field name="h_ton_cuoi" type="String">
+      <header v="Tồn cuối" e="Closing Balance"/>
+    </field>
+    <field name="h_kh" type="String">
+      <header v="Khách hàng" e="Customer"/>
+    </field>
+  </fields>
+</report>

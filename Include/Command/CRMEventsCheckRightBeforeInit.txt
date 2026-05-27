@@ -1,0 +1,14 @@
+﻿<![CDATA[
+if @@view = 0 begin
+  if @@action = 'Edit' begin
+
+	declare @userRef varchar(128)
+	select @userRef = user_ref from vsysuserinfo where id = @@userID
+
+	if @@admin = 0 and not exists(select 1 from sysevents where id = @id and user_ref like @userRef + '%') begin
+	  select '' as script, '$NotAuthorized' as message
+	  return
+	end
+  end
+end
+]]>

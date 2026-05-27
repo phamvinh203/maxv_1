@@ -1,0 +1,23 @@
+﻿<fields>
+  <field name="stt_rec_dm" width="0" isPrimaryKey="true" hidden="true">
+    <header v="" e=""></header>
+  </field>
+  <field name="converted" width="0" hidden="true">
+    <header v="" e="P"></header>
+  </field>
+  <field name="ho_ten_dm" width="150" allowSorting="true" allowFilter="true">
+    <header v="Họ và tên" e="Full Name"></header>
+  </field>
+  <field name="cong_ty" width="300" allowSorting="true" allowFilter="true">
+    <header v="Công ty" e="Company"></header>
+  </field>
+  <field name="chuc_vu" width="150" allowSorting="true" allowFilter="true">
+    <header v="Chức vụ" e="Title"></header>
+  </field>
+  <field name="dien_thoai" width="100" allowSorting="true" allowFilter="true">
+    <header v="Điện thoại" e="Phone Number"></header>
+  </field>
+  <field name="ten_tt%l" width="150" allowSorting="true" allowFilter="true">
+    <header v="Tình trạng" e="Lead Status"></header>
+  </field>
+</fields>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmnvbh" code="ma_nvbh" name="ten_nvbh%l" order="ma_nvbh" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục nhân viên bán hàng" e="Sales Employee List"></header>
+
+  <fields>
+    <field name="ma_nvbh" allowSorting="true" allowFilter="true" >
+      <header v="Mã nhân viên" e="Employee ID"></header>
+    </field>
+
+    <field name="ten_nvbh%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên nhân viên" e = "Employee Name"></header>
+    </field>
+  </fields>
+</lookup>

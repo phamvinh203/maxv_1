@@ -1,0 +1,93 @@
+<script>
+    <text>
+      <![CDATA[
+function load$]]>&FormID;<![CDATA[(f) {
+  f.add_onResponseComplete(on$]]>&FormID;<![CDATA[$ResponseComplete);
+  f._tabContainer.add_activeTabChanged(onChange$]]>&FormID;<![CDATA[$Tab);
+  f._tabContainer._loaded = true;
+  init$]]>&FormID;<![CDATA[(f);
+}
+function close$]]>&FormID;<![CDATA[(f) {
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onChange$]]>&FormID;<![CDATA[$Tab);} catch (ex) {}
+  try {f.remove_onResponseComplete(on$]]>&FormID;<![CDATA[$ResponseComplete);} catch (ex) {}  
+}
+function onChange$]]>&FormID;<![CDATA[$Tab(sender, e) {sender.parentForm.focusWhenTabChanged(['dien_thoai','dia_chi','ghi_chu']);}
+function onChange$]]>&FormID;<![CDATA[$Province(o) {o.parentForm.setReferenceKeyFilter('quan_huyen');}
+function onChange$]]>&FormID;<![CDATA[$Campaign(o) {o.parentForm.request('Campaign', 'Campaign', ['ma_cd'], o);}
+function onChange$]]>&FormID;<![CDATA[$Name(o) {
+  var f = o.parentForm;
+  f.getItem('ho_ten_dm').value = $func.trim(f.getItem('ho_dm').value) + ' ' + $func.trim(f.getItem('ten_dm').value);
+}
+function on$]]>&FormID;<![CDATA[$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+  case 'Campaign':
+    f.getItem('stt_rec_cd').value = result[0].Value;
+    break;
+  default:
+    break;
+  }
+}
+function init$]]>&FormID;<![CDATA[(f) {
+  var g = f.grid;  
+
+	setReadOnlyFields(f);
+
+  if (g._viewPageMode) {
+    Sys.UI.DomElement.addCssClass($get(String.format('{0}_updateDlgNew', f.get_id())), 'ViewNewButton');
+  }
+
+	if (f._action == 'New') {		
+    f.setItemValue('quoc_gia', f._defaultCountryCode);
+    f.getItem('ten_quoc_gia%l').value = f._defaultCountryName;
+  }
+	if (f._action == 'Edit') {
+		var b = f.getItem('converted').checked;		
+		if (b) setReadOnlyField(f.getItem('ma_tt'), true);
+	}
+
+	f.setItemValues('controller, userRef', [f._controller, f._userRef]);
+	f.setReferenceKeyFilter('ma_cd');
+	f.setReferenceKeyFilter('quan_huyen');
+
+}
+function show$ViewPageForm(f) {
+  var g = f.grid, view = g._viewPage;
+  if (g._viewPage) {
+    try {$get(String.format('{0}_updateDlgClose', f.get_id())).focus();} catch (ex) {}
+    view.scatterMemvar(f);
+  }
+}
+function setReadOnlyFields(f) {
+  var fields = f.getItem('deny_field').value, force = (f._action == 'Edit');
+  if ((!fields) && (!f._denyFields)) return;
+
+	if (force) f._denyFields = fields;
+	else fields = f._denyFields;
+
+  var a = fields.split(','), k = '';
+  for (var i = 0; i < a.length; i++) {
+    var o = f.getItem($func.trim(a[i]));
+    setReadOnlyField(o, force);
+  }
+  for (var j = 0; j < f._fields.length; j++) {
+    var p = f._fields[j], k = f.getItem(p.Name);
+    if ((!k.field.Hidden) && (!k.readOnly) && (!k.disabled)) {      
+      try {k.focus(); f.live(k);} catch (ex) {}
+      break;
+    }
+  }
+}
+function setReadOnlyField(o, force) {
+	if (o) o.readOnly = o.disabled = force;
+	if (o.a) {
+		if (force) {
+			o.a.style.visibility = 'hidden';
+			o.a.style.display = 'none';
+		}
+		else $common.setVisible(o.a, !force);
+	}
+}
+]]>
+    </text>
+</script>

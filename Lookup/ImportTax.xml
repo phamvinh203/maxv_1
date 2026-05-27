@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmthuenk" code="ma_thue" name="ten_thue%l" order="ma_thue" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục thuế suất thuế nhập khẩu" e="Import Tax List"></header>
+
+  <fields>
+    <field name="ma_thue" allowSorting="true" allowFilter="true" >
+      <header v="Mã thuế" e="Tax Code"></header>
+    </field>
+
+    <field name="ten_thue%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên thuế" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

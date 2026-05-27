@@ -1,0 +1,19 @@
+﻿<![CDATA[
+  init: function(f) {
+    this._currencyChangedHandler = Function.createDelegate(this, this.onCurrencyChanged);
+    this._dateChangedHandler = Function.createDelegate(this, this.onDateChanged);
+    this._currencySelectedHandler = Function.createDelegate(this, this.onCurrencySelected);
+    f._currencyBehavior.addCurrencyHandler(this._currencyChangedHandler, this._dateChangedHandler, this._currencySelectedHandler);
+  },
+  dispose: function(f) {
+    if (f._currencyBehavior) {
+      if (this._currencyChangedHandler) {
+        f._currencyBehavior.removeCurrencyHandler(this._currencyChangedHandler, this._dateChangedHandler, this._currencySelectedHandler);
+        this._currencyChangedHandler = null;
+        this._dateChangedHandler = null;
+        this._currencySelectedHandler = null;
+      }
+      f._currencyBehavior.dispose();
+    }
+  },
+]]>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="messages" targetNamespace="urn:schemas-maxv-com:data-message" elementFormDefault="qualified" xmlns="urn:schemas-maxv-com:data-message" xmlns:a="urn:schemas-maxv-com:data-message" xmlns:mstns="urn:schemas-maxv-com:data-message" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="message" type="messageType">
+    <xs:key name="messages">
+      <xs:selector xpath="a:messages" />
+      <xs:field xpath="@id"/>
+    </xs:key>
+  </xs:element>
+
+  <xs:complexType name="messageType">
+    <xs:sequence>
+      <xs:element name="mail" type="mailType" />
+      <xs:element name="sms" type="smsType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="smsType">
+    <xs:sequence>
+      <xs:element name="setting" type="settingSMSType" />
+      <xs:element name="template" type="templateSMSType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="templateSMSType">
+    <xs:sequence>
+      <xs:element name="action" minOccurs="0" maxOccurs="unbounded" type="actionSMSType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="actionSMSType">
+    <xs:sequence>
+      <xs:element name="fields" minOccurs="0" maxOccurs="1" type="fieldsSMSType" />
+      <xs:element name="messages"  minOccurs="0" maxOccurs="1" type="messagesSMSType" />
+      <xs:element name="content"  minOccurs="0" maxOccurs="1" type="textType" />
+      <xs:element name="queries"  minOccurs="0" maxOccurs="1" type="queriesSMSType" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="table" type="xs:string" />
+    <xs:attribute name="prefix" type="xs:string" />
+    <xs:attribute name="expire" type="xs:int" />
+    <xs:attribute name="timeout" type="xs:int" />
+  </xs:complexType>
+
+  <xs:complexType name="messagesSMSType">
+    <xs:sequence>
+      <xs:element name="state" minOccurs="0" maxOccurs="unbounded" type="stateSMSType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="stateSMSType">
+    <xs:sequence>
+      <xs:element name="label" type="headerType" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="fieldsSMSType">
+    <xs:sequence>
+      <xs:element name="field" minOccurs="0" maxOccurs="unbounded" type="fieldSMSType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="fieldSMSType">
+    <xs:sequence>
+      <xs:element name="header" type="headerType" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="settingSMSType">
+    <xs:sequence>
+      <xs:element name="isSend" type="valueBoolean" />
+      <xs:element name="isReceive" type="valueBoolean" />
+      <xs:element name="allowMultiMessage" type="valueBoolean" />
+
+      <xs:element name="portName" type="valueString" />
+      <xs:element name="baudRate" type="valueInt" />
+      <xs:element name="dataBits" type="valueInt" />
+      <xs:element name="maxLength" type="valueInt" />
+      <xs:element name="delayTime" type="valueInt" />
+
+      <xs:element name="readTimeout" type="valueInt" />
+      <xs:element name="writeTimeout" type="valueInt" />
+      <xs:element name="dueTime" type="valueInt" />
+      <xs:element name="approveIntervalTime" type="valueInt" />
+      <xs:element name="processIntervalTime" type="valueInt" />
+      <xs:element name="simulation" type="valueBoolean" minOccurs="0" />
+      <xs:element name="external" type="valueBoolean" minOccurs="0" />
+      <xs:element name="errorMessage" type="valueString" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="mailType">
+    <xs:sequence>
+      <xs:element name="setting" type="settingMailType" />
+      <xs:element name="template" type="templateMailType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="templateMailType">
+    <xs:sequence>
+      <xs:element name="action" minOccurs="0" maxOccurs="unbounded" type="actionMailType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="actionMailType">
+    <xs:sequence>
+      <xs:element name="fields" type="fieldsType" />
+      <xs:element name="messages" type="messagesType" />
+      <xs:element name="query" type="queryMailType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="body" type="bodyType" />
+    </xs:sequence>
+
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="table" type="xs:string" />
+    <xs:attribute name="v" type="xs:string" />
+    <xs:attribute name="e" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="bodyType">
+    <xs:sequence>
+      <xs:element name="header" type="textType" />
+      <xs:element name="detail" type="textType" />
+      <xs:element name="footer" type="textType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="queryMailType">
+    <xs:sequence>
+      <xs:element name="command" minOccurs="0" maxOccurs="unbounded" type="commandMailType"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="queriesSMSType">
+    <xs:sequence>
+      <xs:element name="query" minOccurs="0" maxOccurs="unbounded" type="querySMSType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="querySMSType">
+    <xs:sequence>
+      <xs:element name="text" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="commandMailType">
+    <xs:sequence>
+      <xs:element name="text" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="messagesType">
+    <xs:sequence>
+      <xs:element name="state" minOccurs="0" maxOccurs="unbounded" type="stateType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="stateType">
+    <xs:sequence>
+      <xs:element name="label" type="headerType" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="fieldsType">
+    <xs:sequence>
+      <xs:element name="field" minOccurs="0" maxOccurs="unbounded" type="fieldMailType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="fieldMailType">
+    <xs:sequence>
+      <xs:element name="header" type="headerType" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="settingMailType">
+    <xs:sequence>
+      <xs:element name="isSend" type="valueBoolean" />
+      <xs:element name="aliasName" type="valueString" />
+      <xs:element name="userName" type="valueString" />
+      <xs:element name="password" type="valueString" />
+      <xs:element name="host" type="valueString" />
+      <xs:element name="port" type="valueInt" />
+
+      <xs:element name="isBodyHTML" type="valueBoolean" />
+      <xs:element name="enableSSL" type="valueBoolean" />
+      <xs:element name="clientTimeout" type="valueInt" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="textType">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="headerType">
+    <xs:attribute name="v" type="xs:string" />
+    <xs:attribute name="e" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="valueString">
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="valueInt">
+    <xs:attribute name="value" type="xs:int" />
+  </xs:complexType>
+  <xs:complexType name="valueBoolean">
+    <xs:attribute name="value" type="xs:boolean" />
+  </xs:complexType>
+</xs:schema>

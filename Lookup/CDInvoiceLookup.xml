@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="cttt30" code="so_ct" name="stt_rec, dien_giai" order="so_ct, stt_rec" xmlns="urn:schemas-maxv-com:data-lookup">
+  <header v="Chọn hóa đơn" e="Select Invoice"></header>
+  <fields>
+    <field name="so_ct" align="right">
+      <header v="Số hóa đơn" e="Invoice No."></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy">
+      <header v="Ngày" e="Date"></header>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="t_tt_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right">
+      <header v="Tiền trên hóa đơn nt" e="FC Invoice Amount"></header>
+    </field>
+    <field name="da_tt_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right">
+      <header v="Đã thanh toán" e="Paid"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="cl_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right">
+      <header v="Còn phải thanh toán" e="Payable"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_nt">
+      <header v="Mã nt" e="Currency Code"></header>
+    </field>
+    <field name="t_tt" type="Decimal" dataFormatString="### ### ### ### ### ###" align="right">
+      <header v="Tiền trên hóa đơn" e="Invoice Amount"></header>
+    </field>
+    <field name="dien_giai">
+      <header v="Diễn giải" e="Description"></header>
+    </field>
+  </fields>
+  <queries>
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @ma_nt0 varchar(3), @key nvarchar(1000), @f nvarchar(1000), @ItemCount int
+select top 0 so_ct, ngay_ct, stt_rec, t_tt_nt, t_tt_qd as da_tt_nt, t_tt_nt as cl_nt, ma_nt, t_tt, dien_giai into #res from cttt30 where 1 = 0
+
+set @key = '((''' + replace(@ma_dvcs, '''', '''''') + ''' = '''' and ma_dvcs = '@@unit') or (ma_dvcs = ''' + replace(@ma_dvcs, '''', '''''') + '''))'
+set @key = @key + ' and ma_kh = ''' + replace(@ma_kh, '''', '''''') + ''''
+set @key = @key + ' and ngay_ct <= ''' + convert(char(8), @ngay_lct, 112) + ''' and loai_tt = 0'
+set @key = @key + ' and (tat_toan = 0 or (stt_rec in (select stt_rec_tt from cttt30 where stt_rec = ''' + replace(@stt_rec, '''', '''''') + ''' and loai_tt = 1)))'
+
+set @f = 'so_ct, ngay_ct, stt_rec, t_tt_nt, t_tt_qd as da_tt_nt'
+set @f = @f + ', case when ma_nt = '''' then t_tt else t_tt_nt end - t_tt_qd as cl_nt, ma_nt, t_tt, dien_giai'
+
+exec MaxvOnline$App$Payment$Finding 'cttt30', '#res', @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount,
+  @@firstItem, @@lastItem, @key, 'so_ct + stt_rec', @f, '', 'so_ct', 1, @@userID, 1, @ItemCount output
+
+select sum(tt_qd) as tt_qd, stt_rec_tt into #tt from cttt30 where stt_rec = @stt_rec group by stt_rec_tt
+update #res set da_tt_nt = da_tt_nt - #tt.tt_qd, cl_nt = cl_nt + #tt.tt_qd from #tt where stt_rec = #tt.stt_rec_tt
+
+select @ma_nt0 = val from options where name = 'm_ma_nt0'
+update #res set t_tt_nt = t_tt, ma_nt = @ma_nt0 where ma_nt = ''
+
+select @ItemCount
+select * from #res order by so_ct, stt_rec
+]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

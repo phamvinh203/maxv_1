@@ -1,0 +1,6 @@
+﻿<![CDATA[
+declare @dv_yn bit, @referenceName nvarchar(512)
+select @referenceName = ten_ts%l, @dv_yn = case when ma_dvcs = @@unit then 1 else 0 end from ]]>&FixedAssetTable;<![CDATA[ where so_the_ts = @so_the_ts
+select @referenceName as ten_ts%l, @dv_yn as dv_yn
+return
+]]>

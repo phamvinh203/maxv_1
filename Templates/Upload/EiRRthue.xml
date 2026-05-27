@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$EiRRthueImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$EiRRthueImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+		<field name="mst" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+		<field name="ten_dn" column="B" allowNulls="false" maxLength="255"/>
+		<field name="ten_cq_thue" column="C" maxLength="255"/>
+		<field name="ngay_dong" column="D" type="DateTime"/>
+		<field name="tt_canh_bao" column="E" maxLength="255"/>
+		<field name="ghi_chu" column="F" maxLength="2000"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin = 0 and @type = '1' begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'EiRRthue', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+select @irregularChars = ]]>&IrregularValue;<![CDATA[
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có hoặc lồng nhau.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+
+
+-- Check
+alter table @@table alter column mst char(32)
+create index i on @@table (mst)
+
+if @type = '0' delete @@table where mst in (select mst from edmruirothue)
+
+select @field = 'mst', @r = min(stt) from @@table where mst like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+select a.* into #k from @@table a join edmruirothue b on a.mst = b.mst
+delete @@table where mst in (select mst from #k)
+-- 
+select @q = 'select top 1 @r = a.stt from @@table a, @@table b with (index(i)) where a.mst <> b.mst and a.mst = rtrim(b.mst)'
+
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+select top 1 @r = a.stt from @@table a, edmruirothue b with (index(PK_edmruirothue)) where a.mst = rtrim(b.mst)]]>&Duplicate;<![CDATA[
+select @q = 'select top 1 @r = b.stt from edmruirothue a, @@table b with (index(i)) where a.mst = rtrim(b.mst)'
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+
+-- Insert
+select @q = 'insert into edmruirothue(mst, ten_dn, ten_dn2, ten_cq_thue, ngay_dong, tt_canh_bao, ghi_chu, datetime0, datetime2, user_id0, user_id2, '
+select @q = @q + ' ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6)'
+select @q = @q + 'select mst, ten_dn, '''', ten_cq_thue, ngay_dong, tt_canh_bao, ghi_chu, getdate(), getdate(), rtrim(@@userID), rtrim(@@userID), '''', '''', '
+select @q = @q + ' 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0 from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update edmruirothue set ten_dn = b.ten_dn, ten_cq_thue = b.ten_cq_thue, ngay_dong = b.ngay_dong, tt_canh_bao = b.tt_canh_bao, ghi_chu=b.ghi_chu, datetime2 = getdate(), user_id2 = @@userID
+  from edmruirothue a, #k b where a.mst = b.mst
+end
+
+]]>
+    </text>
+  </processing>
+
+</import>

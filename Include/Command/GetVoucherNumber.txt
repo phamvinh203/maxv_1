@@ -1,0 +1,4 @@
+﻿<![CDATA[
+declare @voucherNumber varchar(32)
+select @voucherNumber = ltrim(rtrim(cast(so_ct AS varchar(32)))) from dmct where ma_ct_me in (select ma_ct_me from dmct where ma_ct = @@id)
+]]>

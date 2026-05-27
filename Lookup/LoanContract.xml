@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmku" code="ma_ku" name="ten_ku%l" order="ma_ku" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục khế ước" e="Loan Contract List"></header>
+
+  <fields>
+    <field name="ma_ku" allowSorting="true" allowFilter="true">
+      <header v="Khế ước" e="Code"></header>
+    </field>
+
+    <field name="ten_ku%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên khế ước" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

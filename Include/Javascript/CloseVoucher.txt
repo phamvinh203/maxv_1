@@ -1,0 +1,6 @@
+﻿<![CDATA[
+  try {f.remove_commandEvent(on$Voucher$ExecuteCommand);} catch (ex) {}
+  try {f.remove_onResponseComplete(on$Voucher$ResponseComplete);} catch (ex) {}
+  objectBehavior$Voucher$Currency.dispose(f);
+  objectBehavior$Voucher$Number.dispose(f);
+]]>

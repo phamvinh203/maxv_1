@@ -1,0 +1,3 @@
+﻿<![CDATA[
+	Delete from ecththd where stt_rec_ht = @stt_rec
+]]>

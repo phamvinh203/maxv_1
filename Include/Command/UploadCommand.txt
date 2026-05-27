@@ -1,0 +1,17 @@
+﻿<command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$]]>&Identity;<![CDATA[(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$]]>&Identity;<![CDATA[(this);' as message
+return
+]]>
+      </text>
+    </command>

@@ -1,0 +1,4 @@
+﻿<![CDATA[
+  f._voucherNumberBehavior.setFormLayout();
+  f._currencyBehavior.setFormLayout(1);
+]]>

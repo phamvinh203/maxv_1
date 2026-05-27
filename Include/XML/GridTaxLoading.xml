@@ -1,0 +1,16 @@
+﻿<command event="Loading">
+  <text>
+    <![CDATA[
+declare @taxProperty varchar(3), @voucherTemplate varchar(16), @taxCode varchar(8), @taxRate numeric(5,2), @taxCrAccount varchar(16), @taxCrType tinyint, @taxDrAccount varchar(16), @taxDrType tinyint
+select @taxProperty = rtrim(val) from options where name = 'm_ma_tc_thue'
+select @voucherTemplate = rtrim(val) from options where name = 'm_mau_ct_dv'
+select @taxCode = rtrim(val) from options where name = 'm_ma_thue_1'
+select @taxRate = a.thue_suat, @taxDrAccount = rtrim(a.tk_thue_no3), @taxDrType = b.tk_cn, @taxCrAccount = rtrim(a.tk_thue_co3), @taxCrType = c.tk_cn from dmthue a left join dmtk b on a.tk_thue_no3 = b.tk left join dmtk c on a.tk_thue_co3 = c.tk where a.ma_thue = @taxCode
+if @taxDrType is null select @taxCode = '', @taxRate = 0, @taxDrAccount = '', @taxDrType = 0
+if @taxCrType is null select @taxCode = '', @taxRate = 0, @taxCrAccount = '', @taxCrType = 0  
+
+select 'this._voucherCode='@@id';this._taxProperty='''+ @taxProperty +''';this._taxCode='''+ @taxCode +''';this._taxRate='+ str(@taxRate) +';this._taxDrAccount='''+ @taxDrAccount +''';this._taxDrType='+ str(@taxDrType) +';this._taxCrAccount='''+ @taxCrAccount +''';this._taxCrType='+ str(@taxCrType) +';this._voucherTemplate=''' + replace(replace(isnull(@voucherTemplate, ''), '\', '\\'), '''', '\''') + ''';load$GridVoucherTax$(this);' as message
+return
+]]>
+  </text>
+</command>

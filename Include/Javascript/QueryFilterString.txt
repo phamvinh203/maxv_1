@@ -1,0 +1,23 @@
+﻿<![CDATA[
+function getQueryFilterString(f, s) {
+  var q = '', a = s.split(',');
+  for (var i = 0; i < a.length; i++) {
+    var c = $func.trim(a[i]), o = f.getItem(c), v = (o ? f.getItemValue(c) : c);
+    q += String.fromCharCode(253);
+    if (o) {
+      switch (o.field.Type) {
+        case 'DateTime':
+          q += $func.formatDateOrder(v);
+          break;
+        case 'Boolean':
+          q += (v ? '1' : '0');
+          break;
+        default:
+          q += $func.replace(v, '\'', String.fromCharCode(252));
+          break;
+      }
+    } else q += $func.replace(v, '\'', String.fromCharCode(252));
+  }
+  return q;
+}
+]]>

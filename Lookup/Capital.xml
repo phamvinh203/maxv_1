@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmnv" code="ma_nv" name="ten_nv%l" order="ma_nv"  xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục nguồn vốn" e="Capital List"></header>
+
+  <fields>
+    <field name="ma_nv" allowSorting="true" allowFilter="true">
+      <header v="Nguồn vốn" e="Capital"></header>
+    </field>
+    <field name="ten_nv%l" allowSorting="true" allowFilter="true">
+      <header v="Tên nguồn vốn" e="Capital Description"></header>
+    </field>
+  </fields>
+
+</lookup>

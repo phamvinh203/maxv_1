@@ -1,0 +1,8 @@
+﻿<![CDATA[
+if @$fileupload <> '' begin
+  select @fileTicket = lower(replace(newid(),'-',''));
+  insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values(@fileTicket, @@userID, '@@appDatabaseName', getdate());
+  select @script = 'this._ticket = "' + @fileTicket + '";' + @script
+  select @invoke = 'FileUploadLib.UploadLib.Process.UpdateFile(' + @$fileupload + ',' + @$fileticket + ',' + @$filekey + ',' + @stt_rec + ')' + case when @invoke <> '' then '&' + char(255) + ';' else '' end + @invoke
+end
+]]>

@@ -1,0 +1,24 @@
+﻿<![CDATA[
+objectBehavior$Voucher$Number = {
+  create: function(f, voucherNumber, voucherBook, voucherContactType) {
+    var c = f.getItem(voucherNumber), b = f.getItem(voucherBook);
+    var v = f._voucherNumberBehavior = $create(MaxvOnline.AjaxControlLib.VoucherNumber, {id: f._id + '_voucherNumberBehavior', book: b, form: f}, null, null, c);
+    v.init();
+    v.setFormLayout();
+    this._voucherNumberChangedHandler = Function.createDelegate(this, this.onVoucherNumberChanged);
+    v.add_onVoucherNumberChange(this._voucherNumberChangedHandler);
+    if (f._isVoucherBook == 0) v.hideBook();
+  },
+  dispose: function(f) {
+    if (f._voucherNumberBehavior) {
+      if (this._voucherNumberChangedHandler) {
+        f._voucherNumberBehavior.remove_onVoucherNumberChange(this._voucherNumberChangedHandler);
+        this._voucherNumberChangedHandler = null;
+      }
+      f._voucherNumberBehavior.dispose();  
+    }
+  },
+  warning: function(f, msg) {$message.show(msg + String.format('<div style="color:#444444;">{0}</div>', (f._language == 'v' ? 'Lưu ý: Hệ thống vẫn lưu dữ liệu vừa cập nhật.' : 'Warnings: Updated data has been saved.')), String.format('$get(\'{0}_updateDlgNew\').focus();', f.get_id()));},
+  onVoucherNumberChanged: function(sender, e) {e.object._book.parentForm.request('GetVoucherNumber', 'GetVoucherNumber', [['voucherBook', 'String', e.type]]);}
+}
+]]>

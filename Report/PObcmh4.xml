@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="100" reportFile="PObcmh4_100" templateFile="" commandArgument="pdf" urlImage="&p;">
+      <header v="Tổng hợp hàng nhập mua (số lượng)" e="Purchase Summary Report Only Quantity"></header>
+      <download>
+        <header v="Tổng hợp hàng nhập mua chỉ (số lượng)" e="Purchase Summary Report Only Quantity"/>
+      </download>&b;
+    </form>
+
+    <form id="110" reportFile="PObcmh4_110" templateFile="" commandArgument="pdf">
+      <header v="Tổng hợp hàng nhập mua (số lượng và giá trị)" e="Purchase Summary Report Quantity and Values"></header>
+      <download>
+        <header v="Tổng hợp hàng nhập mua (số lượng và giá trị)" e="Purchase Summary Report Quantity and Values"/>
+      </download>&b;
+    </form>
+
+    <form id="210" reportFile="PObcmh4_110" templateFile="" commandArgument="pdf">
+      <header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị)" e="Purchase Summary Report Quantity and Values in Foreign Currency"/>
+      <download>
+        <header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị)" e="Purchase Summary Report Quantity and Values in Foreign Currency"/>
+      </download>&f;
+    </form>
+
+    &s;
+    <form id="310" reportFile="PObcmh4_310" templateFile="" commandArgument="pdf">
+      <header v="Tổng hợp hàng nhập mua (số lượng và giá trị) mẫu nhập mua" e="Purchase Summary Report Quantity and Values Purchase"></header>
+      <download>
+        <header v="Tổng hợp hàng nhập mua (số lượng và giá trị) mẫu nhập mua" e="Purchase Summary Report Quantity and Values Purchase"/>
+      </download>&b;
+    </form>
+
+    <form id="320" reportFile="PObcmh4_310" templateFile="" commandArgument="pdf">
+      <header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị) mẫu nhập mua" e="Purchase Summary Report Quantity and Values in Foreign Currency Purchase"/>
+      <download>
+        <header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị) mẫu nhập mua" e="Purchase Summary Report Quantity and Values in Foreign Currency Purchase"/>
+      </download>&f;
+    </form>
+
+    &s;
+
+    <form id="410" reportFile="PObcmh4_410" templateFile="" commandArgument="pdf" >
+      <header v="Tổng hợp hàng nhập mua (số lượng và giá trị) mẫu nhập khẩu" e="Purchase Summary Report Quantity and Values Import"></header>
+      <download>
+        <header v="Tổng hợp hàng nhập mua (số lượng và giá trị) mẫu nhập khẩu" e="Purchase Summary Report Quantity and Values Import"/>
+      </download>&b;
+    </form>
+
+    <form id="420" reportFile="PObcmh4_410" templateFile="" commandArgument="pdf">
+      <header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị) mẫu nhập khẩu" e="Purchase Summary Report Quantity and Values in Foreign Currency Import"/>
+      <download>
+        <header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị) mẫu nhập khẩu" e="Purchase Summary Report Quantity and Values in Foreign Currency Import"/>
+      </download>&f;
+    </form>
+&s; 
+	<form id="500" templateFile ="PObcmh4_100" commandArgument="Excel" urlImage="&e;" rowFilter="[2$sysprint = 1]">
+		<header v="Tổng hợp hàng nhập mua (số lượng) (Excel)" e="Purchase Summary Report Quantity Standard Form (Excel)"></header>
+		<download>
+			<header v="Tổng hợp hàng nhập mua (số lượng) (Excel)" e="Purchase Summary Report Quantity Standard Form (Excel)"/>
+		</download>
+	</form>	
+		<form id="510" templateFile ="PObcmh4_110" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Tổng hợp hàng nhập mua (số lượng và giá trị) (Excel)" e="Purchase Summary Report Quantity and Values Standard Form"></header>
+		<download>
+			<header v="Tổng hợp hàng nhập mua (số lượng và giá trị) (Excel)" e="Purchase Summary Report Quantity and Values Standard Form"/>
+		</download>
+	</form>	
+	
+	<form id="530" templateFile ="PObcmh4_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị) (Excel)" e="Purchase Summary Report Quantity and Values Standard Form"></header>
+		<download>
+			<header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị)(Excel)" e="Purchase Summary Report Quantity and Values Standard Form"/>
+		</download>
+	</form>	
+	
+	<form id="540" templateFile ="PObcmh4_310" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Tổng hợp hàng nhập mua (số lượng và giá trị) mẫu nhập mua (Excel)" e="Purchase Summary Report Quantity and Values "></header>
+		<download>
+			<header v="Tổng hợp hàng nhập mua (số lượng và giá trị) mẫu nhập mua (Excel)" e="Purchase Summary Report Quantity and Values"/>
+		</download>
+	</form>	
+	<form id="550" templateFile ="PObcmh4_320" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị) mẫu nhập mua (Excel)" e="Purchase Summary Report Quantity and Values in Foreign Currency Purchasing"></header>
+		<download>
+			<header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị) mẫu nhập mua (Excel)" e="Purchase Summary Report Quantity and Values in Foreign Currency Purchasing"/>
+		</download>
+	</form>	
+
+	<form id="610" templateFile ="PObcmh4_410" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Tổng hợp hàng nhập mua (số lượng và giá trị) mẫu nhập khẩu (Excel)" e="Invoice Listing Quantity and Values "></header>
+		<download>
+			<header v="Tổng hợp hàng nhập mua (số lượng và giá trị) mẫu nhập khẩu (Excel)" e="Invoice Listing Quantity and Values"/>
+		</download>
+	</form>	
+	<form id="620" templateFile ="PObcmh4_420" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+		<header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị) mẫu nhập khẩu (Excel)" e="Invoice Listing Quantity and Values in Foreign Currency Purchasing"></header>
+		<download>
+			<header v="Tổng hợp hàng nhập mua ngoại tệ (số lượng và giá trị) mẫu nhập khẩu (Excel)" e="Invoice Listing Quantity and Values in Foreign Currency Purchasing"/>
+		</download>
+	</form>	
+	
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="TỔNG HỢP HÀNG NHẬP MUA" e="PURCHASE SUMMARY REPORT"/>
+    </field>
+    <field name="h_line1" type="String">
+      <header v="Mẫu số 01 - TT" e="Form 01-TT"></header>
+    </field>
+    <field name="h_line2" type="String">
+      <header v="(Ban hành theo QĐ số:" e="(According to Decision No.:"/>
+    </field>
+    <field name="h_line3" type="String">
+      <header v="15/2006/QĐ-BTC ngày 20/03/2006" e="15/2006/QĐ-BTC Dated March 20th 2006"/>
+    </field>
+    <field name="h_line4" type="String">
+      <header v="của Bộ trưởng BTC)" e="of Ministry of Finance)"/>
+    </field>
+    <field name="h_quyen" type="String">
+      <header v="Quyển số:" e="Book No.:"/>
+    </field>
+    <field name="h_so_ct" type="String">
+      <header v="Số:" e="Voucher No.:"></header>
+    </field>
+    <field name="h_bang_chu" type="String">
+      <header v="Bằng chữ:" e="In Words:"></header>
+    </field>
+    <field name="h_ten_vt" type="String">
+      <header v="Tên mặt hàng" e="Item Name"/>
+    </field>
+    <field name="h_ma_vt" type="String">
+      <header v="Mã hàng" e="Item Code"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_tien" type="String">
+      <header v="Tiền" e="Amount"/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="Đvt" e="UOM"/>
+    </field>
+    <field name="h_so_luong" type="String">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_thue_nk" type="String">
+      <header v="Thuế nk" e="Import Tax"/>
+    </field>
+    <field name="h_cp" type="String">
+      <header v="Chi phí" e="Fee"/>
+    </field>
+    <field name="h_thue" type="String">
+      <header v="Thuế" e="Tax"/>
+    </field>
+    <field name="h_tien_hang" type="String">
+      <header v="Tiền hàng" e="Purchase Price"/>
+    </field>
+    <field name="h_nt" type="String">
+      <header v="nt" e="FC"/>
+    </field>
+  </fields>
+</report>

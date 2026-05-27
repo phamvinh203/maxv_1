@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmmd" code="ma_md" name="ten_md%l" order="ma_md" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục mức độ" e="Priority List"></header>
+
+  <fields>
+    <field name="ma_md" allowSorting="true" allowFilter="true" >
+      <header v="Mã mức độ" e="Priority"></header>
+    </field>
+    <field name="ten_md%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên mức độ" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

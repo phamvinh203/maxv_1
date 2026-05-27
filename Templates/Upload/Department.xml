@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$DepartmentImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$DepartmentImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+		<field name="ma_bp" column="A" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+		<field name="ten_bp" column="B" allowNulls="false" maxLength="255"/>
+		<field name="ten_bp2" column="C" maxLength="255"/>
+		<field name="dia_chi" column="D" maxLength="16"/>
+		<field name="dien_thoai" column="E" maxLength="128"/>
+		<field name="ma_td1" column="F" maxLength="16"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin = 0 and @type = '1' begin
+  if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@@admin, @@userID, 'Department', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @fields nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int
+
+select @irregularChars = ]]>&IrregularValue;<![CDATA[
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> đã có hoặc lồng nhau.' else 'The value of cell <span class="Highlight">%invalidCell</span> is invalid or already exists.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+
+
+
+-- Check
+alter table @@table alter column ma_bp char(32)
+create index i on @@table (ma_bp)
+
+if @type = '0' delete @@table where ma_bp in (select ma_bp from dmbp)
+
+select @field = 'ma_bp', @r = min(stt) from @@table where ma_bp like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+select @field = 'ma_td1', @r = min(stt) from @@table where ma_td1 <> '' and ma_td1 not in (select tk from dmtk)]]>&Error;<![CDATA[
+
+select a.* into #k from @@table a join dmbp b on a.ma_bp = b.ma_bp
+delete @@table where ma_bp in (select ma_bp from #k)
+-- 
+select @q = 'select top 1 @r = a.stt from @@table a, @@table b with (index(i)) where a.ma_bp <> b.ma_bp and a.ma_bp = rtrim(b.ma_bp)'
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+select top 1 @r = a.stt from @@table a, dmbp b with (index(PK_dmbp)) where a.ma_bp = rtrim(b.ma_bp)]]>&Duplicate;<![CDATA[
+select @q = 'select top 1 @r = b.stt from dmbp a, @@table b with (index(i)) where a.ma_bp = rtrim(b.ma_bp)'
+exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+
+
+-- Insert
+select @q = 'insert into dmbp(ma_bp, ten_bp, ten_bp2, dia_chi, dien_thoai, ma_td1, status, datetime0, datetime2, user_id0, user_id2, '
+select @q = @q + ' ma_td2, ma_td3, sl_td1, sl_td2, sl_td3, gc_td1, gc_td2, gc_td3, s1, s2, s3, s4, s5, s6)'
+select @q = @q + 'select ma_bp, ten_bp, ten_bp2, dia_chi, dien_thoai, ma_td1, ''1'', getdate(), getdate(), rtrim(@@userID), rtrim(@@userID), '''', '''', '
+select @q = @q + ' 0, 0, 0, '''', '''', '''', '''', '''', '''', 0, 0, 0 from @@table'
+exec sp_executesql @q
+
+if @type = '1' begin
+  update dmbp set ten_bp = b.ten_bp, ten_bp2 = b.ten_bp2, dia_chi = b.dia_chi, dien_thoai = b.dien_thoai, ma_td1 = b.ma_td1, datetime2 = getdate(), user_id2 = @@userID
+  from dmbp a, #k b where a.ma_bp = b.ma_bp
+end
+
+]]>
+    </text>
+  </processing>
+
+</import>

@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+    <form id="110" reportFile="FAbckh1_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Bảng tính khấu hao TSCĐ" e="Fixed Asset Depreciation Report"></header>
+      <download>
+        <header v="Bảng tính khấu hao TSCĐ" e="Fixed Asset Depreciation"/>
+      </download>&b;
+    </form>
+
+    <form id="210" reportFile="FAbckh1_110" templateFile="" commandArgument="Pdf">
+      <header v="Bảng tính khấu hao TSCĐ ngoại tệ" e="Fixed Asset Depreciation in Foreign Currency"/>
+      <download>
+        <header v="Bảng tính khấu hao TSCĐ ngoại tệ" e="Fixed Asset Depreciation in Foreign Currency"/>
+      </download>&f;
+    </form>
+   &s;
+    <form id="510" templateFile="FAbckh1_110" commandArgument="Excel" urlImage="&e;" rowFilter="[2$sysprint = 1]">
+      <header v="Bảng tính khấu hao TSCĐ" e="Fixed Asset Depreciation"/>
+      <download>
+        <header v="Bảng tính khấu hao TSCĐ" e="Fixed Asset Depreciation"/>
+      </download>
+    </form>
+    <form id="610" templateFile ="FAbckh1_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+      <header v="Bảng tính khấu hao TSCĐ ngoại tệ" e="Fixed Asset Depreciation in Foreign Currency"/>
+      <download>
+        <header v="Bảng tính khấu hao TSCĐ ngoại tệ" e="Fixed Asset Depreciation in Foreign Currency"/>
+      </download>
+    </form>
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="BẢNG TÍNH KHẤU HAO TÀI SẢN CỐ ĐỊNH" e="FIXED ASSET DEPRECIATION REPORT"/>
+    </field>
+ 
+    <field name="h_quyen" type="String">
+      <header v="Quyển số:" e="Book No.:"/>
+    </field>
+    <field name="h_so_ct" type="String">
+      <header v="Số:" e="Voucher No.:"></header>
+    </field>
+    <field name="h_bang_chu" type="String">
+      <header v="Bằng chữ:" e="In Words:"></header>
+    </field>
+    <field name="h_dien_giai" type="String">
+      <header v="Diễn giải" e="Description"/>
+    </field>
+    <field name="h_stt" type="String">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_ten_ts" type="String">
+      <header v="Tên tài sản" e="Fixed Asset Name"/>
+    </field>
+    <field name="h_ma_ts" type="String">
+      <header v="Số thẻ tài sản" e="Fixed Asset Code"/>
+    </field>
+    <field name="h_ngay_tinh" type="String">
+      <header v="Ngày tính" e="Date Depr."/>
+    </field>
+    <field name="h_so_ky_kh" type="String">
+      <header v="Số kỳ" e="Periods"/>
+    </field>
+    <field name="h_nguyen_gia" type="String">
+      <header v="Nguyên giá" e="Original Cost"/>
+    </field>
+    <field name="h_gt_da_kh" type="String">
+      <header v="Giá trị đã khấu hao" e="Accumulated Depreciated"/>
+    </field>
+    <field name="h_gt_cl" type="String">
+      <header v="Giá trị còn lại" e="Remain Depreciated"/>
+    </field>
+    <field name="h_gt_da_kh_nt" type="String">
+      <header v="Giá trị nt đã khấu hao" e="FC Accumulated Depreciated"/>
+    </field>
+    <field name="h_gt_cl_nt" type="String">
+      <header v="Giá trị nt còn lại" e="FC Remain Depreciated"/>
+    </field>
+    <field name="h_nt" type="String">
+      <header v="nt" e="FC"/>
+    </field>
+    <field name="h_gt_kh_ky" type="String">
+      <header v="Giá trị khấu hao trong kỳ" e="Depreciated in Period"/>
+    </field>
+    <field name="h_gt_kh_ky_nt" type="String">
+      <header v="Giá trị khấu hao nt trong kỳ" e="FC Depreciated in Period"/>
+    </field>
+    <field name="h_tu_ky" type="String">
+      <header v="Từ kỳ" e="From Period"/>
+    </field>
+    <field name="h_den_ky" type="String">
+      <header v="đến kỳ" e="to"/>
+    </field>
+  </fields>
+</report>

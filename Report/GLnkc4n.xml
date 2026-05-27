@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+select cast(@$tu_ngay as smalldatetime) as tu_ngay, cast(@$den_ngay as smalldatetime) as den_ngay
+exec pr_GLnkc4nExport @$tu_ngay, @$den_ngay, @$ma_dvcs, @@language, @@userID, @@admin
+Update dmprint set stt_rec_key='' where ma_ct like 'GLNKC4N%'
+]]>
+    </text>
+  </query>
+
+  <forms>
+    <form id="110" reportFile ="GLnkc4n_110" commandArgument="pdf" urlImage="&p;">
+      <header v="Sổ tổng hợp chữ T nhiều tài khoản" e="Accounts T-form Summary"/>
+      <download>
+        <header v="Sổ tổng hợp chữ T nhiều tài khoản" e="Accounts T-form Summary"/>
+      </download>&b;
+    </form>
+
+    <form id="110" reportFile ="GLnkc4n_110" commandArgument="pdf">
+      <header v="Sổ tổng hợp chữ T nhiều tài khoản ngoại tệ" e="Accounts T-form Summary in Foreign Currency"/>
+      <download>
+        <header v="Sổ tổng hợp chữ T nhiều tài khoản ngoại tệ" e="Accounts T-form Summary in Foreign Currency"/>
+      </download>&f;
+    </form>
+  </forms>
+
+  <fields>
+    <field name="title" type ="String">
+      <header v="SỔ TỔNG HỢP CHỮ T LÊN CHO NHIỀU TÀI KHOẢN" e="ACCOUNTS T-FORM SUMMARY"/>
+    </field>
+    <field name="h_tu_ngay" type="String">
+      <header v="Từ ngày" e="Date from"/>
+    </field>
+    <field name="h_den_ngay" type="String">
+      <header v="đến ngày" e="to"/>
+    </field>
+    <field name="h_tk" type="String">
+      <header v="Tài khoản" e="Account"/>
+    </field>
+    <field name="h_tk_du" type="String">
+      <header v="Tk đối ứng" e="Ref. Account"/>
+    </field>
+    <field name="h_dien_giai" type="String">
+      <header v="Diễn giải" e="Description"/>
+    </field>
+    <field name="h_ps_no" type="String">
+      <header v="Phát sinh nợ" e="Debit Amount"/>
+    </field>
+    <field name="h_ps_co" type="String">
+      <header v="Phát sinh có" e="Credit Amount"/>
+    </field>
+  </fields>
+</report>

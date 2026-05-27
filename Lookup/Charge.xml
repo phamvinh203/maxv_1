@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmcp" code="ma_loai" name="ten_cp%l" order="ma_loai" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục phí" e="Charge List"></header>
+
+  <fields>
+    <field name="ma_loai" allowSorting="true" allowFilter="true">
+      <header v="Mã phí" e="Charge Code"></header>
+    </field>
+
+    <field name="ten_cp%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên phí" e = "Description"></header>
+    </field>
+
+  </fields>
+
+</lookup>

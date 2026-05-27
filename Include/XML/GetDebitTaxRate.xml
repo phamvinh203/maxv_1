@@ -1,0 +1,11 @@
+﻿<action id="GetTaxRate">
+  <text>
+    <![CDATA[
+if exists(select 1 from dmthue where ma_thue = @ma_thue)
+  begin
+    select a.thue_suat, rtrim(a.tk_thue_no) as tk_thue_no, isnull(b.tk_cn, 0) as thue_cn from dmthue a left join dmtk b on a.tk_thue_no = b.tk where a.ma_thue = @ma_thue
+    return
+  end    
+]]>
+  </text>
+</action>

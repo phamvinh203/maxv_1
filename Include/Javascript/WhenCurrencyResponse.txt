@@ -1,0 +1,8 @@
+﻿<![CDATA[
+    case 'GetExchangeRate':
+      f._currencyBehavior.onExchangeRateResponse(0, result[0].Value);
+      break;
+    case 'DateChanged':
+      f._currencyBehavior.onExchangeRateResponse(1, result[0].Value);
+      break;
+]]>

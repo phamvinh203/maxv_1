@@ -1,0 +1,11 @@
+﻿<command event="Copying">
+  <text>
+    <![CDATA[
+if not exists(select 1 from @@master where stt_rec = @stt_rec and ma_dvcs = @@unit) begin
+  select case when @@language = 'V' then N'Đơn vị hiện thời không phải đơn vị ngầm định, không thể sao chép chứng từ được.' else N'Current unit is not default, data copy is not allowed.' end as message
+  return
+end
+select '' as message, 'when$VoucherCopying(this)' as script
+]]>
+  </text>
+</command>

@@ -1,0 +1,8 @@
+﻿<![CDATA[
+declare @taxRate numeric(5, 2), @taxType int, @taxAccount varchar(32), @taxCode varchar(32)
+select @taxCode = rtrim(val) from options where name = 'm_ma_thue_0'
+if exists(select 1 from dmthue where ma_thue = @taxCode) begin
+  select @taxRate = a.thue_suat, @taxAccount = rtrim(a.tk_thue_no), @taxType = isnull(b.tk_cn, 0) from dmthue a left join dmtk b on a.tk_thue_no = b.tk where a.ma_thue = @taxCode
+  select @message = @message + replace('$TaxRate=' + rtrim(str(@taxRate, 5, 2)) + ';$TaxCode=''' + @taxCode + ''';$TaxAccount=''' + @taxAccount + ''';$TaxType=' + rtrim(@taxType) + ';', '$', 'this._default')
+end
+]]>

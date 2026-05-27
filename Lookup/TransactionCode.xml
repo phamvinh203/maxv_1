@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmmagd" code="ma_gd" name="ten_gd%l" order="ma_gd" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục mã giao dịch" e="Transaction Code List"></header>
+
+  <fields>
+    <field name="ma_gd" allowSorting="true" allowFilter="true">
+      <header v="Mã giao dịch" e="Transaction Code"></header>
+    </field>
+
+    <field name="ten_gd%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên giao dịch" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

@@ -1,0 +1,11 @@
+﻿<action id="GetVoucherNumber">
+  <text>
+    <![CDATA[
+if exists(select 1 from v20dmnk where ma_nk = @voucherBook)
+  begin
+    select rtrim(ltrim(so_ct0)) as so_ct0 , rtrim(ltrim(so_ct1)) as so_ct1, rtrim(ltrim(so_ct2)) as so_ct2, rtrim(ltrim(isnull(so_seri, ''))) as ky_hieu from v20dmnk where ma_nk = @voucherBook
+    return
+  end    
+]]>
+  </text>
+</action>

@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+declare @d int, @m int, @y int, @m2 nvarchar(511)
+select @d = day(getDate()), @m = month(getDate()), @y = year(getDate()), @m2 = datename(month, getDate())
+select @$ngay_hd1 as date_from, @$ngay_hd2 as date_to, @$tk as tk, case when @@language = 'v' then ten_tk else ten_tk2 end as ten_tk
+  , @d as d, @m as m, @m2 as m2, @y as y from dmtk where tk = @$tk
+exec pr_SObccn1nExport @$ngay_ht1, @$ngay_ht2, @$ngay_hd1, @$ngay_hd2, @$tk, @$isbalance, @$ma_dvcs, @@language, @@userID, @@admin
+Update dmprint set stt_rec_key='' where ma_ct like 'SOBCCN1N%'
+]]>
+    </text>
+  </query>
+
+  <forms>
+    <form id="110" reportFile="SObccn5n_110" templateFile="" commandArgument="pdf" urlImage="&p;">
+      <header v="Bảng xác nhận công nợ nhiều nhà cung cấp" e="Suppliers AR/AP Confirmation Sheet"></header>
+      <download>
+        <header v="Bảng xác nhận công nợ nhiều nhà cung cấp" e="Suppliers AR/AP Confirmation Sheet"/>
+      </download>&b;
+    </form>
+    <form id="210" reportFile="SObccn5n_110" templateFile="" commandArgument="pdf" urlImage="">
+      <header v="Bảng xác nhận công nợ nhiều nhà cung cấp ngoại tệ" e="Suppliers AR/AP Confirmation Sheet in Foreign Currency"></header>
+      <download>
+        <header v="Bảng xác nhận công nợ nhiều nhà cung cấp ngoại tệ" e="Suppliers AR/AP Confirmation Sheet in Foreign Currency"/>
+      </download>&f;
+    </form>
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="BẢNG XÁC NHẬN CÔNG NỢ" e="SUPPLIER AR/AP CONFIRMATION SHEET"/>
+    </field>
+    <field name="h_today" type="String">
+      <header v="Hôm nay, ngày" e="Today,"/>
+    </field>
+    <field name="h_thang" type="String">
+      <header v="tháng" e=""/>
+    </field>
+    <field name="h_nam" type="String">
+      <header v="năm" e=","/>
+    </field>
+    <field name="h_ben_ban" type="String">
+      <header v="Bên mua:" e="Buyer:"/>
+    </field>
+    <field name="h_ben_mua" type="String">
+      <header v="Bên bán:" e="Seller:"/>
+    </field>
+    <field name="h_dia_chi" type="String">
+      <header v="Địa chỉ:" e="Address:"/>
+    </field>
+    <field name="h_ma_so_thue" type="String">
+      <header v="Mã số thuế:" e="Tax Code:"/>
+    </field>
+    <field name="h_ct" type="String">
+      <header v="Chứng từ" e="Voucher"/>
+    </field>
+    <field name="h_so" type="String">
+      <header v="Số" e="Number"/>
+    </field>
+    <field name="h_ngay" type="String">
+      <header v="Ngày" e="Date"/>
+    </field>
+    <field name="h_dien_giai" type="String">
+      <header v="Diễn giải" e="Description"/>
+    </field>
+    <field name="h_co" type="String">
+      <header v="Có" e="Credit"/>
+    </field>
+    <field name="h_no" type="String">
+      <header v="Nợ" e="Debit"/>
+    </field>
+    <field name="h_ps" type="String">
+      <header v="Số phát sinh" e="Arising"/>
+    </field>
+    <field name="h_ps_nt" type="String">
+      <header v="Số phát sinh nt" e="FC Arising"/>
+    </field>
+    <field name="h_sd" type="String">
+      <header v="Số dư" e="Balance"/>
+    </field>
+    <field name="h_sd_nt" type="String">
+      <header v="Số dư nt" e="FC Balance"/>
+    </field>
+    <field name="h_sd_ck" type="String">
+      <header v="Số dư cuối kỳ:" e="Closing Balance:"/>
+    </field>
+    <field name="h_sd_co_ck" type="String">
+      <header v="Số dư có cuối kỳ:" e="Closing Credit Balance:"/>
+    </field>
+    <field name="h_sd_co_dk" type="String">
+      <header v="Số dư có đầu kỳ:" e="Opening Credit Balance:"/>
+    </field>
+    <field name="h_sd_dk" type="String">
+      <header v="Số dư đầu kỳ:" e="Opening Balance:"/>
+    </field>
+    <field name="h_sd_no_ck" type="String">
+      <header v="Số dư nợ cuối kỳ:" e="Closing Debit Balance:"/>
+    </field>
+    <field name="h_sd_no_dk" type="String">
+      <header v="Số dư nợ đầu kỳ:" e="Opening Debit Balance:"/>
+    </field>
+    <field name="h_t_ps_co" type="String">
+      <header v="Tổng phát sinh có:" e="Total Credit Amount:"/>
+    </field>
+    <field name="h_t_ps_no" type="String">
+      <header v="Tổng phát sinh nợ:" e="Total Debit Amount:"/>
+    </field>
+    <field name="h_tk" type="String">
+      <header v="Tài khoản:" e="Account:"/>
+    </field>
+    <field name="h_test" type="String">
+      <header v="Kính mong quý công ty đối chiếu, xác nhận số liệu nêu trên và gửi cho chúng tôi theo địa chỉ trên." e="Please compare, verify all items and send us to the address above."/>
+    </field>
+    <field name="h_xac_nhan" type="String">
+      <header v="Xác nhận của nhà cung cấp:" e="Supplier's Confirmation:"/>
+    </field>
+  </fields>
+</report>

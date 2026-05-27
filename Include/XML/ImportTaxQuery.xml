@@ -1,0 +1,9 @@
+﻿<queries>
+  <query event="Loading">
+    <text>
+      <![CDATA[
+select @@fieldExternal from @@prime$partition$current a left join dmtk b on a.tk_du = b.tk where @@whereClause order by @@orderByClause
+]]>
+    </text>
+  </query>
+</queries>

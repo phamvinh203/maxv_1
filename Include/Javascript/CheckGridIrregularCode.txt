@@ -1,0 +1,17 @@
+﻿<![CDATA[
+function CheckGridIrregularCode(v) {
+  var s = '\'`~!@#$%^&*(),;"<>?/\\,_', e = false;
+  if (v.length > 0) {
+    if (v[0] == ' ') e = true;
+    else {
+      for (var j = 0; j < v.length; j++) {
+        if (s.indexOf(v[j]) >= 0) {
+          e = true;
+          break;
+        }
+      }
+    }
+  }
+  return !e;
+}
+]]>

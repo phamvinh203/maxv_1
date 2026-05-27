@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+]>
+
+<import xmlns="urn:schemas-maxv-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$FIFOBalanceImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$FIFOBalanceImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+  </setting>
+
+  <fields identity="true" name="stt">
+	<field name="ngay_ct" column="A" isPrimaryKey="true" allowNulls="false" type="DateTime"/>
+	<field name="so_ct" column="B" isPrimaryKey="true" allowNulls="false" maxLength="12" upperCase="true"/>
+	<field name="ma_vt" column="C" isPrimaryKey="true" allowNulls="false" maxLength="16" upperCase="true"/>
+	<field name="ma_kho" column="E" isPrimaryKey="true" allowNulls="false" maxLength="8" upperCase="true"/>
+	<field name="ma_vi_tri" column="F" isPrimaryKey="true" maxLength="8" upperCase="true"/>
+	<field name="ma_lo" column="G" isPrimaryKey="true" maxLength="16" upperCase="true"/>
+	<field name="so_luong" column="H" allowNulls="false" type="Decimal"/>
+	<field name="tien" column="I" type="Decimal"/>
+	<field name="tien_nt" column="J" type="Decimal"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @q nvarchar(4000), @message nvarchar(4000), @field varchar(32), @wsID varchar(1)
+declare @user int, @admin bit, @m int, @year int, @r int, @i int, @currentID int, @count int
+
+select @i = 1, @wsID = rtrim(val) from options where rtrim(name) = 'm_ws_id'
+select @m = character_maximum_length from information_schema.columns where table_name = 'cdntxt' and column_name = 'so_ct'
+select @admin = @@admin, @user = @@userID, @year = nam_bd from dmstt
+
+update @@table set so_ct = rtrim(so_ct) + space(@m - len(rtrim(so_ct)))
+
+select @field = 'ma_vt', @r = min(stt) from @@table where ma_vt not in (select ma_vt from dmvt where gia_ton = 3)]]>&Error;<![CDATA[
+select @field = 'ma_kho', @r = min(stt) from @@table where ma_kho not in (select ma_kho from dmkho)]]>&Error;<![CDATA[
+
+select @field = 'ma_vi_tri', @r = min(stt) from @@table a where a.ma_vi_tri = '' and exists(select 1 from dmvitri b where a.ma_kho = b.ma_kho)]]>&Error;<![CDATA[
+select @field = 'ma_vi_tri', @r = min(stt) from @@table a where a.ma_vi_tri <> '' and not exists(select 1 from dmvitri b where a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri)]]>&Error;<![CDATA[
+
+select @field = 'ma_lo', @r = min(stt) from @@table a where a.ma_lo = '' and exists(select 1 from dmvt b where a.ma_vt = b.ma_vt and b.lo_yn = 1)]]>&Error;<![CDATA[
+select @field = 'ma_lo', @r = min(stt) from @@table a where a.ma_lo <> '' and not exists(select 1 from dmvt b where a.ma_vt = b.ma_vt and b.lo_yn = 1)]]>&Error;<![CDATA[
+select @field = 'ma_lo', @r = min(stt) from @@table a where ma_lo <> '' and not exists(select 1 from dmlo b where a.ma_lo = b.ma_lo)]]>&Error;<![CDATA[
+select @field = 'ma_kho'
+
+if @admin <> 1 begin
+  if @type = '1' begin
+    if @@sysDatabaseName.dbo.MaxvOnline$System$GetAuthorize(@admin, @user, 'FIFOBalance', 'Edit') = 0 select @type = '0'
+  end
+
+  select @r = min(a.stt) from @@table a where not exists(select 1 from cdntxt b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo and b.nam = @year)
+    and not exists(select 1 from dmkho c where a.ma_kho = c.ma_kho and c.ma_dvcs in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_new = 1))]]>&Error;<![CDATA[
+
+  if @type = '1' begin
+      select @r = min(a.stt) from @@table a where exists(select 1 from cdntxt b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo and b.nam = @year)
+        and not exists(select 1 from dmkho c where a.ma_kho = c.ma_kho and c.ma_dvcs in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_edit= 1))]]>&Error;<![CDATA[
+  end
+end
+
+if @type = '0' delete @@table from @@table a where exists(select 1 from cdntxt b where a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct and a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo and b.nam = @year)
+select @r = min(a.stt) from @@table a join dmkho b on a.ma_kho = b.ma_kho join dmdvcsks c on b.ma_dvcs = c.ma_dvcs where year(c.ngay_ks) >= @year]]>&Error;<![CDATA[
+
+select min(b.stt_rec_nt) stt_rec_nt, min(b.stt_rec0) stt_rec0, a.ngay_ct, a.so_ct, a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo, a.so_luong, a.tien, a.tien_nt into #k 
+  from @@table a join cdntxt b on a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct and a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo and b.nam = @year
+  group by a.ngay_ct, a.so_ct, a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo, a.so_luong, a.tien, a.tien_nt
+
+delete @@table from @@table a where exists(select 1 from #k b where a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct and a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo)
+
+select @count = count(*) from @@table
+if @count > 0 begin
+  alter table @@table add stt_rec_nt char(13)
+  select @currentID = stt_rec from dmstt
+  update dmstt set stt_rec = stt_rec + @count
+
+  select @q = 'update @@table set stt_rec_nt = ''' + @wsID + ''' + replace(str(stt + ' + rtrim(@currentID) + ', 9), '' '', ''0'') + ''PNZ'''
+  select @q = @q + 'insert into cdntxt select ' + rtrim(@year) + ', stt_rec_nt, ''001'', 1, 0, '''', 0, ngay_ct, so_ct, ma_kho, ma_vi_tri, ma_vt, ma_lo, so_luong, '''', tien, tien_nt, 0, 0'
+  while @i < 14 select @q = @q + ', so_luong, tien, tien_nt', @i = @i + 1
+  select @q = @q + ', getdate(), getdate(),' + rtrim(@user) + ',' + rtrim(@user) + ', '''', '''', '''', '''', 0, 0, 0, null, null, null, '''', '''', '''', '''', '''', '''', 0, 0, 0, null, null, null'
+  select @q = @q + ' from @@table'
+  
+  exec sp_executesql @q
+end
+
+insert into cdlo(nam, ma_kho, ma_vi_tri, ma_vt, ma_lo, ton00, du00, du_nt00, status, datetime0, datetime2, user_id0, user_id2)
+  select distinct @year, ma_kho, isnull(ma_vi_tri, ''), ma_vt, isnull(ma_lo, ''), 0, 0, 0, '1', getdate(), getdate(), @user, @user
+  from @@table a where not exists(select 1 from cdlo b where a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo and b.nam = @year)
+
+insert into cdvitri(nam, ma_kho, ma_vi_tri, ma_vt, ton00, du00, du_nt00, status, datetime0, datetime2, user_id0, user_id2)
+  select distinct @year, ma_kho, isnull(ma_vi_tri, ''), ma_vt, 0, 0, 0, '1', getdate(), getdate(), @user, @user
+    from @@table a where not exists(select 1 from cdvitri b where a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_vt = b.ma_vt and b.nam = @year)
+
+insert into cdvt(nam, ma_kho, ma_vt, ton00, du00, du_nt00, status, datetime0, datetime2, user_id0, user_id2)  
+  select distinct @year, ma_kho, ma_vt, 0, 0, 0, '1', getdate(), getdate(), @user, @user
+    from @@table a where not exists(select 1 from cdvt b where a.ma_kho = b.ma_kho and a.ma_vt = b.ma_vt and b.nam = @year)
+
+if @type = '1' begin
+  select a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo, sum(a.so_luong) as ton00 into #cd1
+    from cdntxt a join #k b on a.stt_rec_nt = b.stt_rec_nt and a.stt_rec0 = b.stt_rec0
+    where a.nam = @year
+    group by a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo
+
+  select @i = 1, @q = 'update cdntxt set so_luong = b.so_luong, tien = b.tien, tien_nt = b.tien_nt, '
+  while @i < 14 select @q = @q + replace('ton_kho%s = b.so_luong, so_du%s = b.tien, so_du_nt%s = b.tien_nt, ', '%s', replace(str(@i ,2), ' ', '0')), @i = @i + 1
+  select @q = @q + ' datetime2 = getdate(), user_id2 = ' + rtrim(@user)
+  select @q = @q + ' from cdntxt a join #k b on a.stt_rec_nt = b.stt_rec_nt and a.stt_rec0 = b.stt_rec0 where a.nam = ' + rtrim(@year)
+  exec sp_executesql @q
+
+  update cdlo set ton00 = b.ton00, du00 = b.du00, du_nt00 = b.du_nt00
+    from cdlo a join (select ma_vt, ma_kho, ma_vi_tri, ma_lo, sum(so_luong) as ton00, sum(tien) as du00, sum(tien_nt) as du_nt00 from #k group by ma_vt, ma_kho, ma_vi_tri, ma_lo) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo where a.nam = @year
+
+  update cdvitri set ton00 = b.ton00, du00 = b.du00, du_nt00 = b.du_nt00
+    from cdvitri a join (select ma_vt, ma_kho, ma_vi_tri, sum(so_luong) as ton00, sum(tien) as du00, sum(tien_nt) as du_nt00 from #k group by ma_vt, ma_kho, ma_vi_tri) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri where a.nam = @year
+
+  update cdvt set ton00 = b.ton00, du00 = b.du00, du_nt00 = b.du_nt00
+    from cdvt a join (select ma_vt, ma_kho, sum(so_luong) as ton00, sum(tien) as du00, sum(tien_nt) as du_nt00 from #k group by ma_vt, ma_kho) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho where a.nam = @year
+
+  select a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo, sum(a.so_luong) as ton00 into #cd2
+    from cdntxt a join #k b on a.stt_rec_nt = b.stt_rec_nt and a.stt_rec0 = b.stt_rec0
+    where a.nam = @year
+    group by a.ma_vt, a.ma_kho, a.ma_vi_tri, a.ma_lo
+
+  update cdvt13 set ton13 = ton13 + b.ton00 - c.ton00
+    from cdvt13 a join (select ma_vt, ma_kho, sum(ton00) as ton00 from #cd2 group by ma_vt, ma_kho) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho
+      join (select ma_vt, ma_kho, sum(ton00) as ton00 from #cd1 group by ma_vt, ma_kho) c on a.ma_vt = c.ma_vt and a.ma_kho = c.ma_kho
+  
+  update cdvitri13 set ton13 = ton13 + b.ton00 - c.ton00
+    from cdvitri13 a join (select ma_vt, ma_kho, ma_vi_tri, sum(ton00) as ton00 from #cd2 group by ma_vt, ma_kho, ma_vi_tri) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri
+      join (select ma_vt, ma_kho, ma_vi_tri, sum(ton00) as ton00 from #cd1 group by ma_vt, ma_kho, ma_vi_tri) c on a.ma_vt = c.ma_vt and a.ma_kho = c.ma_kho and a.ma_vi_tri = c.ma_vi_tri
+      
+  update cdlo13 set ton13 = ton13 + b.ton00 - c.ton00
+    from cdlo13 a join #cd2 b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo
+      join #cd1 c on a.ma_vt = c.ma_vt and a.ma_kho = c.ma_kho and a.ma_vi_tri = c.ma_vi_tri and a.ma_lo = c.ma_lo
+  
+  update dmlo set sl_nhap = sl_nhap + b.ton00 - c.ton00 from dmlo a join #cd2 b on a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo join #cd1 c on a.ma_vt = c.ma_vt and a.ma_lo = c.ma_lo
+end
+
+update cdvt set ton00 = b.ton00, du00 = b.du00, du_nt00 = b.du_nt00
+  from cdvt a join (
+    select ma_vt, ma_kho, sum(so_luong) as ton00, sum(tien) as du00, sum(tien_nt) as du_nt00
+      from @@table
+      group by ma_vt, ma_kho
+  ) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho
+  where a.nam = @year
+
+update cdvitri set ton00 = b.ton00, du00 = b.du00, du_nt00 = b.du_nt00
+  from cdvitri a join (
+    select ma_vt, ma_kho, ma_vi_tri, sum(so_luong) as ton00, sum(tien) as du00, sum(tien_nt) as du_nt00
+      from @@table
+      group by ma_vt, ma_kho, ma_vi_tri
+  ) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri
+  where a.nam = @year
+
+update cdlo set ton00 = b.ton00, du00 = b.du00, du_nt00 = b.du_nt00
+  from cdlo a join (
+    select ma_vt, ma_kho, ma_vi_tri, ma_lo, sum(so_luong) as ton00, sum(tien) as du00, sum(tien_nt) as du_nt00
+      from @@table
+      group by ma_vt, ma_kho, ma_vi_tri, ma_lo
+  ) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo
+  where a.nam = @year
+
+insert into cdvt13(ma_vt, ma_kho, ton13, du13, du_nt13) select distinct ma_vt, ma_kho, 0, 0, 0 from @@table a where not exists(select 1 from cdvt13 b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho)
+insert into cdvitri13(ma_vt, ma_kho, ma_vi_tri, ton13, du13, du_nt13) select distinct ma_vt, ma_kho, ma_vi_tri, 0, 0, 0 from @@table a where not exists(select 1 from cdvitri13 b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri)
+insert into cdlo13(ma_vt, ma_kho, ma_vi_tri, ma_lo, ton13, du13, du_nt13) select distinct ma_vt, ma_kho, ma_vi_tri, ma_lo, 0, 0, 0 from @@table a where not exists(select 1 from cdlo13 b where a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo)
+
+update cdvt13 set ton13 = ton13 + b.ton00 from cdvt13 a join (select ma_vt, ma_kho, sum(so_luong) as ton00 from @@table group by ma_vt, ma_kho) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho
+update cdvitri13 set ton13 = ton13 + b.ton00 from cdvitri13 a join (select ma_vt, ma_kho, ma_vi_tri, sum(so_luong) as ton00 from @@table group by ma_vt, ma_kho, ma_vi_tri) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri
+update cdlo13 set ton13 = ton13 + b.ton00 from cdlo13 a join (select ma_vt, ma_kho, ma_vi_tri, ma_lo, sum(so_luong) as ton00 from @@table group by ma_vt, ma_kho, ma_vi_tri, ma_lo) b on a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo
+
+update dmlo set sl_nhap = sl_nhap + b.ton00 from dmlo a join (select ma_vt, ma_lo, sum(so_luong) as ton00 from @@table group by ma_vt, ma_lo) b on a.ma_vt = b.ma_vt and a.ma_lo = b.ma_lo
+]]>
+    </text>
+  </processing>
+
+</import>

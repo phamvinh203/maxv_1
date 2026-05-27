@@ -1,0 +1,12 @@
+﻿<action id="GetExchangeRate">
+  <text>
+    <![CDATA[
+if exists(select 1 from dmtgnt where ma_nt = @ma_nt and ngay_ct <= @ngay_lct)
+  select top 1 ty_gia as value from dmtgnt where ma_nt = @ma_nt and ngay_ct <= @ngay_lct order by ngay_ct desc
+else
+  select 0 as value
+  
+return
+]]>
+  </text>
+</action>

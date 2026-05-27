@@ -1,0 +1,5 @@
+﻿<item value="110100: [ma_lo].Label, [ma_lo], [ten_lo%l]"/>
+<item value="110100: [ma_td1].Label, [ma_td1], [ten_td1%l]"/>
+<item value="110100: [ma_td2].Label, [ma_td2], [ten_td2%l]"/>
+<item value="110100: [ma_td3].Label, [ma_td3], [ten_td3%l]"/>
+

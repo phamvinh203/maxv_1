@@ -1,0 +1,4 @@
+﻿<![CDATA[
+select @message as message
+return
+]]>

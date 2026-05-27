@@ -1,0 +1,6 @@
+﻿<toolbar>
+  <button command="Freeze">
+    <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+  </button>
+  
+</toolbar>

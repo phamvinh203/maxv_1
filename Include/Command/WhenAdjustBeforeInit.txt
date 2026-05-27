@@ -1,0 +1,7 @@
+﻿<![CDATA[
+if exists(select 1 from dmstt where year(ngay_ks) >= @year and month(ngay_ks) >= @period) begin
+  select case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày ngày khóa sổ.' else N'Data is locked, you must modify system locked date.' end as value
+  return
+end
+select '' as value
+]]>

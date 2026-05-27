@@ -1,0 +1,6 @@
+﻿declare @qr nvarchar(4000), @rr tinyint
+select @rr = cast(val as tinyint) from options where lower(name) = 'm_round_sl'
+select top 0 ma_kho, ma_vi_tri, ma_vt, ma_lo, so_luong as sl_nhap, so_luong as sl_xuat into #reviseStock from &DetailVariable;
+if @post = 1 and (@@action = 'New' or @@action = 'Edit') insert into #reviseStock select ma_kho, ma_vi_tri, ma_vt, ma_lo, case when &StockType; = 1 then sum(round(so_luong * he_so, @rr)) else 0 end as sl_nhap, case when &StockType; = 2 then sum(round(so_luong * he_so, @rr)) else 0 end as sl_xuat from &DetailTable; where stt_rec = @stt_rec group by ma_kho, ma_vi_tri, ma_vt, ma_lo
+set @qr = dbo.MaxvOnline$Function$Voucher$GetSQLReviseCurrentStock('r70$$partition$previous', 'r90$$partition$previous', @stt_rec, @@id, @@action, @Stock, '#reviseStock')
+exec sp_executesql @qr

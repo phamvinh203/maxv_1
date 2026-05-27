@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="userinfo2" code="name" name="comment%l" order="name" database="Sys" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Người sử dụng" e="User(s)"></header>
+
+  <fields>
+    <field name="name" allowSorting="true" allowFilter="true">
+      <header v="Tên" e="Name"></header>
+    </field>
+
+    <field name="comment%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên đầy đủ" e = "Comment"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

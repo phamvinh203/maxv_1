@@ -1,0 +1,231 @@
+﻿<![CDATA[
+function init$]]>&GridID;<![CDATA[$GeneralSearch(g) {
+  var mainContainer = $get('ctl00_MaxvOnline_panelReport');
+  var container = mainContainer.childNodes[0].childNodes[0].childNodes[0].childNodes[0];
+  var searchBox = create$]]>&GridID;<![CDATA[$SearchInput(g);
+  var searchCurrent = $get(String.format('{0}_search_current', g._controller));
+  
+  container.childNodes[0].childNodes[0].style.width = '100%';
+  container.childNodes[0].childNodes[1].style.float = 'right';
+  container.childNodes[0].childNodes[1].appendChild(searchBox);
+
+  var searchInput = $get(String.format('{0}_search_input', g._controller));
+  var searchButton = $get(String.format('{0}_search_button', g._controller));
+  searchButton.grid = searchInput.grid = g;
+	
+	set$]]>&GridID;<![CDATA[$SearchStyle(g, searchInput);
+
+  if (!searchCurrent) {
+    var c = document.createElement('div');
+    c.id = String.format('{0}_search_current', g._controller);
+		c.style.display = 'none';
+		c.innerHTML = searchInput.value;
+    document.body.appendChild(c);
+  }
+  else searchInput.value = searchCurrent.innerHTML;
+
+  searchInput.onclick = function () { set$]]>&GridID;<![CDATA[$SearchEmptyField(this); }
+	searchInput.onfocus = function () { set$]]>&GridID;<![CDATA[$SearchEmptyField(this); }
+  searchInput.onblur = function () {
+    this._oldValue = this.value;
+    if (this.value == '') {
+      set$]]>&GridID;<![CDATA[$SearchStyle(g, this);
+      if (searchCurrent) searchCurrent.innerHTML = this._placeHolderText;
+    }
+  }
+	searchInput.onkeydown = function(event) { if (event.keyCode == 13) execute$]]>&GridID;<![CDATA[$GeneralSearch(this); }
+}
+function create$]]>&GridID;<![CDATA[$SearchInput(g) {
+  var sb = new Sys.StringBuilder();
+  var d = document.createElement('div');
+  d.className = 'GridViewSearchContainer';
+	
+  var searchInputID = String.format('{0}_search_input', g._controller);  
+  var searchButtonID = String.format('{0}_search_button', g._controller);
+  
+  sb.append('<table cellpadding="0" cellspacing="0" style="width: 100%; border-spacing:0; padding-top: 7px"><tr><td style="vertical-align:middle;">');
+  sb.append(String.format('<input id="{0}" type="text" class="GridViewSearchInput" autocomplete="off" /></td>', searchInputID));
+  sb.append(String.format('<td style="vertical-align:middle;"><div id="{0}" class="GridViewSearchButton" onclick="execute$]]>&GridID;<![CDATA[$GeneralSearch(this);"></div></td></tr></table>', searchButtonID));
+
+  d.innerHTML = sb.toString();
+  return d;
+}
+function set$]]>&GridID;<![CDATA[$SearchStyle(g, o) {)
+	var searchCurrent = $get(String.format('{0}_search_current', g._controller));
+  var defaultValue = ((g._language.toLowerCase() == 'v') ? ]]>&SearchPlaceHolderText;<![CDATA[) + Array(5).join(' ');
+	var defaultStyle = !searchCurrent ? true : ((searchCurrent.innerHTML == '') || (searchCurrent.innerHTML == defaultValue));
+	if (defaultStyle) o.value = defaultValue;
+  o.style.fontStyle = defaultStyle ? 'italic' : 'normal';
+  o._placeHolderText = defaultValue;
+}
+function set$]]>&GridID;<![CDATA[$DefaultFilterValue(g) {
+  g._stringValue = []; g._numericValue = []; g._datetimeValue = [];
+  if (g._stringField) {
+    for(var i = 0; i < g._stringField.length; i++) g._stringValue[i] = get$]]>&GridID;<![CDATA[$DefaultFilterValue($func.trim(g._stringField[i]), 0);
+  }
+  if (g._numericField) {
+    for(var i = 0; i < g._numericField.length; i++) g._numericValue[i] = get$]]>&GridID;<![CDATA[$DefaultFilterValue($func.trim(g._numericValue[i]), 1);
+  }
+  if (g._datetimeField) {
+    for(var i = 0; i < g._datetimeField.length; i++) g._datetimeValue[i] = get$]]>&GridID;<![CDATA[$DefaultFilterValue($func.trim(g._datetimeValue[i]), 2);
+  }
+}
+function get$]]>&GridID;<![CDATA[$DefaultFilterValue(field, type) {
+  var defaultValue = type == 0 ? '' : type == 1 ? 0 : null;
+  switch (field) {
+    case 'status':
+      return '1';
+    default:
+      return defaultValue;
+  }
+}
+function set$]]>&GridID;<![CDATA[$SearchEmptyField(o) {
+	if (o.value != o._placeHolderText) return;
+	 o.value = ''; o.style.fontStyle = 'normal';
+}
+function analyze$]]>&GridID;<![CDATA[$SearchValue(grid, v) {
+  var k = new Array(), a1 = new Array(), a2 = new Array(), a3 = new Array(), a4 = new Array();
+  var id1 = -1, id2 = -1, start = 0, t, t1, nhay = 0, index = -1, i = 0;
+  var a0 = new Array(), ix1 = 0, ix2 = String.fromCharCode(251);
+
+  var v1 = String.fromCharCode(255), v2 = String.fromCharCode(254), v3 = String.fromCharCode(253), v4 = String.fromCharCode(252);
+ 
+  v = v.replace(/\+\+/g, v1);
+  v = v.replace(/\-\-/g, v2);
+  v = v.replace(/\/\//g, v3);
+  v = v.replace(/\"\"/g, v4);
+  v = v.replace(/\"\+/g, '" +');
+  v = v.replace(/\"\-/g, '" -');
+
+  id1 = -1, id2 = -1, start = 0;
+  index = v.indexOf('"', 0);
+
+  while (index != -1) {
+    for (i = 0; i < v.length; i++) {
+      if (v[i] == '"' && start == 0) id1 = i, start = 1;
+      if (v[i] == '"' && i != id1) id2 = i;
+      if (id1 < id2) {
+        ix1 += 1;
+        t = v.substring(id1, id2 + 1);
+        var v0 = t.replace(/\"/g, '');
+        if (a0.indexOf(v0) == -1) a0.push(v0);
+        id1 = -1, id2 = -1, start = 0, i = 0;
+        v = v.replace(t, ix2 + ix1.toString());
+      }
+    }
+    index = v.indexOf('"', 0);
+  }
+
+  v = v.replace(/&/g, '+').replace(/\""/g, '');
+  v = v.replace(/\++/g, '+');
+  v = v.replace(/\+/g, ' +');
+  v = v.replace(/\-/g, ' -');
+  v = v.replace(/\//g, ' \/');
+  v = v.replace(/  /g, ' ');
+  v = v.replace(/\--/g, '-');
+  v = v.replace(/\+ /g, '+');
+  v = v.replace(/\- /g, '-');
+  v = v.replace(/\/ /g, '/');
+  v = v.replace(/\/\//g, '/');
+
+  var tmp = v.split(' ');
+
+  for (i = 0; i < tmp.length; i++) {
+    var tv = tmp[i];
+    if (tv.indexOf('+') >= 0) {
+      if (a2.indexOf(tv) == -1) a2.push(tv);
+    }
+    else if (tv.indexOf('-') >= 0) {
+      if (a3.indexOf(tv) == -1) a3.push(tv);
+    }
+    else if (tv.indexOf('/') >= 0) {
+      if (a4.indexOf(tv) == -1) a4.push(tv);
+    }
+    else {
+      if (a1.indexOf(tv) == -1) a1.push(tv);
+    }
+  }
+
+  for (i = 0; i < a0.length; i++) { a0[i] = a0[i].replace(new RegExp(v1, "g"), '+').replace(new RegExp(v2, "g"), '-').replace(new RegExp(v3, "g"), '/').replace(new RegExp(v4, "g"), '"'); }
+  for (i = 0; i < a1.length; i++) { a1[i] = a1[i].replace(new RegExp(v1, "g"), '+').replace(new RegExp(v2, "g"), '-').replace(new RegExp(v3, "g"), '/').replace(new RegExp(v4, "g"), '"'); }
+  for (i = 0; i < a2.length; i++) { a2[i] = a2[i].replace(new RegExp(v1, "g"), '+').replace(new RegExp(v2, "g"), '-').replace(new RegExp(v3, "g"), '/').replace(new RegExp(v4, "g"), '"'); }
+  for (i = 0; i < a3.length; i++) { a3[i] = a3[i].replace(new RegExp(v1, "g"), '+').replace(new RegExp(v2, "g"), '-').replace(new RegExp(v3, "g"), '/').replace(new RegExp(v4, "g"), '"'); }
+  for (i = 0; i < a4.length; i++) { a4[i] = a4[i].replace(new RegExp(v1, "g"), '+').replace(new RegExp(v2, "g"), '-').replace(new RegExp(v3, "g"), '/').replace(new RegExp(v4, "g"), '"'); }
+
+  return analyze$]]>&GridID;<![CDATA[$SearchArray([a0, a1, a2, a3, a4]);
+}
+function analyze$]]>&GridID;<![CDATA[$SearchArray(a) {
+  var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], a4 = a[4];
+  var p = [], n = [], q = [];
+  var ix2 = String.fromCharCode(251);
+
+  for (var i = 0; i < a1.length; i++) {
+    var v1 = a1[i];
+    if (v1.indexOf(ix2) == -1) {
+      if ((v1 != '') && (q.indexOf(v1) == -1)) q.push(v1);
+    } else {
+      v1 = a0[parseInt(v1.replace(ix2, '')) - 1];
+      if ((v1 != '') && (p.indexOf(v1) == -1)) p.push(v1);
+    }
+  }
+  for (var i = 0; i < a4.length; i++) {
+    var v4 = a4[i].replace('/', '');
+    if (v4.indexOf(ix2) >= 0) {
+      v4 = a0[parseInt(v4.replace(ix2, '')) - 1];
+    }
+    if ((v4 != '') && (q.indexOf(v4) == -1)) q.push(v4);
+  }
+  for (var i = 0; i < a2.length; i++) {
+    var v2 = a2[i];
+    if (v2 != '+') v2 = v2.replace('+', '');
+    if (v2.indexOf(ix2) >= 0) {
+      v2 = a0[parseInt(v2.replace(ix2, '')) - 1];
+    }
+    if ((v2 != '') && (p.indexOf(v2) == -1)) p.push(v2);
+  }
+  for (var i = 0; i < a3.length; i++) {
+    var v3 = a3[i];
+    if (v3 != '-') v3 = v3.replace('-', '');
+    if (v3.indexOf(ix2) >= 0) {
+      v3 = a0[parseInt(v3.replace(ix2, '')) - 1];
+    }
+    if ((v3 != '') && (n.indexOf(v3) == -1)) n.push(v3);
+  }	
+  return [p, q, n];
+}
+function execute$]]>&GridID;<![CDATA[$GeneralSearch(sender) {
+  var g = sender.grid, k = [], d = g._getColumnOrder('ngay_ct');
+  var searchInput = $get(String.format('{0}_search_input', g._controller));
+  var searchCurrent = $get(String.format('{0}_search_current', g._controller));
+  var searchValue = searchInput.value, defaultValue = searchInput._placeHolderText;
+  
+  if ((searchValue == '') || (searchValue == defaultValue)) {
+		searchValue = defaultValue;
+		var searchText = Array(5).join(String.fromCharCode(255));
+	}
+  else {
+    var searchArray = analyze$]]>&GridID;<![CDATA[$SearchValue(g, searchValue);
+    searchText = searchArray.join(String.fromCharCode(255));
+  }
+
+  searchCurrent.innerHTML = searchValue;
+  Array.add(k, { Name: 'keys', OldValue: null, NewValue: searchText});   
+  Array.add(k,  {Name: 'ngay_ct1', Type: 'DateTime', Value: d};
+  Array.add(k,  {Name: 'ngay_ct2', Type: 'DateTime', Value: d};
+  
+  if (g._stringField) {
+    for (var i = 0; i < g._stringField.length; i++) {
+      Array.add(k, { Name: $func.trim(g._stringField[i]), OldValue: null, NewValue: g._stringValue ? g._stringValue[i] : ''});
+    }
+  }
+  if (g._numericField) {
+    for (var i = 0; i < g._numericField.length; i++) {
+      Array.add(k, { Name: $func.trim(g._numericField[i]), OldValue: null, NewValue: g._numericValue ? g._numericValue[i] : 0});
+    }
+  }
+
+  g.set_memvars(k);
+  g.set_gridPageIndex(-2);
+  g._loadPage(1);
+}
+]]>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmvv" code="ma_vv" name="ten_vv%l" order="ma_vv" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục dự án công trình" e="Job List"></header>
+
+  <fields>
+    <field name="ma_vv" allowSorting="true" allowFilter="true">
+      <header v="Mã dự án" e="Job"></header>
+    </field>
+
+    <field name="ten_vv%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên dự án" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

@@ -1,0 +1,8 @@
+﻿<![CDATA[
+if @@action = 'Delete' and exists(select 1 from ctgt20_hddt where stt_rec = @stt_rec) begin
+  declare @$einvMessage nvarchar(4000)
+  select @$einvMessage = case when @@language = 'v' then N'Chứng từ này đã phát hành hóa đơn điện tử, không thể xóa.' else N'This voucher has been published to E-invoice, can not delete.' end
+  select '' as script, @$einvMessage as message
+  return
+end
+]]>

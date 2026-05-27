@@ -1,0 +1,8 @@
+﻿<field name="ma_nk" clientDefault="Default" inactivate="true">
+  <header v="" e=""></header>
+  <items style="AutoComplete" controller="VoucherBook" reference="ten_nk%l" key="status = '1' and ((ma_dvcs = '') or (ma_dvcs = @@unit)) and ((@d &gt;= ngay_hl_tu or ngay_hl_tu is null) and (@d &lt;= ngay_hl_den or ngay_hl_den is null)) and ma_nk in (select ma_nk from v20dmctnk where ma_ct = @@id and (lstuser = '' or charindex(rtrim(@@userName) + ',', replace(lstuser, ' ', '') + ',') &gt; 0))" check="1=1" information="ma_nk$v20dmnk.ten_nk%l"/>
+  <handle reference="so_ct"/>
+</field>
+<field name="ten_nk%l" clientDefault="Default" readOnly="true" hidden="true" external="true" defaultValue="''">
+  <header v="" e=""></header>
+</field>

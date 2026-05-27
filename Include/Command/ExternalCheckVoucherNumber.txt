@@ -1,0 +1,27 @@
+﻿<![CDATA[
+declare @$exists nvarchar(512), @$warning nvarchar(4000), @$idVoucherNumber char(13), @$nextVoucherNumber nvarchar(33), @$checkVoucherNumber nvarchar(4000), @$checkVoucherBook nvarchar(4000)
+select @$warning = '', @$checkVoucherNumber = ''
+select @$exists = case when @@language = 'v' then N'Số chứng từ <span class="Highlight">%s</span> không đúng hoặc đã có trong chứng từ.' else N'The invoice number <span class="Highlight">%s</span> is invalid or already exists.' end
+select @$checkVoucherBook = case when @@language = 'v' then N'Kiểm tra lại ngày hiệu lực của quyển chứng từ <span class="Highlight">%s</span>.' else N'Check the effective date of book vouchers <span class="Highlight">%s</span>.' end
+
+if @ma_nk <> ''
+  if not exists (select 1 from v20dmnk where ma_nk = @ma_nk and ((@ngay_ct >= ngay_hl_tu or ngay_hl_tu is null) and (@ngay_ct <= ngay_hl_den or ngay_hl_den is null))) begin
+    select 'so_ct' as field, replace(@$checkVoucherBook, '%s', replace(replace(replace(rtrim(@ma_nk), '&', '&amp;'), '<', '&lt;'), '>', '&gt;')) as message
+    return
+  end
+
+create table #checkNumber (r int)
+select @so_ct = space(datalength(@so_ct) - len(rtrim(@so_ct))) + rtrim(@so_ct), @$idVoucherNumber = case when @@action = 'New' then '' else @stt_rec end
+insert into #checkNumber exec MaxvOnline$App$CheckVoucherNumber @ma_nk, @@id, @ngay_ct, @so_ct, '@@master', @$idVoucherNumber, @$nextVoucherNumber output
+
+if @$nextVoucherNumber <> '' begin
+  select @$checkVoucherNumber = case when @@language = 'v' then N'<br>Số mới đề nghị là <span class="Highlight">%v</span>, bạn có chọn số chứng từ này không?' else N'<br><span class="Highlight">%v</span> is a system-generated number, do you want to use this number?' end
+  select @$checkVoucherNumber = replace(@$checkVoucherNumber, '%v', replace(replace(replace(rtrim(@$nextVoucherNumber), '&', '&amp;'), '<', '&lt;'), '>', '&gt;'))
+end
+
+if exists(select * from #checkNumber where r = 0) begin
+  if (@$nextVoucherNumber <> '') select 'so_ct' as field, '$Firm' + replace(@$exists, '%s', replace(replace(replace(rtrim(@so_ct), '&', '&amp;'), '<', '&lt;'), '>', '&gt;')) + @$checkVoucherNumber as message, 'this.setItemValue("so_ct", "' + replace(replace(rtrim(@$nextVoucherNumber), '\', '\\'), '"', '\"') + '");this._findButton("Ok").focus();' as script
+    else select 'so_ct' as field, replace(@$exists, '%s', replace(replace(replace(rtrim(@so_ct), '&', '&amp;'), '<', '&lt;'), '>', '&gt;')) as message
+  return
+end else begin if exists(select * from #checkNumber where r = -1) select @$warning = @$warning + replace(@$exists, '%s', replace(replace(replace(rtrim(@so_ct), '&', '&amp;'), '<', '&lt;'), '>', '&gt;')) end
+]]>

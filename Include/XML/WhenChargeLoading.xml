@@ -1,0 +1,6 @@
+﻿<command event="Loading">
+  <text>
+    <![CDATA[select 'this._voucherCode='@@id';load$GridVoucherCharge$(this);' as message
+return]]>
+  </text>
+</command>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vdmtklkvv" code="tk_lkvv" name="ten_tk%l" order="tk_lkvv" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục tài khoản lũy kế dự án" e="Accumulation List"></header>
+
+  <fields>
+    <field name="tk_lkvv" allowSorting="true" allowFilter="true" >
+      <header v="Tài khoản" e="Accumulation"></header>
+    </field>
+
+    <field name="ten_tk%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên tài khoản" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

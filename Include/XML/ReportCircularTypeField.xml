@@ -1,0 +1,12 @@
+﻿<field name="chon_tt" clientDefault="2" categoryIndex="1">
+  <header v="Chọn thông tư" e="Select Circular"/>
+  <items style="DropDownList">
+    <item value="1">
+      <text v="Thông tư số 28" e="Circular No. 28"/>
+    </item>
+    <item value="2">
+      <text v="Thông tư số 156" e="Circular No. 156"/>
+    </item>    
+  </items>
+  <clientScript>&OnSelectionOutline;</clientScript>
+</field>

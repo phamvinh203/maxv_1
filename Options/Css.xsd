@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="css" targetNamespace="urn:schemas-maxv-com:data-css" elementFormDefault="qualified" xmlns="urn:schemas-maxv-com:data-css" xmlns:a="urn:schemas-maxv-com:data-css" xmlns:mstns="urn:schemas-maxv-com:data-css" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="css" type="cssType">
+    <xs:key name="var">
+      <xs:selector xpath="a:font/a:var" />
+      <xs:field xpath="@name"/>
+    </xs:key>
+  </xs:element>
+   
+  <xs:complexType name="cssType">
+    <xs:all maxOccurs="1" minOccurs="1">
+      <xs:element name="report">
+        <xs:complexType>
+          <xs:attribute name="fontName" type="xs:string" use="optional"/>
+          <xs:attribute name="fontSize" type="reportFontSizeType" use="optional"/>
+          <xs:attribute name="textColor" type="xs:string" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="font">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="var" type="varType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="line">
+        <xs:complexType>
+          <xs:attribute name="controlColor" type="xs:string" use="optional"/>
+          <xs:attribute name="color" type="xs:string" use="optional"/>
+          <xs:attribute name="suppress" type="xs:boolean" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="box">
+        <xs:complexType>
+          <xs:attribute name="controlColor" type="xs:string" use="optional"/>
+          <xs:attribute name="color" type="xs:string" use="optional"/>
+          <xs:attribute name="suppress" type="xs:boolean" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="varType">
+    <xs:attribute name="name" type="nameFont" use="required"/>
+    <xs:attribute name="fontName" type="xs:string" use="optional"/>
+    <xs:attribute name="fontSize" type="xs:decimal" use="optional"/>
+    <xs:attribute name="fontStyle" type="fontStyleType" use="optional"/>
+    <xs:attribute name="textColor" type="xs:string" use="optional"/>
+    <xs:attribute name="suppress" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <xs:simpleType name="nameFont">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Company1"/>
+      <xs:enumeration value="Company2"/>
+      <xs:enumeration value="Company3"/>
+      <xs:enumeration value="Company4"/>
+      <xs:enumeration value="Form1"/>
+      <xs:enumeration value="Form2"/>
+      <xs:enumeration value="Form3"/>
+      <xs:enumeration value="Form4"/>
+      <xs:enumeration value="Form5"/>
+      <xs:enumeration value="Guid"/>
+      <xs:enumeration value="Title"/>
+      <xs:enumeration value="SubTitle"/>
+      <xs:enumeration value="GroupHeader1"/>
+      <xs:enumeration value="GroupHeader2"/>
+      <xs:enumeration value="GroupFooter1"/>
+      <xs:enumeration value="GroupFooter2"/>
+      <xs:enumeration value="Header"/>
+      <xs:enumeration value="Detail"/>
+      <xs:enumeration value="Total"/>
+      <xs:enumeration value="SignDated"/>
+      <xs:enumeration value="Position"/>
+      <xs:enumeration value="Signature"/>
+      <xs:enumeration value="FullName"/>
+      <xs:enumeration value="Page"/>
+      <xs:enumeration value="PageFooter"/>
+      <xs:enumeration value="PrintDate"/>
+      <xs:enumeration value="PrintTime"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="nameReport">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="report"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="nameLine">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="line"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="fontStyleType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Bold"/>
+      <xs:enumeration value="Italic"/>
+      <xs:enumeration value="Underline"/>
+      <xs:enumeration value="Bold, Italic"/>
+      <xs:enumeration value="Bold, Underline"/>
+      <xs:enumeration value="Italic, Underline"/>
+      <xs:enumeration value="Bold, Italic, Underline"/>
+      <xs:enumeration value="Regular"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="reportFontSizeType">
+    <xs:restriction base="xs:decimal">
+      <xs:enumeration value="1"/>
+      <xs:enumeration value="2"/>
+      <xs:enumeration value="3"/>
+      <xs:enumeration value="4"/>
+      <xs:enumeration value="5"/>
+      <xs:enumeration value="-1"/>
+      <xs:enumeration value="-2"/>
+      <xs:enumeration value="-3"/>
+      <xs:enumeration value="-4"/>
+      <xs:enumeration value="-5"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

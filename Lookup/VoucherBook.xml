@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="v20dmnk" code="ma_nk" name="ten_nk%l" order="ma_nk" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục quyển chứng từ" e="Voucher Book List"></header>
+
+  <fields>
+    <field name="ma_nk" width="100" allowSorting="true" allowFilter="true" >
+      <header v="Mã quyển" e="Code"></header>
+    </field>
+
+    <field name="ten_nk%l" width="300" allowSorting="true" allowFilter="true">
+      <header v ="Tên quyển" e = "Description"></header>
+    </field>
+
+	<field name="ngay_hl_tu" width="80" type="DateTime" dataFormatString="dd/MM/yyyy">
+      <header v ="Ngày hiệu lực" e = "Start date"></header>
+    </field>
+	
+	<field name="ngay_hl_den" width="80" type="DateTime" dataFormatString="dd/MM/yyyy" >
+      <header v ="Ngày kết thúc" e = "End date"></header>
+    </field>
+	
+  </fields>
+</lookup>

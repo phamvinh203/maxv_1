@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+exec pr_Inctpx1PrintExport @$ngay_ct1, @$ngay_ct2, @$ma_dvcs, @@language, @@userID, @@admin
+Update dmprint set stt_rec_key='' where ma_ct like 'PX1%'
+]]>
+    </text>
+  </query>
+
+  <forms>
+    <form id="110" reportFile="Inctpx1Print_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Phiếu xuất kho" e="Issuing Transaction" />
+      <download >
+        <header v="Phiếu xuất kho" e="Issuing Transaction" />
+      </download>&b;
+    </form>
+ &s;
+  </forms>
+
+
+  <fields>
+    <field name="title">
+      <header v="PHIẾU XUẤT KHO" e="ISSUING TRANSACTION"/>
+    </field>
+
+	<field name="h_so_phieu" type ="String">
+      <header v="Số phiếu:" e="Voucher No.:"/>
+    </field>
+	<field name="h_don_vi" type ="String">
+      <header v="Đơn vị:" e="Company:"/>
+    </field>
+    <field name="h_nguoi_nhan_hang">
+      <header v="Họ tên người nhận hàng:" e="Deliverer:"/>
+    </field>
+    <field name="h_dia_chi">
+      <header v="Địa chỉ:" e="Address:"/>
+    </field>
+    <field name="h_ly_do_xuat">
+      <header v="Lý do xuất kho:" e="Reason for Issuing:"/>
+    </field>
+    <field name="h_xuat_tai_kho">
+      <header v="Xuất tại kho:" e="Issuing Site:"/>
+    </field>
+    <field name="h_dia_diem">
+      <header v="Địa điểm:" e="Location:"/>
+    </field>
+
+    <field name="h_so_ct">
+      <header v="Số:" e="No.:"/>
+    </field>
+    <field name="h_no">
+      <header v="Nợ:"
+              e="Debit:"/>
+    </field>
+    <field name="h_co">
+      <header v="Có:"
+              e="Credit:"/>
+    </field>
+
+    <field name="h_stt">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="h_ma_vt">
+      <header v="Mã hàng" e="Item Code"/>
+    </field>
+    <field name="h_ten_vt">
+      <header v="Tên mặt hàng" e="Item Name"/>
+    </field>
+    <field name="h_dvt">
+      <header v="Đvt" e="UOM"/>
+    </field>
+    <field name="h_so_luong">
+      <header v="Số lượng" e="Quantity"/>
+    </field>
+    <field name="h_gia">
+      <header v="Giá" e="Price"/>
+    </field>
+    <field name="h_tien">
+      <header v="Tiền" e="Amount"/>
+    </field>
+    <field name="h_yeu_cau">
+      <header v="Theo CT" e="Voucher"/>
+    </field>
+    <field name="h_thuc_xuat">
+      <header v="Thực xuất" e="Issued"/>
+    </field>
+
+    <field name="h_xac_nhan">
+      <header v="Số tiền (viết bằng chữ):" e="Amount (in Words):"/>
+    </field>
+    <field name="h_ct_goc">
+      <header v="Số chứng từ gốc kèm theo:" e="No. of Original Document(s)"/>
+    </field>
+
+  </fields>
+</report>

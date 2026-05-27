@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmnhvt" code="ma_nh" name="ten_nh%l" order="ma_nh" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục nhóm hàng hóa - vật tư" e="Item Group List"></header>
+
+  <fields>
+    <field name="ma_nh" allowSorting="true" allowFilter="true" >
+      <header v="Mã nhóm" e="Code"></header>
+    </field>
+
+    <field name="ten_nh%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên nhóm" e = "Description"></header>
+    </field>
+  </fields>
+
+</lookup>

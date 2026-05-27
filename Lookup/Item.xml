@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmvt" code="ma_vt" name="ten_vt%l" order="ma_vt" xmlns="urn:schemas-maxv-com:data-lookup">
+
+  <header v="Danh mục hàng hóa - vật tư" e="Item List"></header>
+
+  <fields>
+    <field name="ma_vt" allowSorting="true" allowFilter="true">
+      <header v="Mã hàng" e="Item Code"></header>
+    </field>
+
+    <field name="ten_vt%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên hàng" e = "Description"></header>
+    </field>
+	<field name="Dvt" allowSorting="true" allowFilter="true">
+      <header v ="Đvt" e = "UOM"></header>
+    </field>
+	<field name="tk_vt" allowSorting="true" allowFilter="true">
+      <header v ="Tk vật tư" e = "Inven Acc"></header>
+    </field>
+	<field name="tk_dt" allowSorting="true" allowFilter="true">
+      <header v ="Tk doanh thu" e = "Revenue Acc"></header>
+    </field>
+	<field name="tk_gv" allowSorting="true" allowFilter="true">
+      <header v ="Tk giá vốn" e = "COGS Acc"></header>
+    </field>
+
+  </fields>
+
+</lookup>

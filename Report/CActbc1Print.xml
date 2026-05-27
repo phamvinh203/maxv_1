@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <query>
+    <text>
+      <![CDATA[
+	exec pr_CActbc1PrintExport @$ngay_ct1, @$ngay_ct2, @$ma_dvcs, '1', @@language, @@userID, @@admin	
+	--Update dmprint set stt_rec_key='' where ma_ct='BC1'
+]]>
+    </text>
+  </query>
+
+  <forms>
+    <form id="010" reportFile="rptPrintCBTRan_01" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Giấy báo có" e="Cash Receipt"></header>
+      <download>
+        <header  v="Giấy báo có" e="Cash Receipt"/>
+      </download>&b;
+    </form>
+    <form id="020" reportFile="rptPrintCBTRan_01" templateFile="" commandArgument="Pdf">
+      <header v="Giấy báo có ngoại tệ" e="Cash Receipt in Foreign Currency"/>
+      <download>
+        <header  v="Giấy báo có ngoại tệ" e="Cash Receipt in Foreign Currency"/>
+      </download>&f;
+    </form>
+
+    <!--&s;
+
+    <form id="030" reportFile="rptPrintCBTRan_03" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Phiếu thu tiền mặt in 2 liên" e="Cash Receipt - 2 Copies Per Sheet"></header>
+      <download>
+        <header  v="Phiếu thu tiền mặt" e="Cash Receipt"/>
+      </download>&b;
+    </form>
+    <form id="040" reportFile="rptPrintCBTRan_03" templateFile="" commandArgument="Pdf">
+      <header v="Phiếu thu tiền mặt tiền ngoại tệ in 2 liên" e="Cash Receipt in Foreign Currency - 2 Copies Per Sheet"/>
+      <download>
+        <header  v="Phiếu thu tiền mặt tiền ngoại tệ" e="Cash Receipt in Foreign Currency"/>
+      </download>&f;
+    </form>-->
+  </forms>
+
+  <fields>
+    <field name="title" type="String">
+      <header v="PHIẾU THU" e="CASH RECEIPT"/>
+    </field>
+    <field name="h_line1" type="String">
+      <header v="Mẫu số 01-TT" e="Form 01-TT"></header>
+    </field>
+    <field name="h_line2" type="String">
+      <header v="(Ban hành theo QĐ số:" e="(According to Decision No.:"/>
+    </field>
+    <field name="h_line3" type="String">
+      <header v="15/2006/QĐ-BTC ngày 20/03/2006" e="15/2006/QĐ-BTC Dated March 20th 2006"/>
+    </field>
+    <field name="h_line4" type="String">
+      <header v="của Bộ trưởng BTC)" e="of Ministry of Finance)"/>
+    </field>
+    <field name="h_quyen" type="String">
+      <header v="Quyển số:" e="Book No.:"/>
+    </field>
+    <field name="h_so_ct" type="String">
+      <header v="Số:" e="Voucher No.:"></header>
+    </field>
+    <field name="h_so_tien"  type="String">
+      <header  v="Số tiền:" e="Amount:"/>
+    </field>
+    <field name="h_nguoi_nop" type="String">
+      <header v="Họ và tên người nộp tiền:" e="Customer:"></header>
+    </field>
+    <field name="h_dia_chi" type="String">
+      <header v="Địa chỉ:" e="Address:"></header>
+    </field>
+    <field name="h_dien_giai" type="String">
+      <header v="Lý do nộp:" e="Description:"></header>
+    </field>
+    <field name="h_kem_theo" type="String">
+      <header v="Kèm theo:" e="Enclosed:"></header>
+    </field>
+    <field name="h_xac_nhan" type="String">
+      <header v="Đã nhận đủ số tiền (viết bằng chữ):" e="Received Full(in Words):"></header>
+    </field>
+    <field name="h_bang_chu" type="String">
+      <header v="Bằng chữ:" e="In Words:"></header>
+    </field>
+    <field name="h_ct_goc" type="String">
+      <header v=" Chứng từ gốc: " e=" Orginal voucher(s): "></header>
+    </field>
+    <field name="h_ty_gia" type="String">
+      <header v="Tỷ giá ngoại tệ:" e="Exchange Rate:"/>
+    </field>
+    <field name="h_tien_qd" type="String">
+      <header v="Số tiền qui đổi:" e="Equivalent Amount:"/>
+    </field>
+    <field name="h_nguoi_nop_tien" type="String">
+      <header v="NGƯỜI NỘP TIỀN" e="CUSTOMER"></header>
+    </field>
+  </fields>
+</report>

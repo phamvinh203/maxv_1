@@ -1,0 +1,10 @@
+﻿<action id="Customer">
+  <text>
+    <![CDATA[
+if exists(select 1 from dmkh where ma_kh = @ma_kh) begin
+  select rtrim(doi_tac) as ong_ba from dmkh where ma_kh = @ma_kh
+  return
+end
+]]>
+  </text>
+</action>

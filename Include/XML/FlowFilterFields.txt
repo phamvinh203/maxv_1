@@ -1,0 +1,20 @@
+﻿<field name="ngay_ct1" type="DateTime" dataFormatString="@datetimeFormat" align="left" allowNulls="false" aliasName="fromDate" defaultValue="new Date()">
+  <header v="&c11;" e="&c12;"></header>
+</field>
+<field name="so_ct" align="right" maxLength="-100" filterSource="voucherNumber" allowNulls="false">
+  <header v="&c21;" e="&c22;"></header>
+  <items style="AutoComplete" controller="&Identity;Lookup" reference="stt_rec_ct"/>
+</field>
+<field name="stt_rec_ct" readOnly="true" defaultValue="''" hidden="true">
+  <header v="" e=""></header>
+</field>
+
+<field name="ngay_ct2" type="DateTime" dataFormatString="@datetimeFormat" align="left" readOnly="true" hidden="true">
+  <header v="" e=""></header>
+</field>
+<field name="ma_kh" readOnly="true" defaultValue="''" hidden="true">
+  <header v="" e=""></header>
+</field>
+<field name="ma_dvcs" readOnly="true" defaultValue="''" hidden="true">
+  <header v="" e=""></header>
+</field>

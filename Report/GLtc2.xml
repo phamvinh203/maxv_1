@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE report [
+  <!ENTITY b SYSTEM ".\Include\BaseCurrency.xml">
+  <!ENTITY f SYSTEM ".\Include\ForeignCurrency.xml">
+  <!ENTITY s SYSTEM ".\Include\Separate.xml">
+
+  <!ENTITY p "../images/pdf.gif">
+  <!ENTITY e "../images/excel.gif">
+]>
+
+<report xmlns="urn:schemas-maxv-com:data-report">
+  <forms>
+
+	<form id="110" reportFile="GLtc2_110" templateFile="" commandArgument="Pdf" urlImage="&p;">
+      <header v="Báo cáo kết quả sản xuất kinh doanh " e="Income Statement - Year"></header>
+      <download>
+        <header v="Báo cáo kết quả sản xuất kinh doanh " e="Income Statement - Year"/>
+      </download>&b;
+    </form>  
+		
+    <form id="120" reportFile="GLtc2_120" templateFile="" commandArgument="Pdf" >
+      <header v="Báo cáo kết quả sản xuất kinh doanh giữa niên độ" e="Income Statement - Mid-Year"></header>
+      <download>
+        <header v="Báo cáo kết quả sản xuất kinh doanh giữa niên độ" e="Income Statement - Mid-Year"/>
+      </download>&b;
+    </form>
+	
+    <form id="210" reportFile="GLtc2_110" templateFile="" commandArgument="Pdf" >
+      <header v="Báo cáo kết quả sản xuất kinh doanh ngoại tệ" e="Income Statement - Year in Foreign Currency"></header>
+      <download>
+        <header v="Báo cáo kết quả sản xuất kinh doanh tiền ngoại tệ" e="Income Statement - Year in Foreign Currency"/>
+      </download>&f;
+    </form>
+	
+    <form id="220" reportFile="GLtc2_120" templateFile="" commandArgument="Pdf" >
+      <header v="Báo cáo kết quả sản xuất kinh doanh giữa niên độ ngoại tệ" e="Income Statement - Mid-Year in Foreign Currency"></header>
+      <download>
+        <header v="Báo cáo kết quả sản xuất kinh doanh giữa niên độ ngoại tệ" e="Income Statement - Mid-Year in Foreign Currency"/>
+      </download>&f;
+    </form>
+	
+    &s;
+    <form id="510" reportFile="" templateFile="GLtc2_110" commandArgument="Excel" urlImage="&e;" rowFilter="[2$sysprint = 1]">
+      <header v="Báo cáo kết quả sản xuất kinh doanh" e="Income Statement - Year"></header>
+      <download>
+        <header v="Báo cáo kết quả sản xuất kinh doanh" e="Income Statement - Year"/>
+      </download>
+    </form>
+	
+    <form id="520" reportFile="" templateFile="GLtc2_120" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+      <header v="Báo cáo kết quả sản xuất kinh doanh giữa niên độ" e="Income Statement - Mid-Year"></header>
+      <download>
+        <header v="Báo cáo kết quả sản xuất kinh doanh giữa niên độ" e="Income Statement - Mid-Year"/>
+      </download>
+    </form>
+	
+	
+    <form id="610" reportFile="" templateFile="GLtc2_210" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+      <header v="Báo cáo kết quả sản xuất kinh doanh ngoại tệ" e="Income Statement - Year in Foreign Currency"></header>
+      <download>
+        <header v="Báo cáo kết quả sản xuất kinh doanh ngoại tệ" e="Income Statement - Year in Foreign Currency"/>
+      </download>
+    </form>	
+
+    <form id="620" reportFile="" templateFile="GLtc2_220" commandArgument="Excel" rowFilter="[2$sysprint = 1]">
+      <header v="Báo cáo kết quả sản xuất kinh doanh giữa niên độ ngoại tệ" e="Income Statement - Mid-Year in Foreign Currency"></header>
+      <download>
+        <header v="Báo cáo kết quả sản xuất kinh doanh giữa niên độ ngoại tệ" e="Income Statement - Mid-Year in Foreign Currency"/>
+      </download>
+    </form>
+</forms>
+  
+  <fields>
+    <field name="title" type="String">
+      <header v="BÁO CÁO KẾT QUẢ SẢN XUẤT KINH DOANH" e="INCOME STATEMENT"/>
+    </field>
+    <field name="h_quy" type="String">
+      <header v="Quý" e="Quarter"/>
+    </field>
+    <field name="h_year" type="String">
+      <header v="Năm" e="Year"/>
+    </field>
+    <field name="h_year1" type="String">
+      <header v="năm" e="year"/>
+    </field>
+    <field name="h_chi_tieu" type="String">
+      <header v="Chỉ tiêu" e="Norm"/>
+    </field>
+    <field name="h_ma_so" type="String">
+      <header v="Mã số" e="Code"/>
+    </field>
+    <field name="h_thuyet_minh" type="String">
+      <header v="Thuyết minh" e="Interpretation"/>
+    </field>
+    <field name="r_ngay_lap" type="String">
+      <header v="Lập, ngày ........ tháng ....... năm ............." e="Date Created ......../........./....................."/>
+    </field>
+    <field name="h_dvt" type="String">
+      <header v="Đơn vị tính:" e="Currency Unit:"/>
+    </field>      
+    <field name="h_lk_nt" type="String">
+      <header v="Lũy kế từ đầu năm đến cuối kỳ (nt)" e="Accu. from Beginning of Year (FC)"/>
+    </field>
+    <field name="h_lk2" type="String">
+      <header v="Lũy kế từ đầu năm đến cuối quý này" e="Accu. from Beginning of Year"/>
+    </field>
+    <field name="nt" type="String">
+      <header v="(nt)" e="(FC)"/>
+    </field>
+    <field name="h_space" type="String">
+      <header v=" " e=" "/>
+    </field>
+    <field name="h_nam_nay" type="String">
+      <header v="Năm nay" e="Current Year"/>
+    </field>
+    <field name="h_nam_truoc" type="String">
+      <header v="Năm trước" e="Previous Year"/>
+    </field>
+    <field name="h_space" type="String">
+      <header v=" " e=" "/>
+    </field>
+  </fields>
+</report>

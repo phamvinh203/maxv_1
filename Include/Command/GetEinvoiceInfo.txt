@@ -1,0 +1,10 @@
+﻿  declare @mau_hddt varchar(33), @so_seri_hddt varchar(33), @so_hd_hddt varchar(33), @ngay_ky_hddt datetime, @status_hddt nvarchar(255)
+if @@action = 'Edit' and exists(select 1 from cthddt where stt_rec = @stt_rec) begin
+	select @mau_hddt = isnull(mau_hoa_don,''), @so_seri_hddt = isnull(rtrim(ltrim(so_seri)),''), @so_hd_hddt = isnull(so_hoa_don,''), @ngay_ky_hddt = isnull(ngay_ky,getdate()), @status_hddt = isnull(rtrim(ltrim(status)),'') from cthddt where stt_rec = @stt_rec
+  end
+ else 
+	begin
+		select @mau_hddt ='', @so_seri_hddt = '', @so_hd_hddt = '', @ngay_ky_hddt = getdate(), @status_hddt = ''
+	end
+
+select @message = 'this._mau_hddt=''' + @mau_hddt + ''';this._so_seri_hddt=''' + @so_seri_hddt + ''';this._so_hd_hddt=''' + @so_hd_hddt + ''';this._ngay_ky_hddt=''' + convert(char(10), @ngay_ky_hddt, 126) + ''';this._status_hddt=''' + @status_hddt + ''';' + @message
