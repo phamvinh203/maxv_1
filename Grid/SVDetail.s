@@ -44,12 +44,6 @@
 
     <field name="dvt2" width="50" aliasName="a" readOnly="true">
       <header v="Đvt 2" e="UOM *"></header>
-      <items style="AutoComplete" controller="UOMItem" reference="ten_dvt%l" key="(ma_vt = '{$%c$%r.[ma_vt]}' or ma_vt = '*')" information="dvt$vdmvtqddvt.ten_dvt%l" normal="true"/>
-      <handle key="[nhieu_dvt]"/>
-      <clientScript><![CDATA[<encrypted>w4PMMhDwbdhdLsYtYCOa41mWlv8nQolKWziiEBjOIPO5Vu7zotkPNh5UDN2V7J3FvVhxkFLSxLNK45HvA2sFImSqzms1JcVt8xLVy+uouIk=</encrypted>]]></clientScript>
-    </field>
-    <field name="ten_dvt%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
-      <header v="" e=""></header>
     </field>
 
     <field name="so_luong2" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="80">
@@ -69,6 +63,11 @@
 	
     <field name="so_luong_hh" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="80">
       <header v="SL hao hụt" e="Quantity 2"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="he_so2" type="Decimal" width="0" inactivate="true" hidden="true" dataFormatString="@quantityInputFormat" clientDefault="0" aliasName="a">
+      <header v="" e="das"></header>
       <items style="Numeric"/>
     </field>
 
@@ -138,7 +137,7 @@
     </field>
 
     <field name="so_luong" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="80">
-      <header v="Số lượng" e="Quantity"></header>
+      <header v="SL bán thực tế" e="Quantity"></header>
       <items style="Numeric"/>
       <clientScript><![CDATA[<encrypted>w4PMMhDwbdhdLsYtYCOa41mWlv8nQolKWziiEBjOIPOqKYjGjeQ2B720vXiYhNo2aXrKV+GKZaM0F5zqnH2gIgrIagCNh2Gk44+hrme8DzQ=</encrypted>]]></clientScript>
     </field>
@@ -374,6 +373,7 @@
       <field name="ten_lo%l"/>
 
       <field name="ton13"/>
+	  <field name="he_so2"/>
 
       <field name="so_luong2"/>
 	  <field name="so_luong2_nl"/>
@@ -542,6 +542,18 @@
     </button>
 	
 
+    <button command="Retrieve">
+      <title v="Toolbar.Retrieve" e="Toolbar.Retrieve"></title>
+      <menuItems>
+        <menuItem commandArgument="10" urlImage="../images/Menu/SalesOrder.png">
+          <header v="Lấy số liệu từ đơn hàng"  e="Extract Data from Sales Order"/>
+        </menuItem>
+        <menuItem commandArgument="20">
+          <header v="-"  e="-"/>
+        </menuItem>
+
+      </menuItems>
+    </button>	
     <button command="Separate">
       <title v="-" e="-"/>
     </button>
