@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<lookup table="dmvt" code="dvt" name="ten_dvt%l" order="dvt" xmlns="urn:schemas-maxv-com:data-lookup">
+<lookup table="vdmvtqddvt" code="vt_dvt2" name="ten_dvt2_l" order="vt_dvt2" xmlns="urn:schemas-maxv-com:data-lookup">
 
-  <header v="Danh mục đơn vị tính" e="Unit of Measures"></header>
+  <header v="Đơn vị tính 2" e="Unit of Measure 2"></header>
 
   <fields>
-    <field name="dvt" allowSorting="true" allowFilter="true" >
-      <header v="Đvt" e="UOM"></header>
+    <field name="vt_dvt2" allowSorting="true" allowFilter="true" >
+      <header v="Đvt 2" e="UOM 2"></header>
     </field>
 
-    <field name="ten_dvt%l" allowSorting="true" allowFilter="true">
-      <header v ="Diễn giải" e = "Description"></header>
+    <field name="ten_dvt2_l" allowSorting="true" allowFilter="true">
+      <header v="Diễn giải" e="Description"></header>
     </field>
-
 
   </fields>
 

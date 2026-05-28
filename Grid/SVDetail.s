@@ -40,9 +40,14 @@
       <items style="Numeric"/>
     </field>
 
-    <field name="dvt2" width="50" aliasName="a" readOnly="true">
+    <field name="dvt2" allowNulls="false" width="50" aliasName="a">
       <header v="Đvt 2" e="UOM 2"></header>
-      <items style="AutoComplete" controller="UOM" reference="ten_dvt%l" key="status = '1'" check="1 = 1" information="dvt$dmdvt.ten_dvt%l" normal="true"/>
+      <items style="AutoComplete" controller="UOMItem2" reference="ten_dvt2_l" key="(ma_vt = '{$%c$%r.[ma_vt]}' or ma_vt = '*')" information="dvt2$vdmvtqddvt.ten_dvt2_l" normal="true"/>
+      <handle key="[nhieu_dvt]"/>
+      <clientScript><![CDATA[<encrypted>w4PMMhDwbdhdLsYtYCOa41mWlv8nQolKWziiEBjOIPO5Vu7zotkPNh5UDN2V7J3FvVhxkFLSxLNK45HvA2sFImSqzms1JcVt8xLVy+uouIk=</encrypted>]]></clientScript>
+    </field>
+    <field name="ten_dvt2_l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
     </field>
     <field name="so_luong2" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="80">
       <header v="Số lượng 2" e="Quantity 2"></header>
@@ -357,6 +362,7 @@
       <field name="ma_vt"/>
       <field name="ten_vt%l"/>
       <field name="dvt2"/>
+      <field name="ten_dvt2_l"/>
       <field name="dvt"/>
       <field name="km_yn"/>
       <field name="ten_dvt%l"/>
