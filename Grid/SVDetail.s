@@ -26,6 +26,7 @@
     <field name="ten_vt%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="250" aliasName="b">
       <header v="Tên mặt hàng" e="Item Description"></header>
     </field>
+    
     <field name="dvt" allowNulls="false" width="50" aliasName="a">
       <header v="Đvt" e="UOM"></header>
       <items style="AutoComplete" controller="UOMItem" reference="ten_dvt%l" key="(ma_vt = '{$%c$%r.[ma_vt]}' or ma_vt = '*')" information="dvt$vdmvtqddvt.ten_dvt%l" normal="true"/>
@@ -35,6 +36,7 @@
     <field name="ten_dvt%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
       <header v="" e=""></header>
     </field>
+
     <field name="he_so" type="Decimal" width="0" inactivate="true" hidden="true" dataFormatString="@quantityInputFormat" clientDefault="0" aliasName="a">
       <header v="" e=""></header>
       <items style="Numeric"/>

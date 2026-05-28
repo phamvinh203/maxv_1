@@ -31,7 +31,7 @@ insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', 
     <field name="dvt" width="60" allowSorting="true" allowFilter="true">
       <header v="Đvt" e="UOM"></header>
     </field>
-    <field name="he_so" type="Decimal" width="80" allowSorting="true" allowFilter="true" dataFormatString="@baseCurrencyAmountViewFormat">
+    <field name="he_so2" type="Decimal" width="80" allowSorting="true" allowFilter="true" dataFormatString="@baseCurrencyAmountViewFormat" >
       <header v="Hệ số" e="He so"></header>
     </field>
 	<field name="loai_vt" width="60" allowSorting="true" allowFilter="true">
@@ -83,7 +83,7 @@ insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', 
       <field name="ten_vt%l"/>
       <field name="dvt2"/>
       <field name="dvt"/>
-	  <field name="he_so"/>
+	  <field name="he_so2"/>
 	  <field name="loai_vt"/>
       <field name="gia_ton"/>
       <field name="tk_vt"/>

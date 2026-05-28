@@ -28,6 +28,8 @@
     <field name="ten_dvt%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" hidden="true" categoryIndex="1">
       <header v="" e=""></header>
     </field>
+
+
     <field name="nhieu_dvt" type="Boolean" categoryIndex="1">
       <header v="Nhiều đvt" e="Multi-UOM"></header>
     </field>
@@ -46,7 +48,7 @@
       <header v="Đvt 2" e="Unit 2"></header>
       <items style="AutoComplete" controller="UOM" normal="true" key="status = '1'" check="1 = 1" />
     </field>
-    <field name="he_so" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="1" >
+    <field name="he_so2" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="1" >
       <header v="Hệ số quy đổi" e="Hệ số"></header>
       <items style="Numeric"/>
     </field>
@@ -268,7 +270,7 @@
       <item value="10100111: [dvt].Label, [dvt], [nhieu_dvt], [nhieu_dvt].Label, [ten_dvt%l]"/>
       <item value="111101100: [vt_ton_kho], [vt_ton_kho].Label, [lo_yn], [lo_yn].Label, [kk_yn], [kk_yn].Label"/>
 	  
-	    <item value="10100101: [dvt2].Label, [dvt2], [he_so].Label, [he_so]"/>
+	    <item value="10100101: [dvt2].Label, [dvt2], [he_so2].Label, [he_so2]"/>
 	  
 	  
       <item value="1010000: [gia_ton].Label, [gia_ton]"/>
