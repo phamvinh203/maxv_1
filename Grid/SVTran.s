@@ -10,11 +10,11 @@
   <!ENTITY CommandExternalFromClause SYSTEM "..\Include\Command\ExternalFromClause.txt">
   
   <!ENTITY DowloadScript SYSTEM "..\Include\Javascript\DownloadScript.txt">
-  <!ENTITY TransferID "SVTran">
+  <!ENTITY TransferID "Item">
   <!ENTITY CreateTicket "declare @ticket varchar(32), @filename varchar(128), @description nvarchar(128)
 select @ticket = lower(replace(newid(),'-',''))
-if @@language = 'v' select @filename = 'SVMaster1.xlsx', @description = N'Hóa đơn bán hàng'
-else select @filename = 'SVMaster12.xlsx', @description = N'Sales Invoice'
+if @@language = 'v' select @filename = 'SVMaster.xlsx', @description = N'Hóa đơn bán hàng'
+else select @filename = 'SVMaster2.xlsx', @description = N'Sales Invoice'
 insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', @filename, @description, '@@appDatabaseName', getdate());">
 ]>
 

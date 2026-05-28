@@ -33,7 +33,9 @@
               <xs:element name="ngay" type="xs:string" minOccurs="0" />
               <xs:element name="thang" type="xs:string" minOccurs="0" />
               <xs:element name="nam" type="xs:string" minOccurs="0" />
-			  <xs:element name="dien_giai" type="xs:string" minOccurs="0" />			  
+			  <xs:element name="dien_giai" type="xs:string" minOccurs="0" />	
+		      <xs:element name="tien_no_cu" type="xs:decimal" minOccurs="0" />		
+		      <xs:element name="tien_no_cu_nt" type="xs:decimal" minOccurs="0" />			  
             </xs:sequence>
           </xs:complexType>
         </xs:element>

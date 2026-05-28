@@ -48,6 +48,7 @@
   <!ENTITY InsertHistoryVoucher SYSTEM "..\Include\Command\InsertHistoryVoucher.txt">
   <!ENTITY XMLUserDefinedMasterFields SYSTEM "..\Include\XML\UserDefinedMasterFields.txt">
   
+  <!ENTITY CommandEinvoiceDelete SYSTEM "..\Include\Command\EinvoiceDelete.txt">
   <!ENTITY CommandGetEinvoiceInfo SYSTEM "..\Include\Command\GetEinvoiceInfo.txt">
   <!ENTITY CommandCheckEinvoiceBeforeUpdate SYSTEM "..\Include\Command\WhenEinvoiceBeforeEdit.txt">
   <!ENTITY CommandCheckEinvoiceBeforeDelete SYSTEM "..\Include\Command\WhenEinvoiceBeforeDelete.txt">
@@ -425,6 +426,18 @@ END
       <header v="" e=""></header>
       <items style="Numeric"/>
     </field>
+	
+	<field name="t_tien_khay_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" categoryIndex="9" disabled="true">
+      <header v="Tổng tiền khay" e="COGS Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="t_tien_khay" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" categoryIndex="9" disabled="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+	
+	
+	
     &XMLUserDefinedMasterFields;
     <field name="ma_dvcs" hidden="true" readOnly="true">
       <header v="" e=""></header>
@@ -520,7 +533,8 @@ END
       <item value="110000000-1-10-1: [dia_chithue].Label, [dia_chithue],[t_tc_tien_nt2].Label, [t_tc_tien_nt2], [t_tc_tien2]"/>
       <item value="110000000-1-10-1: [ma_so_thue].Label, [ma_so_thue],[t_ck_nt].Label, [t_ck_nt], [t_ck]"/>
       <item value="110000000-1-10-1: [ten_vtthue].Label, [ten_vtthue], [t_km_nt].Label, [t_km_nt], [t_km]"/>
-      <item value="110000000----11-: [ghi_chuthue].Label, [ghi_chuthue], [ma_dvcs], [cookie]"/>
+      <item value="110000000-1-10-1: [ghi_chuthue].Label, [ghi_chuthue],[t_tien_khay_nt].Label, [t_tien_khay_nt],[t_tien_khay]"/>
+	  <item value="11: [ma_dvcs], [cookie]"/>
 
 	  <item value="110----: [mau_hddt].Label, [mau_hddt]"/>
 	  <item value="110---: [so_seri_hddt].Label, [so_seri_hddt]"/>
@@ -541,13 +555,13 @@ END
         <category index="1" columns="789" anchor="1">
           <header v="Chi tiết" e="Detail"/>
         </category>
-        <category index="9" columns="100, 50, 70, 100, 25, 20, 80, 0, 0, 0, 100, 20, 50, 50, 8, 100" anchor="6" split="10">
+        <category index="9" columns="100, 50, 70, 100, 25, 20, 80, 0, 0, 0, 100, 20, 50, 50, 8, 100,2" anchor="6" split="10">
           <header v="Khác" e="Other"/>
         </category>	
-	   <category index="12" columns="120, 30, 90, 20,30, 150, 30,80, 80, 80, 80,80,80,80" anchor="8" split="16">
+	   <category index="12" columns="120, 30, 90, 20,30, 150, 30,80, 80, 80, 80,80,80,80,0" anchor="8" split="16">
           <header v="Xuất khẩu" e="Export"/>
         </category>	
-	   <category index="10" columns="120, 30, 70, 20,30, 150, 50,80, 30, 30, 50,120,180,180" anchor="8" split="12">
+	   <category index="10" columns="120, 30, 70, 20,30, 150, 50,80, 30, 30, 50,120,180,180,0" anchor="8" split="12">
           <header v="HĐĐT" e="E-Invoice"/>
         </category>	
         <category index="-1" columns="100, 30, 70, 35, 65, 0, 0, 37, 100, 100, 8, 58, 42, 8, 100" anchor="6">
@@ -667,11 +681,12 @@ END
         <![CDATA[<encrypted>0Uwf7eyRyHmbr85TV5ncQ1GlxQLQiAUxT5iGMLQkTrxFlZXhp3V88KGzYVwIfRMQ1cOSIzw1+4kRW3/mkCrYH8uj7NwazHyZDYSGgEsKNMGDOlNK7jzHlrCKEhGEgioBZsR5GrlDEctDJjUZ3ZJFHxI7GywLD1XbFaQ9aSB7xuw=</encrypted>]]>
         &BeforeVoucherUpdate;
 		&InsertHistoryVoucher;
-        <![CDATA[<encrypted>gf1kCmGzopQeffAMFVthPHHmfe8Wj4iI6CovYn6vXIXzRQ+HwaTSVXinKKm0hmGy9mP2aZLRHWYO9hKYjEFxnReYpeP8lFV6y7OL3YZm7+bomOUCh7CPLcPEa/MpIbrgj0mGa8XuVKgj84lTp/16pg+HD+6AUYbydCk0X1jH7xXnnYZUiIEKZrezPLVQZVV2B0c/7+dIoTR+Lf+d/hOewzEYs85T83s/fMX1m6NQoxQ=</encrypted>]]>
+        <![CDATA[<encrypted>N48N8EMXpHnLcQdkuCcKw+867PysvgQOHJKLPSZ0Aak2hM5p7SwTSeX4fuJ78MjAttRtkI0an1sFVNTUSPYm1MaRPREKv9QYYBCd+Ixr33GCUCaTHQvlU6I0Q8uSUvNpBrhoCRljVg9BITBy9nhjcBm7bHL65zZFnz6nStHYVSE=</encrypted>]]>
         &DeclareStock4Delete;
         &DeleteCurrentStock;
         &BeforeUpdateCurrentCustomerBalance;
         &Delete;
+		&CommandEinvoiceDelete;
       </text>
     </command>
 
@@ -688,7 +703,7 @@ END
       &ScriptVoucherInit;
       <![CDATA[<encrypted>exp1iiivU9XbL1PDvjdpWxxMsceJOca2knPZHhSNxUxdP71bBdm5u9Ehhs4kVVS86MfU2bvIdHD+hArj7qQd5Rjgo2Er5/TJhH0k3Bi80yJLatxlBaLEKe/PBvL326Utw8zBlj6j+r1dWFgLy7rU+w==</encrypted>]]>&ScriptActiveVoucher;<![CDATA[<encrypted>uhrlcb6HDys5Ngs60yFcJo9Va/eizbJd0xlyuWA48x+AkKb3OSkPI2ruHGbQNgFgf3LT4vFlNH+CdEmGgWP7YGkj8oUc0t6YjT4PeKIg2MZ8GlTg1/CxIxksqwug/DpTyDnrMWWSFfZfcur4YVofYJg/WScScdfAh3L/AGAtuiCp1Do7rt3UtBf8GwzaoXenuk3IfSxNLXRIzi5VXW9P9t8Mch0spM3Sw/jdzeW1I8Q=</encrypted>]]>&ScriptEinvoiceInfo;<![CDATA[<encrypted>z6XAeCe9Xbs0uyHGQIy3OGDNXw9zsXMI28eumAYuvWSvurQf6XxJU/ptgp5+43PbNFSUar6ROQxKUT08Xc9Iiw==</encrypted>]]>&ScriptScatterVoucher;<![CDATA[<encrypted>GlNezHyxcs72OQckj4rk/CnyiwbAodnUcUKG555cxJIDn8MiB00oX7rX78SOvDk3Zu7hL9FOP+doXIzJW2pCl60fZITUIVbg3miiCmm8wOqgIMciv9jBcAn2/I29d0QwRMOu+DGrenytc0teE7lih7hU+VokpK1HJpOkROIKIcY=</encrypted>]]>&ScriptCloseVoucher;<![CDATA[<encrypted>tnlkDzDm6NZ1Xbr2dA1GVGj3hLFU6npJhCYZuNfOvXRVhmz9GR1onNafx6SudaLIR4ivsVWmKSH1waf8Bthf0Htb3y+/aqfkOjacMwIiI6ZJAyYqtK4KJftbROJigiq1PzPkJ8dJaXs24qKKFp8KgyadzJAN+bVwGrCLGX7cKSJo4dOhZkQD0s3q2ozjM2Bn5VN1iq7SMu96ZvtEpoNuqbWvFxNE1v7PIVcgmt7klHj1s/G9evF+cPG9ZJ7SxRK9e3uFaPF89QY1UEmoFX5POBwN0aq+UeUewq9xBrR47Uy5uQRBgvOyPixk0gpDLTVLRc7EQ+jSVKxd95gZJB19CP8o7rqEpp1mIbGVwQg0/2pfjgw8c8MyZXlwGVd9cVR3GApm4JrARUQhT87PUTZw5IUBEcuiewk1R9hpS1daKH7V0/cCnZIi910XRibDjiPn</encrypted>]]>
       &ScriptVoucherNumber;
-      <![CDATA[<encrypted>RjfnShfRnmUAOqIJwPBFfQWGUoxMQH8ungZuvHLZ5m/dwF1vzo1uI7ozx8hPZCbcPYqhSTTSW3KvEgkvau2dwQ==</encrypted>]]>&ScriptCurrency;<![CDATA[<encrypted>dt+cIaOLYb9Ie4e9SUKOxUFKpMj+ZfA+Pg3xEKAULjBdsBqQErsnNRBi6OeOqBE72/paUrtsPPEHCdT6uVR+XB1Kpqr4J+Dp1NPJ4JSTHltZy8XYfDxmJjMM9+a3QcLIf8a+ZQbeWL0A68Dljgs+afAJOzaRs916l6uxle7S9OK5+06ThgU1v04Vqi/rUxPP98xUNrT5s1/DsTJXHcnuM68OxbaV0TvUrOsRQYtrvCifmt2qXUubhredHn/BLjaAB2gmPBr193KYThUzRWLZssNp8SQ1ZJHoMoA96vq/KoNIT8/TiY9as05vvJ/lje9dvl2dHeJ0HUyhyllnfj0sVMkgL7Ou1zKOUJKQO0qPEzKE2tnHKr6EvXp9Q6DRVTx6sN9L1YbZ16jIPjYaSAYmeep9dC/1KIZ2TNMxrBX4/hK9dXITKWd2nF3n0mq/FVdX4+4892hpxo3/m5/FPFfKnwguq0Bqdk+dFUlm4bZWjKYi2pMeNK+EbEbwAFC7A0yb2f3Q1tyGyioZNI/E1+cfaiRr9hUv719QD8e1Nch9rpCWVVjBYEQMHbNycyShSEPdWL5tkcAC3+WeI6XH4pMMlez79NRXkd/huXFcRjgJP93Zl8FT+3yQ0hHyCmOEc+vgRIQa+J4RqntWbRqV1SAvUQ==</encrypted>]]>&CurrencyDateChanged;<![CDATA[<encrypted>dZuKR/jq1Bazi7Oxu3xsAS81FITgWbB6JAQfC2wmwKSYO27iBqKiicZEp0/ZGCgty9GB0bZEfOAe7r7okZWp/BYEdqzcy97qu+8vj/+rwb0WwwDrxAJynqdScZ7FMcvBoX+zATvOhD8a/1dAiherBAxWVRuc3YLw0HDNnj7RpicjVemEwEi7tzs0u7OexAR1s7AbMTCRy5FAs2tZCVXp/g==</encrypted>]]>
+      <![CDATA[<encrypted>RjfnShfRnmUAOqIJwPBFfQWGUoxMQH8ungZuvHLZ5m/dwF1vzo1uI7ozx8hPZCbcPYqhSTTSW3KvEgkvau2dwQ==</encrypted>]]>&ScriptCurrency;<![CDATA[<encrypted>CVgG36EqrVfmiruEeCFww7F0wNYFDKh8t6K4X/CZQl/DEXlIVSktIpSZ5isPx/t6mp4dNTae5ooBExOH0/q1YQJ2I3FH8sxstvZiSHPaPFdWRS3V3BH++WruRFbB6n2+pmWlX/yIOv80rosRzcYkWb2Kkoc8mv4tsyGu2FoiE9T8NQQIhC+so0X6DtgnwsGMVpk/S6Hw80FmOU9WhVKyAdsCQsm1osSKZAdpIFLqDcNYEtg5hlPilBH7YXJbd/070j6csjSAZFUbtDBf6YMFrM24u+O/iaLmxrqFPTJ4qsyAYLr4geUEKPIy6RWeuZ3yVdnhg9rlfMIAvrZ1CrVHipTsa5jfZOcMDnB7Ok3upOYDlsPD7sH5reB1hCvXCuzeY7hfXYQNYxDVswmsGdJT3N3K0TFxccUk32q8lmMejwFoqJ7m7TRSm6+ayuL9EN82SzJn8CPWAjKpA2vagNVuHItdboB+yyUvzPDoE5LUUfffq5xKwuqpbruNpv4nU6rWCAyyOSJRp+0P6cMhaJLYmb9kjJoh+WK8G4QcPzPfBW9dVTKvjGE6wDaFBhumh5XW0YtI8+yoUBbKvhn0yfYlFyhseT2BsO+fDqdkhjWl0AnffREXRZZ6FZNrOkCLMVHEHTWiXEO+JKNCuwoA0xxOCJGVAk80mYcl52Fy7xM8nzUbGQDLd2AshOIdSpvJ3Sgo</encrypted>]]>&CurrencyDateChanged;<![CDATA[<encrypted>dZuKR/jq1Bazi7Oxu3xsAS81FITgWbB6JAQfC2wmwKSYO27iBqKiicZEp0/ZGCgty9GB0bZEfOAe7r7okZWp/BYEdqzcy97qu+8vj/+rwb0WwwDrxAJynqdScZ7FMcvBoX+zATvOhD8a/1dAiherBAxWVRuc3YLw0HDNnj7RpicjVemEwEi7tzs0u7OexAR1s7AbMTCRy5FAs2tZCVXp/g==</encrypted>]]>
       <![CDATA[<encrypted>xG3pRVKrax+rDV9DbnJGwVOs5ZL7bLIPx8wJUfO/HajgG5FXkA5RXRqYpzUBOxIOhhkFDECIuVyHYqrHfTdOUUAiUnMlO7eU5qtbzauzBPIs6S7ilXg8LhuU/dU2BJd8G4cD/fAH1dfCOSHyx6V+6JN1wIKvllt5eytg2K3y9Z8TbwKaCs1/HHkPnvlhTMfuWEEZEuO8z5rixIKGuPjpCEsJlOd3vsj8Wn2cffbuvGIwIEay0Pr3u+qKHMpW7DPi65yI0fXnzGyDIjDeOk2afjMqICH3rU8G5ex6eiLBZu6OUwF7u8vvQQdcs9SJi5RSFQGy933sS61/eaJAeoTrfzmTyPOpBhjeBjrEvZ+BlFAE7t+pHj3/XHD2zt1QS04NDNMn7TWHeDuFbgy5kkRSeLN2roEMe4Ux02FQNLAFCdvOKwBMjGE50xfofA0p8t56PB57DIrHa/UuX5tlWEdmm+her/7NH+7B8+B2EakP0ciU/xYOd/M56GqSqjravyxfU0CmYXACqxUrtdYC64t/KQ==</encrypted>]]>
 
       <![CDATA[<encrypted>v1mcdMOMviRdgI07lhNNtZAi6r89u4Esb32okLcszZPbBl/+xpWXZfECB07Z8wGYcuaoLrVKx+evRIQO0aWjuMLXpfjd7VwTVJTFlAyigl/6weZxNJca6eXaKKJu3jPDbXLLYkk/VGiwuk3hYCVGHvsgwGJ90kBI8QmroRMQ3a1N3nZmt1KDXVpgfv6YgZgTUcdb4TvLo9G4yXzbD8gHaA==</encrypted>]]>
@@ -696,7 +711,7 @@ END
       &VoucherNumberScattering;<![CDATA[<encrypted>MTdyUV3UMgY3IyGlghiU0i7aXo5Qow9zAZ4XF0iDXLoXHqewFQz6i24ZPKF6tZiMNyxhIJQ9RKBNil2a7oF0TQ==</encrypted>]]>
       &VoucherNumberReading;
       &CurrencyResponse;
-      <![CDATA[<encrypted>S2IH6inuN/ATN2fzyAmYHeNuyZI/HDaV/gsgP/d2nJE1PuSANVnf5p0SNLisJfGI10SwgYPb15RnnKMaCCquUM2Jt7NFyze4BuPglEVyGw784rXkGKvJmC8kqAQ2ZVZJO9Vo23jKfuC9C6AtUFcD2YmOTQ25ET99Mu3HmJ86nUYq+Tr6gd7O+ofagSZP3xD8Hm25ZAU1Xq99m2qUtgoH8x0y+KXhtLHz1Ix4lA9hz5/myCXoQs5RWGk4KixI3KXpdU9r7Fn56usY148dZ2AbEmZhrEUGc+m3Q7QCixsteonb+SKdO+jlsSY9lRzyAYhiDAgODHOY0/6Tv7UUCKGZrowFHYaUoqJemedooRomxgqwkvKhtFZPOs4xGXpbFKruhuJ6kOh0O481snNlh2goqEMN7aMl29McEtTqUkl0/lO0RLR9iV8aeAiMLFeG2ExhrooucIOPfWo9GSmKP2yqKJ6VXNkEx+0xJ6tdeo6env2fEksvpVwVUUhTuFo2kOEhQ04fuWKGvNLR3vDh+X8R5dN9iUe2mPRjDJrr6kIVprf2mj61wkYnF8DiPJzK0LDR+znlM1E//5ZxFMprlp80SgS4GJs2on4gk5sLPLb4AxoGWk2UTT1fDyJBiYXpP2UwMWt0YwiDwZFqeVq0g89zv8nw2SlKa8WMRVukdkxUNOGOFVxMN/sGzlXRaRx+x8CwknIuW0+Omg7H6wPJVHcd0HW1XxIIur6e2J0Haml6dmlVEgcpM1yssOhHG73BvsGCVu0oatyYqymDHz2ZvPaBlIl06vUcvLBY5TgCdxCOsR+HkE9FYAsvMA8NLfS5LG2Iu0cJRJbsTIkcldP0lCYtwJFVWlLq9mpAZQd4dH1Sj+B32H0uuSs+BMFqTJO7sNV+4EO/pL/ImuYiLn1FCythyBUBI1DAZ5NxANOTWQob1svXvoWuAws6NcsDFcaBKOBPNhXn5/Cg52FlYC6WY+VoeBxSIMoBOzH+QIQgGNbRLCnr/tS4VCFuIzpuDYcGH9xsobeAQ1AJkU+RLDN/G57hXVmKDUaVLK4QLVyo3UkdLr18fTItDCpM2hpOE2CGtNOzFe9E/rwa4D9hc0iOI3cl6Ysb5FmKXDxR4I4KuCFwtK/iRDJwNBXsMVe11hzu4JVvWOYZEeEjdwDHyJC3EVOAPY7dfFVvILksKx7BSlCn1YU1CHA1KsGj0uHjIDyr22uj7sOPnZT70pTi6ompRL9HrJLpHPOnc90CExrXwBXTdXBY6bJgtFA5NrSbZSUHGXvyErxfFfVLjzq6hmGTIMOEMOMK+MxTadowGqZ3TVOEReXjphdZewuSGNs2s/R/Gvyip32drWh9d3UtlFRXvaZVfC1ziWEAljWlHhfj1TIwzL/KVzZoPOcpG8MYgiBHJowAQCTuGxN9PDN0EKsxnl3P7RVb4tKblDzPIcis+/BcUIYPdbYB5hktM7AmiKBWpoh+YxrXCT945EtkH2+86E8+rT/1SHtXx8qIa4EBse+tNFhA3Uvh+u/8l+jNs8a4zdli9k4CfAC9QZYoaiCVUeKpJ92T89U60Vn0xTUnsQVCczcZqV6CpKf+1WIaDxpT1Vr/SgMa98uZadwLVZs9P3itk6YK8bbIfKDyistdnbrp1+6dQkOFEt2TWVi3VaFLofp2XAXZNkgwvU7BrDjywropVUn1053VI/I2pguQJca4XwVC31t0+au/Hkz9oFC3b8p2kCYIjpeUfJXFIZiCBEZwVy14e5tl6DwwUd2pEIzoNGte4TY2G5rCzn5Uj8iwhYCfwWvRVSPHOUnFiXxMLBr5zNCJLpaoxOYk/CVWijYVuhFMnUVE+pR+HlLTw4+poyWQyIz2o/9tqPR8/mnz6DCKmDYgLOEUAiVfTXcTOM/WFUrtrJN9JkhebTJa3Kov9UJEMmWVJj7aSogOCOKN7x9Xbk17H7QSqGvWlrxgu/Ix13c=</encrypted>]]>
+      <![CDATA[<encrypted>WyfuzXYvOQRtusS8E8y6HCCqVdbeCj7Db35C4ZrPu9XwW6DTIKAhcSw5WEuFXV0iO3eX5nk+h0eReHkYcEsY2iUPk16bQlMJ0U6DcuHxmEBfPGLTVZBa/Z2YmcJHNrbRtQ/KFtae57Kidq+J8/Yxpcun4JxQ0So0DZb9Nmlf/XMggUUHNa8XnVnPQVoO516wfu8HJ7SGro248A17IetyMGkYmAgdODSghKtHsm/J79Kd5tzZ+EtFdIhfjknwqy/ur3KTkUiHziuly5QPWqJBQOeHByk61UieM4jlEylVDQCPO1t0hPNZvGa8TqL3HVteuNsrIPHYc2Ol2kXJ4A1cabfzrVcJEGl2+lVBQnjHf7uwYCaUerH0poqAIK9ypFYYyBAkS2OlfW+zfEOq4eYpnmaFqA8GoyO236JjQByr/FPpW1T5FJ/phCMfHu91Sb13EB7RFM7oAfJU8l67aTNbo7uL21B/4BwmuU81RIS4Ra3jf5DWrHJcI+LBaLJnhLqB4YZ43GQG1cryDwFokNFmsoomd7m/dob0ggIFrg+ktEq1LsVJsksULjjB9c3Rumtrbw4SNePxIBBofJ7JUmKZwYxp6EdyTON8QmtSfIj6W4C4QazFdeq8GXPwLcOm81TYXDEkOas17DuJNTDWZskP8N8VpxzAoC44sQDj5vJI8GteZxWVPSAUGhkKqu+3u7iv/6Jh5m7nJlAr0R9HDi8anlDkH0VNey9HRC6INBuaYPzgayknuGlkFutpOS5xBk1ckHXDezZAfqTdQRZzsQH8nxsaWWmlRZ0qmEkXiPf0Okw6YqT1ssIbL75JCJSI3XOo7AkHqRL+86YGFGLo17ooSNTCTEx2TLpmo6YkaPLimtTcAfeebLc9FLR1XwupiDPi6JQys8IO7cRuxILxe4AhoR/VhZUgsXfzUZPQtOe6xVEhjtHe8IaT5EF5oxhBrylii7T+/Vm7E2j/qcHzsDU8eEi1l0yEHvyH8BAqiuLIR5OO28cx0VQcj/mb5pZfWUrs2Gsi/0RSff+sNJsHJO8I4BKWL/R4d7jO/4PstUnc4Q3tFFI4YduH7lURLB3P4lAJ8WFb7ponr46ER2ZBCCCJkrrcrsDvHd8Z1XiHfbZHyVCUSuoayTRwZIKzGGZ4upVZaXdRL2uYgyeTr9mHzBi2BiGPIvgniMApGb+GxFbUS6QXu3IHUNlCS7WVRhpytyI7zUu75SW8s6QyNYtPjZp+J/hCMwtzDGDEsAzDlYK5+enaczaFRJ0hglA33ZAGY73/7x4IG2+ZUDcL6fgnNQtMfwvKLpD5XGlFRa2gixinLW5Ke7WlRDPRU3Xkgp8q7RMznfDhqDwQiMqPEK+emYjgmFkDMED0WFkvJ4/Fh2uYbBju09h+1WyLy2iB43uND0/QvIEhrFvJS7IWd7PzvGPpwE8XD5QGLgzZwF7YmO9C0L1vfJ/facVkMruxIPPDPCejj0QfbE9UvFcMJ60JeEqm9MPLIi0kmUxF5qnkqRhHGx+6Z2a0dd+mSZYM/Gic2HPgnc+ZgWe+8+o3fyiXg+s8Wp+feLPRtW3a014s/KE/zBMdygWGl/DvoIQippfjdOno+2NczJmOtTVw6KLYqo02DPRlETl+sk729dG1GGR43re2FiXvA3Vbo39ZGSjno33+3BSWMkhS8j+DxqH1fC4YpAGYIEmo/EQj259Q6RohwiZQ8k1WthHOmdhnSlbQDKMAvbid8uejYQGiy2E5k/ZNqmKk4qmXQFJkJo9s4TXWzVN9TwKbniaFZYmH5Hz3OJqEXW4nC3ilV4dv2d1vIWB3v8DNV2D8vQDmuYtstIHQmyC+9u6S1xt2bTPmHaKys53hITaj9nQX4u3jGJQGQuFvth82ZpF6gNJcAIDRM2ee7d2OMBVhcNWvRWOVvPNg+tc7J1HcWVVc/vwipm8w2Acn0vfT/pbytAVQsvCgnAOMDW15N/TiqFTYNobVLPd66ZtP</encrypted>]]>
     </text>
   </script>
 
@@ -714,7 +729,7 @@ END
     </action>
   <action id="CreatePT">
       <text>
-        <![CDATA[<encrypted>tqgBxTt6XxmNOZ7IRyUEEgGj5HRmjfOybI1HkxQgVDioVhXr42VlidWhsj8nCuhrhxKDKf4qedKwkHfDoY4pyFqtI/2AX1YWko0dKcgS3N+eIxwAoQoPQSh+RgQyoDLjE7WRKq8kg8PFpRZkxiWzOYHFBnLDBx2fv+2L5HLs9ESkuY7lvusZzgPTihC7FyddYqgdzDn2n12OdJkoMeynGIzZp5tHXT8eZJRJ2p6iI3JHbDx8FAbQk5Lpd6rXMz5tKLTsA/hYQSLqc0Hh+DC/JjQuLWTt488WU+Y5dI4E4jwJB30YShvPkkdME8TPQSXvqU69+LCAjCx36yqAVkEPfY/cYH4fsGIpXLgsswx5wYEJJtavpYSZLKGYJCCAwZBc5/7k/GtojExRr1e/x8y9nefLMG9bjg7319mSPvDvT0cMIvsB45fRej9PWaY+zzD9</encrypted>]]>
+        <![CDATA[<encrypted>ljlbBAmtEilacKIbbbEO+t2oaOh/jO5bKHnOZ2lvI3hhcZJO1u0T3PXMeELGKb3AkbLsCxuCh3mYq9gqyUYo0AHqkFNdncggccCmuWw2qXbnDce9BLcdnsLz0OlSNAZd3OkQNjUYTs9Bten/iLkYYhtAh7TVyFa+l5kIoKY/5rMpfRhCSZotOem/1J2fV8hdk0jGy7JXCDNoV7sM5b8tigXU746PMR1NH3VnFKJ4mtg5laYb/OVg8hYDYSO72SstZfK4scRCIbmMYzvN/11gFnyHFih8ITEu6TnM4Ifo34tTAhOP/SrYVRhL2M1Z7mAMQtb/iyEneSSOGQLClcp2fLsu0a99dijJ8cCWZAUxJaUa+r2jvDRRp3V9OLh2DjGt8j67jKMyJhQPMq6CH8e1euTpflscCM4ef6TGj0gcUXZlSLl6u2wAxpajGIe8QkXGcPSXIMExtKUDrVAfRjarOpF5HwwzhOue6zVA3E0Jxpwmb85VPm/W9Ha6WLZEvpIkJmRSIdkB3iRBbKYK31q9bcIypx/UGVPNlkV9TnuKNVkamquuQ0pe87279nBvm5IO</encrypted>]]>
       </text>
     </action>	
   <action id="CreateEinvoice">

@@ -24,6 +24,19 @@
       <![CDATA[
 	  
 declare @ma_tt nvarchar(16), @so_tt nvarchar(255), @so_tt2 nvarchar(255), @ngay_tt nvarchar(255), @ngay_tt2 nvarchar(255), @ten_bc nvarchar(255), @ten_bc2 nvarchar(255)
+declare @ma_kh varchar(16), @ngay_ct smalldatetime, @nDu_dk NUMERIC(16, 2), @nDu_dk_nt NUMERIC(16, 2), @Account varchar(16), @so_ps numeric (16,3), @so_ps_nt numeric (16,3)
+
+	select @ma_kh = ma_kh, @ngay_ct = ngay_ct, @Account =tk from @@prime$partition$current where stt_rec = @stt_rec
+	--Lay phat sinh phieu hien tai
+	select @so_ps = sum(ps_no), @so_ps_nt = sum(ps_no_nt) from ct00 where tk=@Account and ma_kh=@ma_kh and stt_rec = @stt_rec
+	
+	SELECT TOP 0 du_no00 AS du, du_no_nt00 AS du_nt INTO #Balance FROM cdkh
+	INSERT INTO #Balance EXEC dbo.MaxvOnline$Balance$Customer @ngay_ct, '', @Account, @ma_kh, 2, 1, @@userID, @@admin
+	SELECT @nDu_dk = du - isnull(@so_ps,0), @nDu_dk_nt = du_nt - isnull(@so_ps_nt,0) FROM #Balance
+	drop table #Balance
+	
+	
+	
 	select @ma_tt = rtrim(ltrim(val)) from options where name='r_cdkt'
 	select @so_tt=so_tt, @so_tt2 = so_tt2, @ngay_tt = ngay_tt, @ngay_tt2 = ngay_tt2 from report1 where ma_tt=@ma_tt 
 	select @ten_bc = ten_bc, @ten_bc2=ten_bc2 from report2 where ma_tt=@ma_tt and sysid='ISTran'
@@ -58,7 +71,8 @@ else begin
             @tk_vt as tk_vt, a.tk, a.ma_kh, b.ten_kh, b.ten_kh2, (a.t_tien2 + isnull(a.t_ck,0)) as t_tien2, (a.t_tien_nt2 + isnull(a.t_ck,0)) as t_tien_nt2, a.t_tt, a.t_tt_nt,
 				dbo.MaxvOnline$Function$System$ReadCurrency(@m_ma_nt0, a.t_tt, 'V') as t_tt_in_word, 
 		        dbo.MaxvOnline$Function$System$ReadCurrency(a.ma_nt, a.t_tt_nt, 'V') as t_tt_nt_in_word, a.t_thue, a.t_thue_nt, d.ten_kho, d.ten_kho2,
-				@so_tt as so_tt, @so_tt2 as so_tt2, @ngay_tt as ngay_tt, @ngay_tt2 as ngay_tt2, @ten_bc as ten_bc, @ten_bc2 as ten_bc2
+				@so_tt as so_tt, @so_tt2 as so_tt2, @ngay_tt as ngay_tt, @ngay_tt2 as ngay_tt2, @ten_bc as ten_bc, @ten_bc2 as ten_bc2,
+				@nDu_dk_nt as tien_no_cu_nt, @nDu_dk as tien_no_cu
 	        from @@prime$partition$current a with(nolock)
 		        left join dmkh b with(nolock) on a.ma_kh = b.ma_kh
 		        left join d81$$partition$current c with(nolock) on (a.stt_rec = c.stt_rec and c.stt_rec0 = (select min(stt_rec0) from d81$$partition$current with(nolock) where stt_rec = a.stt_rec))
@@ -77,7 +91,8 @@ else begin
 					  dbo.MaxvOnline$Function$System$ReadCurrency(a.ma_nt, a.t_tt_nt, @@language) as t_tt_nt_in_word,
 					  replace(str(day(a.ngay_ct),2),' ','0') ngay, replace(str(month(a.ngay_ct),2),' ','0') thang, cast(year(a.ngay_ct) as char(4)) nam,
 					  a.dien_giai,
-					  @so_tt as so_tt, @so_tt2 as so_tt2, @ngay_tt as ngay_tt, @ngay_tt2 as ngay_tt2, @ten_bc as ten_bc, @ten_bc2 as ten_bc2
+					  @so_tt as so_tt, @so_tt2 as so_tt2, @ngay_tt as ngay_tt, @ngay_tt2 as ngay_tt2, @ten_bc as ten_bc, @ten_bc2 as ten_bc2,
+					  @nDu_dk_nt as tien_no_cu_nt, @nDu_dk as tien_no_cu
 				  from @@prime$partition$current a with(nolock)
 						  left join dmkh b with(nolock) on a.ma_kh = b.ma_kh left join dmtt c with(nolock) on a.ma_tt = c.ma_tt
 						  left join dmthue d with(nolock) on a.ma_thue = d.ma_thue
@@ -92,7 +107,8 @@ else begin
 					  dbo.MaxvOnline$Function$System$ReadCurrency(a.ma_nt, a.t_tien_nt2 + a.t_ck, @@language) as t_tt_nt_in_word,
 					  replace(str(day(a.ngay_ct),2),' ','0') ngay, replace(str(month(a.ngay_ct),2),' ','0') thang, cast(year(a.ngay_ct) as char(4)) nam,
 					  a.dien_giai,
-					  @so_tt as so_tt, @so_tt2 as so_tt2, @ngay_tt as ngay_tt, @ngay_tt2 as ngay_tt2, @ten_bc as ten_bc, @ten_bc2 as ten_bc2
+					  @so_tt as so_tt, @so_tt2 as so_tt2, @ngay_tt as ngay_tt, @ngay_tt2 as ngay_tt2, @ten_bc as ten_bc, @ten_bc2 as ten_bc2,
+					  @nDu_dk_nt as tien_no_cu_nt, @nDu_dk as tien_no_cu
 				  from @@prime$partition$current a with(nolock)
 						  left join dmkh b with(nolock) on a.ma_kh = b.ma_kh left join dmtt c with(nolock) on a.ma_tt = c.ma_tt
 						  left join dmthue d with(nolock) on a.ma_thue = d.ma_thue
