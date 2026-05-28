@@ -26,7 +26,6 @@
     <field name="ten_vt%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="250" aliasName="b">
       <header v="Tên mặt hàng" e="Item Description"></header>
     </field>
-    
     <field name="dvt" allowNulls="false" width="50" aliasName="a">
       <header v="Đvt" e="UOM"></header>
       <items style="AutoComplete" controller="UOMItem" reference="ten_dvt%l" key="(ma_vt = '{$%c$%r.[ma_vt]}' or ma_vt = '*')" information="dvt$vdmvtqddvt.ten_dvt%l" normal="true"/>
@@ -36,16 +35,15 @@
     <field name="ten_dvt%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
       <header v="" e=""></header>
     </field>
-
     <field name="he_so" type="Decimal" width="0" inactivate="true" hidden="true" dataFormatString="@quantityInputFormat" clientDefault="0" aliasName="a">
       <header v="" e=""></header>
       <items style="Numeric"/>
     </field>
 
     <field name="dvt2" width="50" aliasName="a" readOnly="true">
-      <header v="Đvt 2" e="UOM *"></header>
+      <header v="Đvt 2" e="UOM 2"></header>
+      <items style="AutoComplete" controller="UOM" reference="ten_dvt%l" key="status = '1'" check="1 = 1" information="dvt$dmdvt.ten_dvt%l" normal="true"/>
     </field>
-
     <field name="so_luong2" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="80">
       <header v="Số lượng 2" e="Quantity 2"></header>
       <items style="Numeric"/>
@@ -65,12 +63,12 @@
       <header v="SL hao hụt" e="Quantity 2"></header>
       <items style="Numeric"/>
     </field>
-
+	
     <field name="he_so2" type="Decimal" width="0" inactivate="true" hidden="true" dataFormatString="@quantityInputFormat" clientDefault="0" aliasName="a">
       <header v="" e="das"></header>
       <items style="Numeric"/>
     </field>
-
+	
     <field name="ty_le_hh" type="Decimal" dataFormatString="##0.00" clientDefault="0" width="100">
       <header v="Tỷ lệ hao hụt (%)" e="Discount Rate (%)"></header>
       <items style="Numeric"/>
@@ -137,7 +135,7 @@
     </field>
 
     <field name="so_luong" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="80">
-      <header v="SL bán thực tế" e="Quantity"></header>
+      <header v="Số lượng" e="Quantity"></header>
       <items style="Numeric"/>
       <clientScript><![CDATA[<encrypted>w4PMMhDwbdhdLsYtYCOa41mWlv8nQolKWziiEBjOIPOqKYjGjeQ2B720vXiYhNo2aXrKV+GKZaM0F5zqnH2gIgrIagCNh2Gk44+hrme8DzQ=</encrypted>]]></clientScript>
     </field>
@@ -373,19 +371,18 @@
       <field name="ten_lo%l"/>
 
       <field name="ton13"/>
-	  <field name="he_so2"/>
-
-      <field name="so_luong2"/>
+      <field name="he_so2"/>
+	  <field name="so_luong2"/>
 	  <field name="so_luong2_nl"/>
       <field name="so_luong_giao"/>
 	  <field name="so_luong_hh"/>
 	  <field name="ty_le_hh"/>
+
       <field name="so_luong"/>
 
       <field name="gia_ban_nt"/>
       <field name="gia_nt2"/>
       <field name="tien_nt2"/>
-
       <field name="gia_khay_nt"/>
 	  <field name="tien_khay_nt"/>
 	  <field name="tien_no_nt"/>
@@ -397,9 +394,10 @@
 	  <field name="thue_suat"/>
 	  <field name="ten_thue%l"/>
 	  <field name="thue_nt"/>
-	  
-    <field name="ma_dhb"/>
+
+     <field name="ma_dhb"/>
 	  <field name="ten_dhb%l"/>
+	  
 
       <field name="tk_dt"/>
       <field name="ten_tk_dt%l"/>
@@ -541,7 +539,6 @@
       <title v="Xem phiếu nhập" e="Lookup"></title>
     </button>
 	
-
     <button command="Retrieve">
       <title v="Toolbar.Retrieve" e="Toolbar.Retrieve"></title>
       <menuItems>
@@ -553,7 +550,8 @@
         </menuItem>
 
       </menuItems>
-    </button>	
+    </button>
+
     <button command="Separate">
       <title v="-" e="-"/>
     </button>

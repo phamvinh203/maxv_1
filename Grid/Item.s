@@ -25,13 +25,13 @@ insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', 
     </field>
 
     <field name="dvt2" width="60" allowSorting="true" allowFilter="true">
-      <header v="Đvt 2" e="UOM *"></header>
+      <header v="Đvt2" e="UOM 2"></header>
     </field>
 
     <field name="dvt" width="60" allowSorting="true" allowFilter="true">
       <header v="Đvt" e="UOM"></header>
     </field>
-    <field name="he_so2" type="Decimal" width="80" allowSorting="true" allowFilter="true" dataFormatString="@baseCurrencyAmountViewFormat" >
+    <field name="he_so2" type="Decimal" width="80" allowSorting="true" allowFilter="true" dataFormatString="@baseCurrencyAmountViewFormat">
       <header v="Hệ số" e="He so"></header>
     </field>
 	<field name="loai_vt" width="60" allowSorting="true" allowFilter="true">
@@ -94,9 +94,9 @@ insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', 
 	  <field name="tk_cpbh"/>
 	  <field name="tk_spdd"/>
 	  <field name="tk_cl_vt"/>
-	  <field name="Nh_vt1"/>
-	  <field name="Nh_vt2"/>
-	  <field name="Nh_vt3"/>
+	  <field name="nh_vt1"/>
+	  <field name="nh_vt2"/>
+	  <field name="nh_vt3"/>
 	
 	  
     </view>

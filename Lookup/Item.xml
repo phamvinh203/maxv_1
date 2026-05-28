@@ -12,6 +12,11 @@
     <field name="ten_vt%l" allowSorting="true" allowFilter="true">
       <header v ="Tên hàng" e = "Description"></header>
     </field>
+
+    <field name="Dvt2" allowSorting="true" allowFilter="true">
+      <header v ="Đvt2" e = "UOM 2"></header>
+    </field>
+
 	<field name="Dvt" allowSorting="true" allowFilter="true">
       <header v ="Đvt" e = "UOM"></header>
     </field>

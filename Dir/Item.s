@@ -28,8 +28,8 @@
     <field name="ten_dvt%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" hidden="true" categoryIndex="1">
       <header v="" e=""></header>
     </field>
-
-
+	
+	
     <field name="nhieu_dvt" type="Boolean" categoryIndex="1">
       <header v="Nhiều đvt" e="Multi-UOM"></header>
     </field>
@@ -43,17 +43,17 @@
     <field name="kk_yn" type="Boolean" clientDefault="Default" categoryIndex="1">
       <header v="Theo dõi kiểm kê" e="Physical Count"></header>
     </field>
-
+	
+	
     <field name="dvt2" clientDefault="Default" categoryIndex="1">
       <header v="Đvt 2" e="Unit 2"></header>
       <items style="AutoComplete" controller="UOM" normal="true" key="status = '1'" check="1 = 1" />
     </field>
-    <field name="he_so2" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="1" >
+    <field name="he_so2" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="1" aliasName="a" >
       <header v="Hệ số quy đổi" e="Hệ số"></header>
       <items style="Numeric"/>
-    </field>
-
-
+    </field>	
+	
     <field name="gia_ton" type="Byte" columns="3" categoryIndex="1">
       <header v="Cách tính giá tồn kho" e="Valuation Method"></header>
       <clientScript>&OnSelectionOutline;</clientScript>
@@ -270,7 +270,7 @@
       <item value="10100111: [dvt].Label, [dvt], [nhieu_dvt], [nhieu_dvt].Label, [ten_dvt%l]"/>
       <item value="111101100: [vt_ton_kho], [vt_ton_kho].Label, [lo_yn], [lo_yn].Label, [kk_yn], [kk_yn].Label"/>
 	  
-	    <item value="10100101: [dvt2].Label, [dvt2], [he_so2].Label, [he_so2]"/>
+	  <item value="10100101: [dvt2].Label, [dvt2], [he_so2].Label, [he_so2]"/>
 	  
 	  
       <item value="1010000: [gia_ton].Label, [gia_ton]"/>
@@ -380,7 +380,7 @@
   <commands>
     <command event="Loading">
       <text>
-	<![CDATA[<encrypted>YW4yfOeROxWVdVRyh03iY+AyHOJYqcB/SDzadPE5NAsAjCK6c+JVt36GMaYqjXC4O505J45wC9aGpUHjNkCAK9mlFXagIEyyjsYBHaabEo82a1kYOP5yffBDRlJQCbekxbOvDl/tNaQFQU2oxheWwdpCXvTsfbPwE/+WQgUBqXwOJqPzWsZlaDBwxEDtaZTUUBDX+Bn17XzptksorKe1hwNgQ3QjS/+i/0Vv8ZZ7as0u2fj6Hkhr5EuHy7XYV/pohxHs80cd4W/+XEOcumezhWo3O8A23TYhw9Y5kI5XHunw9KADiPkYXsCuTGnv8ytYRz3Xz97e7odYsnAf0rfqySEPEh7eTvOXmjj5CeXBbAqkPfL3M/aR0+e7lUMJh18Qb0Y1hDtMgMro0MZYlr/TQgRc+9PrWMM+MTFEh22a/k81JdC0HPo3hQ4ci3gdxvwoNvovgsK790mzxivIbKP8bjqVz/zwLfDPsRfDeKorqGVBKVisejO2+rWXQSMQw6/N8IOygV+Qn5kkJM+gk0DonG+cWOn8ryHzl59ysZRuxksodKZQXJu1mmA814JNoCyve5Am1mRIWSi4SLT5COG26g==</encrypted>]]>
+	<![CDATA[<encrypted>tHXjw8wx1S/5MSF3Y2xJ5uShyZGjIsFPyoW5agM33NZZ7dL/PkcFa530MU1Yri5JKZc2SgzM95Yx7xfUILiWWV3EGQNSHxG6NfcBmv7r0KgCD+p40ybBVmOrNp9O4u0qSGOSiob+OGNOA5jUpB4zbPkUIIyVi+qHQ79PmTjVTvY=</encrypted>]]>
 
       </text>
     </command>
@@ -393,7 +393,7 @@
 
     <command event="Scattering">
       <text>
-	<![CDATA[<encrypted>YW4yfOeROxWVdVRyh03iY+AyHOJYqcB/SDzadPE5NAsAjCK6c+JVt36GMaYqjXC4O505J45wC9aGpUHjNkCAK9mlFXagIEyyjsYBHaabEo82a1kYOP5yffBDRlJQCbekxbOvDl/tNaQFQU2oxheWwdpCXvTsfbPwE/+WQgUBqXwOJqPzWsZlaDBwxEDtaZTUUBDX+Bn17XzptksorKe1hwNgQ3QjS/+i/0Vv8ZZ7as0u2fj6Hkhr5EuHy7XYV/pohxHs80cd4W/+XEOcumezhWo3O8A23TYhw9Y5kI5XHunw9KADiPkYXsCuTGnv8ytYRz3Xz97e7odYsnAf0rfqySEPEh7eTvOXmjj5CeXBbAqkPfL3M/aR0+e7lUMJh18Qb0Y1hDtMgMro0MZYlr/TQgRc+9PrWMM+MTFEh22a/k81JdC0HPo3hQ4ci3gdxvwoNvovgsK790mzxivIbKP8bjqVz/zwLfDPsRfDeKorqGVBKVisejO2+rWXQSMQw6/N8IOygV+Qn5kkJM+gk0DonG+cWOn8ryHzl59ysZRuxksodKZQXJu1mmA814JNoCyve5Am1mRIWSi4SLT5COG26g==</encrypted>]]>
+	<![CDATA[<encrypted>k+2twr9ZkXdsJ3f1q5EUylruXeEenwEh30rZTZBw5ptXeNCXsjl2VMZIH5oF1K/7jWcPh7a0JohaBqaFiBpnOH5lxsO+SfAZiWqJPfvScIjyI3RsW/4qZ012vKDpGXOY</encrypted>]]>
       </text>
     </command>
 
